@@ -1,6 +1,7 @@
 import React from 'react';
 
 const App = () => {
+  console.log('hey');
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {

@@ -7,10 +7,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: [
     // entry point of our app
-    './client/index.js',
+    'client/index.js',
   ],
   output: {
-    path: path.resolve(__dirname, 'client'),
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -25,7 +25,7 @@ module.exports = {
 
     static: {
       // match the output path
-      directory: path.resolve(__dirname, 'dist'),
+      directory: path.resolve(__dirname, 'client'),
       // match the output 'publicPath'
       publicPath: '/',
     },

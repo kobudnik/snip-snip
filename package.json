@@ -1,8 +1,9 @@
 {
-  "main": "index.js",
+  "main": "./client/index.js",
   "scripts": {
-    "start": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot \" \"nodemon ./server/server.js\""
+    "start": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot \" \"nodemon server/server.js\""
   },
+
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/eslint-parser": "^7.19.1",
@@ -17,7 +18,8 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.11.1"
+    "webpack-dev-server": "^4.11.1",
+    "webpack-hot-middleware": "^2.25.3"
   },
   "dependencies": {
     "concurrently": "^7.6.0",
@@ -30,8 +32,6 @@
     "react-dom": "^18.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "webpack-hot-middleware": "^2.25.3",
-    "sass-loader": "^12.3.0",
-    "react-hot-loader": "^4.6.3"
+    "sass-loader": "^12.3.0"
   }
 }
