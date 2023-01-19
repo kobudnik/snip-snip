@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { dracula } from '@uiw/codemirror-theme-dracula';
 
 const SavedEditors = (props) => {
   const editor = (
     <CodeMirror
       id={props.savedID}
-      value={snipState}
+      value={props.val}
       height='200px'
       width='50vw'
       extensions={[javascript({ jsx: true })]}
@@ -13,7 +16,7 @@ const SavedEditors = (props) => {
       readOnly='true'
     />
   );
-  return <div>editor</div>;
+  return <div>{editor}</div>;
 };
 
 export default SavedEditors;
