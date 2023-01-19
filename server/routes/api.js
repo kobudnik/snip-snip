@@ -1,5 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const apiRouter = express.apiRouter();
 const path = require('path');
 
-module.exports = router;
+apiRouter.get('/', (req, res) => {
+  res.status(200).send({ Hello: 'message' });
+});
+
+module.exports = apiRouter;

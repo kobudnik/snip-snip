@@ -1,36 +1,31 @@
 /* eslint-disable no-unused-vars */
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: [
     // entry point of our app
-    'client/index.js',
+    './client/index.js',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js',
   },
-  mode: 'development',
+  devtool: 'source-map',
   devServer: {
     host: 'localhost',
     port: 8080,
     // enable HMR on the devServer
-    hot: true,
     // fallback to root for other urls
-    historyApiFallback: true,
 
     static: {
       // match the output path
-      directory: path.resolve(__dirname, 'client'),
+      directory: path.resolve(__dirname, './dist'),
       // match the output 'publicPath'
       publicPath: '/',
     },
 
-    headers: { 'Access-Control-Allow-Origin': '*' },
     /**
      * proxy is required in order to make api calls to
      * express server while using hot-reload webpack server
@@ -43,30 +38,28 @@ module.exports = {
         secure: false,
       },
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
+    module: {
+      rules: [
+        {
+          test: /.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+            },
+          },
         },
-      },
-      {
-        test: /.(css|scss)$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
-      },
+        {
+          test: /.(css|scss)$/,
+          use: ['style-loader', 'css-loader'],
+        },
+      ],
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './client/index.html',
+      }),
     ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './client/index.html',
-    }),
-  ],
-  resolve: {
-    // Enable importing JS / JSX files without specifying their extension
-    extensions: ['.js', '.jsx'],
   },
 };
