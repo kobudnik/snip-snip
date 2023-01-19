@@ -12,10 +12,11 @@ const TextEditor = () => {
 
   const PostSnippet = async () => {
     const value = snipState;
+    console.log(value);
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ snippet: value }),
+      body: JSON.stringify({ snippet: snipState }),
     });
     const parsed = await posted.json();
     console.log(parsed);
@@ -35,6 +36,7 @@ const TextEditor = () => {
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
       placeholder='Give me your code.'
+      onChange={onChange}
     />
   );
 
