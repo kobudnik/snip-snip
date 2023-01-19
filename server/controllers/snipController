@@ -46,4 +46,19 @@ snipController.addSnip = async (req, res, next) => {
   }
 };
 
+snipController.getSnips = async (req, res, next) => {
+  console.log('hey');
+  try {
+    console.log('pre get snip');
+    const text = 'SELECT * FROM snippets';
+    const retrievedSnips = await db.query(text);
+    res.locals.allSnips = retrievedSnips['rows'];
+    console.log('BEFORE LOCALS LOG');
+    console.log(res.locals.allSnips);
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in GET Snip Middleware' });
+  }
+};
+
 module.exports = snipController;
