@@ -58,3 +58,12 @@ a:hover {
   display: block;
   margin-right: 80px;
 }
+
+.textBox {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.cm-theme {
+}
