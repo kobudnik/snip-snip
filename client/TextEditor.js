@@ -12,13 +12,13 @@ const TextEditor = () => {
 
   const PostSnippet = async () => {
     const value = snipState;
-    console.log(value);
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ snippet: snipState }),
     });
     const parsed = await posted.json();
+    console.log('after post await returned in TEXT EDITOR');
     console.log(parsed);
   };
   const getSnippet = async () => {
