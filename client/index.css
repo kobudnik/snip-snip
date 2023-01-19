@@ -3,7 +3,7 @@ body {
 }
 #root {
   display: flex;
-  height: 100vh;
+  /* height: 100vh; */
   color: rgb(34, 34, 34);
   font-size: 40px;
   background-image: linear-gradient(
