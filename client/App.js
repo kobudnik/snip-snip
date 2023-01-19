@@ -17,10 +17,10 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div className='headContainer'>
       <Header />
       <TextEditor />
-    </>
+    </div>
   );
   //<p>{!data ? 'Loading...' : data}</p>;
 };

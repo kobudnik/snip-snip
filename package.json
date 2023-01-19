@@ -25,6 +25,7 @@
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@codemirror/lang-javascript": "github:codemirror/lang-javascript",
+    "@uiw/codemirror-theme-dracula": "^4.19.7",
     "@uiw/react-codemirror": "^4.19.7",
     "concurrently": "^7.6.0",
     "cors": "^2.8.5",
