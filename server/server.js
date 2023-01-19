@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use('/api/snipped', snippedRouter);
+app.use('/api/snipped/', snippedRouter);
 app.use('/api', apiRouter);
 
 app.use((err, req, res, next) => {

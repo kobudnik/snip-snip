@@ -24,7 +24,7 @@ snipController.addSnip = (req, res, next) => {
   try {
     console.log('in add snip');
 
-    res.locals.snipSuccess = req.body;
+    res.locals.snipSuccess = req.body.snippet;
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Snip Middleware' });
@@ -32,10 +32,3 @@ snipController.addSnip = (req, res, next) => {
 };
 
 module.exports = snipController;
-/*
-//CREATE TABLE Persons (
-  ID  SERIAL PRIMARY KEY,
-  Username varchar(255),
-  password varchar(255),
-  sessionID, varchar(255)
-);*/
