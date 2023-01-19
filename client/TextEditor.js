@@ -4,15 +4,13 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 
 const TextEditor = () => {
-  const [snipState, setSnipState] = useState();
+  const [snipState, setSnipState] = useState('');
 
   const onChange = React.useCallback((value, viewUpdate) => {
     setSnipState(value);
   }, []);
 
   const PostSnippet = async () => {
-    console.log(typeof snipState === 'string'); //true
-    console.log(JSON.stringify(snipState)); //does this correctly too
     const value = snipState;
     const posted = await fetch('/api/snipped', {
       method: 'POST',
@@ -28,17 +26,29 @@ const TextEditor = () => {
     console.log(parsedSnip);
   };
 
+  const editor = (
+    <CodeMirror
+      id='instance'
+      value={snipState}
+      height='200px'
+      width='50vw'
+      extensions={[javascript({ jsx: true })]}
+      theme={dracula}
+      placeholder='Give me your code.'
+    />
+  );
+
+  const reset = () => {
+    const lines = document.getElementsByClassName('cm-line');
+    const arrayed = Array.from(lines);
+    arrayed.forEach((el) => (el.innerText = ''));
+  };
+
   return (
     <div className='textBox'>
-      <CodeMirror
-        value="console.log('hello world!');"
-        height='200px'
-        width='50vw'
-        extensions={[javascript({ jsx: true })]}
-        theme={dracula}
-        onChange={onChange}
-      />{' '}
+      {editor}
       <button onClick={PostSnippet}>Save Snippet</button>
+      <button onClick={reset}>Reset</button>
     </div>
   );
 };

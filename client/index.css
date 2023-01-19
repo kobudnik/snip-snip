@@ -61,9 +61,8 @@ a:hover {
 
 .textBox {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-size: 18px;
-}
-
-.cm-theme {
 }
