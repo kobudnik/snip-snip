@@ -20,6 +20,12 @@ const TextEditor = () => {
     });
   };
 
+  const getSnippet = async () => {
+    const receivedSnip = await fetch('/api/snipped');
+    const parsedSnip = await receivedSnip.json();
+    console.log(parsedSnip);
+  };
+
   return (
     <div className='textBox'>
       <CodeMirror
@@ -30,7 +36,7 @@ const TextEditor = () => {
         theme={dracula}
         onChange={onChange}
       />{' '}
-      <button onClick={PostSnippet}>Save Snippet</button>
+      <button onClick={getSnippet}>Save Snippet</button>
     </div>
   );
 };

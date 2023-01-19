@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const apiRouter = require('./routes/api');
-const snippedRouter = require('./routes/snipped');
+const snippedRouter = require('./routes/snippedRouter');
 const PORT = 3000;
 const app = express();
 app.use(express.json());
