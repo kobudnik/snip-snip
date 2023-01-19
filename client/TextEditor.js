@@ -1,68 +1,33 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import SavedEditors from './SavedEditors';
 
-const TextEditor = () => {
-  const [snipState, setSnipState] = useState('');
-  const [posts, setPosts] = useState([]);
-
-  const onChange = React.useCallback((value, viewUpdate) => {
-    setSnipState(value);
-  }, []);
-
-  //POST AND UPDATE STATE
-  const PostSnippet = async () => {
-    const posted = await fetch('/api/snipped', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ snippet: snipState }),
-    });
-    const parsed = await posted.json();
-    const storePosts = await getSnippet();
-    storePosts.forEach((snip) => {
-      console.log(snip);
-      setPosts([...posts, snip]);
-    });
-    console.log('after post await returned in POST SNIPPED AFTER GET');
-  };
-
-  //DEFINING GET TO BE USED AFTER POSTING
-  const getSnippet = async () => {
-    const receivedSnip = await fetch('/api/snipped');
-    const parsedSnip = await receivedSnip.json();
-    return parsedSnip;
-  };
-  //INSTANCE OF EDITOR
+const TextEditor = (props) => {
   const editor = (
     <CodeMirror
       id='instance'
-      value={snipState}
+      value={props.snipState}
       height='200px'
       width='50vw'
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
       placeholder='Give me your code.'
-      onChange={onChange}
+      onChange={props.change}
     />
   );
-
-  const reset = () => {
-    const lines = document.getElementsByClassName('cm-line');
-    const arrayed = Array.from(lines);
-    arrayed.forEach((el) => (el.innerText = ''));
-  };
 
   return (
     <div className='textBox'>
       {editor}
-      <button onClick={PostSnippet}>Save Snippet</button>
-      <button onClick={reset}>Reset</button>
+      <button onClick={props.postSnippet}>Save Snippet</button>
+      <button onClick={props.reset}>Reset</button>
 
-      {posts.map((post, i) => (
-        <SavedEditors savedID={i} val={post.snippet}></SavedEditors>
-      ))}
+      {props.posts &&
+        props.posts.map((post, i) => (
+          <SavedEditors savedID={i} val={post.snippet}></SavedEditors>
+        ))}
     </div>
   );
 };

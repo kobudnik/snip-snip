@@ -8,7 +8,6 @@ apiRouter.get('/', (req, res) => {
 });
 
 apiRouter.post('/', snipController.addUser, (req, res) => {
-  console.log('posting api router');
   return res.status(200).json(res.locals.newUser);
 });
 

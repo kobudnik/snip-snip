@@ -33,13 +33,11 @@ snipController.addUser = async (req, res, next) => {
 
 snipController.addSnip = async (req, res, next) => {
   try {
-    console.log('in add snip');
     const params = [req.body.snippet];
     const text = 'INSERT INTO snippets (snippet) VALUES ($1) RETURNING *';
     const inserted = await db.query(text, params);
     res.locals.snipSuccess = inserted;
     console.log(res.locals.snipSuccess);
-    console.log('user created');
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Snip Middleware' });
@@ -53,8 +51,6 @@ snipController.getSnips = async (req, res, next) => {
     const text = 'SELECT * FROM snippets';
     const retrievedSnips = await db.query(text);
     res.locals.allSnips = retrievedSnips['rows'];
-    console.log('BEFORE LOCALS LOG');
-    console.log(res.locals.allSnips);
     return next();
   } catch (e) {
     return next({ message: 'Error in GET Snip Middleware' });
