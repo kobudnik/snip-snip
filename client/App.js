@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from './Header';
+import TextEditor from './TextEditor';
 import './index.css';
 
 const App = () => {
@@ -14,7 +16,13 @@ const App = () => {
       });
   }, []);
 
-  return <p>{!data ? 'Loading...' : data}</p>;
+  return (
+    <>
+      <Header />
+      <TextEditor />
+    </>
+  );
+  //<p>{!data ? 'Loading...' : data}</p>;
 };
 
 export default App;

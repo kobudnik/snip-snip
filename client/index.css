@@ -1,5 +1,60 @@
 body {
-  color: red;
-  font-size: 80px;
-  background-color: yellow;
+  margin: 0;
+}
+#root {
+  display: flex;
+  height: 100vh;
+  color: rgb(34, 34, 34);
+  font-size: 40px;
+  background-image: linear-gradient(
+      180deg,
+      rgba(114, 0, 0, 0.01),
+      rgba(9, 255, 255, 1) 85%
+    ),
+    radial-gradient(
+      ellipse at top left,
+      rgba(238, 189, 10, 0.865),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at top right,
+      rgba(238, 189, 10, 0.865),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at center right,
+      rgba(238, 189, 10, 0.8652),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at center left,
+      rgba(238, 189, 10, 0.865),
+      transparent 50%
+    ) !important;
+}
+
+.headContainer {
+  width: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.welcome {
+  display: block;
+  margin-right: 80px;
 }
