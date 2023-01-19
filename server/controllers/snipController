@@ -1,0 +1,29 @@
+const db = require('../models/snipData.js');
+
+const snipController = {};
+
+snipController.addUser = async (req, res, next) => {
+  // write code here
+
+  //INSERT INTO people (name, gender, species, yada yada) VALUES ($1, $2, yada yada)
+  //RETURNING * (inserting doesn't automatically return anything so we return explicitly here so we can see what we did)
+  try {
+    const params = [req.body.Username, req.body.password, req.body.sessionID];
+    const text =
+      'INSERT INTO Persons (Username, password, sessionID) VALUES ($1, $2, $3) RETURNING *';
+    const inserted = await db.query(text, params);
+    res.locals.newUser = inserted;
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in Add User Middleware' });
+  }
+};
+
+module.exports = snipController;
+/*
+//CREATE TABLE Persons (
+  ID  SERIAL PRIMARY KEY,
+  Username varchar(255),
+  password varchar(255),
+  sessionID, varchar(255)
+);*/
