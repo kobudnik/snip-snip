@@ -19,6 +19,18 @@ snipController.addUser = async (req, res, next) => {
   }
 };
 
+snipController.addSnip = (req, res, next) => {
+  console.log('in add snip');
+  try {
+    console.log('in add snip');
+
+    res.locals.snipSuccess = req.body;
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in Add Snip Middleware' });
+  }
+};
+
 module.exports = snipController;
 /*
 //CREATE TABLE Persons (
