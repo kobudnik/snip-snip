@@ -8,9 +8,8 @@ snippedRouter.post('/', snipController.addSnip, (req, res) => {
   return res.status(200).json(res.locals.snipSuccess);
 });
 
-snippedRouter.get('/', (req, res) => {
-  console.log('in snip post');
-  return res.status(200).json('snipped Router get works');
+snippedRouter.get('/', snipController.getSnips, (req, res) => {
+  return res.status(200).json(res.locals.allSnips);
 });
 
 module.exports = snippedRouter;
