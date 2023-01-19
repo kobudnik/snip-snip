@@ -1,5 +1,5 @@
 const express = require('express');
-const apiRouter = express.apiRouter();
+const apiRouter = express.Router();
 const path = require('path');
 
 apiRouter.get('/', (req, res) => {

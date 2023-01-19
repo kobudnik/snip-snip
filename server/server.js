@@ -10,13 +10,6 @@ const app = express();
 // app.use(express.static(path.resolve(__dirname, )))
 app.use(express.json());
 
-const corsOptions = {
-  credentials: true,
-  origin: (origin, callback) => {
-    callback(null, true);
-  },
-};
-
 app.use(cors);
 app.use('/api', apiRouter);
 

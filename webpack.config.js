@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -16,9 +15,9 @@ module.exports = {
   devServer: {
     host: 'localhost',
     port: 8080,
+    liveReload: true,
     // enable HMR on the devServer
     // fallback to root for other urls
-
     static: {
       // match the output path
       directory: path.resolve(__dirname, './dist'),
@@ -38,28 +37,32 @@ module.exports = {
         secure: false,
       },
     },
-    module: {
-      rules: [
-        {
-          test: /.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-            },
+  },
+  module: {
+    rules: [
+      {
+        test: /.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
-        {
-          test: /.(css|scss)$/,
-          use: ['style-loader', 'css-loader'],
-        },
-      ],
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: './client/index.html',
-      }),
+      },
+      {
+        test: /.(css|scss)$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/index.html',
+    }),
+  ],
+  resolve: {
+    // Enable importing JS / JSX files without specifying their extension
+    extensions: ['.js', '.jsx'],
   },
 };
