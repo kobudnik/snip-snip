@@ -4,9 +4,22 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 
 const TextEditor = () => {
+  const [snipState, setSnipState] = useState();
+
   const onChange = React.useCallback((value, viewUpdate) => {
-    console.log('value:', value);
+    setSnipState(value);
   }, []);
+
+  const PostSnippet = () => {
+    fetch('/api/snipped', {
+      method: 'Post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(snipState),
+    }).then((data) => {
+      console.log(data.body);
+    });
+  };
+
   return (
     <div className='textBox'>
       <CodeMirror
@@ -16,7 +29,8 @@ const TextEditor = () => {
         extensions={[javascript({ jsx: true })]}
         theme={dracula}
         onChange={onChange}
-      />
+      />{' '}
+      <button onClick={PostSnippet}>Save Snippet</button>
     </div>
   );
 };

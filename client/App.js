@@ -4,7 +4,6 @@ import TextEditor from './TextEditor';
 import './index.css';
 
 const App = () => {
-  console.log('hey');
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
