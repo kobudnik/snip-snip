@@ -7,7 +7,10 @@ const App = () => {
   React.useEffect(() => {
     fetch('/api')
       .then((res) => res.json())
-      .then((data) => setData(data.message));
+      .then((data) => {
+        console.log('this is the data response from the api: ', data);
+        setData(data.Hello);
+      });
   }, []);
 
   return <p>{!data ? 'Loading...' : data}</p>;
