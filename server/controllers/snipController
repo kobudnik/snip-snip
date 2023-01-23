@@ -32,12 +32,23 @@ snipController.addUser = async (req, res, next) => {
 // };
 
 snipController.addSnip = async (req, res, next) => {
+  /*  try {
+    const params = [req.body.Username, req.body.password, req.body.sessionID];
+    const text =
+      'INSERT INTO Persons (Username, password, sessionID) VALUES ($1, $2, $3) RETURNING *';
+    const inserted = await db.query(text, params);
+    res.locals.newUser = inserted.rows[0];
+    console.log('this is the inserted value' + insert);
+    console.log('this is res locals newUSer' + res.locals.newUser);
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in Add User Middleware' });*/
   try {
     const params = [req.body.snippet];
+    console.log('before insertion');
     const text = 'INSERT INTO snippets (snippet) VALUES ($1) RETURNING *';
     const inserted = await db.query(text, params);
-    res.locals.snipSuccess = inserted;
-    console.log(res.locals.snipSuccess);
+    res.locals.snipSuccess = inserted.rows[0];
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Snip Middleware' });
