@@ -8,7 +8,7 @@ const SavedEditors = (props) => {
     <CodeMirror
       id={props.savedID}
       value={props.val}
-      height='400px'
+      height='200px'
       width='50vw'
       extensions={[javascript({ jsx: true })]}
       theme={dracula}

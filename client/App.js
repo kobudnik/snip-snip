@@ -24,20 +24,21 @@ const App = () => {
     });
     const parsed = await posted.json();
     setPosts([...posts, parsed]);
+    console.log(posts);
   };
 
-  const getSnippet = async () => {
-    const receivedSnip = await fetch('/api/snipped');
-    const parsedSnip = await receivedSnip.json();
-    let newState = [];
-    parsedSnip.forEach((snip) => {
-      // console.log(snip);
-      newState.push(snip);
-    });
-    setPosts([...posts, newState]);
-    console.log(posts);
-    return;
-  };
+  // const getSnippet = async () => {
+  //   const receivedSnip = await fetch('/api/snipped');
+  //   const parsedSnip = await receivedSnip.json();
+  //   let newState = [];
+  //   parsedSnip.forEach((snip) => {
+  //     // console.log(snip);
+  //     newState.push(snip);
+  //   });
+  //   setPosts([...posts, newState]);
+  //   console.log(posts);
+  //   return;
+  // };
 
   const reset = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -49,26 +50,15 @@ const App = () => {
     fetch('/api/snipped')
       .then((res) => res.json())
       .then((data) => {
-        console.log('this is the data response from the api: ', data);
         setPosts(data);
       });
   }, []);
-
-  useEffect(() => {
-    fetch('/api/snipped')
-      .then((res) => res.json())
-      .then((snips) => {
-        console.log('this is the data response from the api: ', data);
-        setPosts([...posts, ...snips]);
-      });
-  }, [posts]);
 
   return (
     <div className='headContainer'>
       <Header />
       <TextEditor
         reset={reset}
-        getSnippet={getSnippet}
         postSnippet={postSnippet}
         change={onChange}
         posts={posts}
