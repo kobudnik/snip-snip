@@ -16,7 +16,12 @@ const SavedEditors = (props) => {
       readOnly='true'
     />
   );
-  return <div>{editor}</div>;
+  return (
+    <div className='editor-container'>
+      {editor}
+      <input type='checkbox' className='checkbox'></input>
+    </div>
+  );
 };
 
 export default SavedEditors;

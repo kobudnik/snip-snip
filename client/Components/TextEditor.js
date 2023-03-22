@@ -6,14 +6,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import SavedEditors from './SavedEditors';
 
-const TextEditor = ({
-  snipState,
-  onChange,
-  postSnippet,
-  reset,
-  posts,
-  postErr,
-}) => {
+const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
   const editor = (
     <CodeMirror
       id='instance'
@@ -32,7 +25,8 @@ const TextEditor = ({
       {editor}
       <button onClick={postSnippet}>Save Snippet</button>
       <button onClick={reset}>Reset</button>
-      {postErr && <div> Unable to post new snippet </div>}
+      {postErr.networkErr && <div> Unable to post new snippet </div>}
+      {postErr.minLengthErr && <div> Minimum 3 chars </div>}
     </div>
   );
 };

@@ -10,14 +10,23 @@ import './index.css';
 const App = () => {
   const [snipState, setSnipState] = useState('');
   const [posts, setPosts] = useState([]);
-  const [postErr, setPostErr] = useState(false);
+  const [shouldFetch, setShouldFetch] = useState(true);
+  const [postErr, setPostErr] = useState({
+    minLengthErr: false,
+    networkErr: false,
+  });
   const onChange = useCallback((value, viewUpdate) => {
     setSnipState(value);
   }, []);
 
-  //POST AND UPDATE STATE
-  //need to implement error handling here. if status 200 else show some error message or something
   const postSnippet = async () => {
+    if (snipState.length <= 3) {
+      setPostErr((prev) => ({
+        ...prev,
+        minLengthErr: true,
+      }));
+      return;
+    }
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,7 +37,7 @@ const App = () => {
     } else {
       const parsed = await posted.json();
       setPosts([...posts, parsed]);
-      setPostErr(false);
+      setPostErr({ minLengthErr: false, networkErr: false });
     }
   };
 
@@ -40,18 +49,22 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetch('/api/snipped')
-      .then((res) => {
-        if (res.status >= 400) throw { message: 'Problem retrieving data' };
-        else return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  }, []);
+    if (shouldFetch) {
+      fetch('/api/snipped')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        })
+        .finally(() => {
+          setShouldFetch(false);
+        });
+    }
+  }, [shouldFetch]);
 
   return (
     <div className='headContainer'>
