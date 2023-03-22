@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import Header from './Header';
-import TextEditor from './TextEditor';
+import Header from './Components/Header.js';
+import TextEditor from './Components/TextEditor.js';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import SavedEditors from './SavedEditors';
-
+import SavedEditors from './Components/SavedEditors';
 import './index.css';
 
 const App = () => {
   const [snipState, setSnipState] = useState('');
   const [posts, setPosts] = useState([]);
+  const [postErr, setPostErr] = useState(false);
   const onChange = useCallback((value, viewUpdate) => {
     setSnipState(value);
   }, []);
@@ -23,35 +23,33 @@ const App = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ snippet: snipState }),
     });
-    const parsed = await posted.json();
-    setPosts([...posts, parsed]);
-    console.log(posts);
+    if (posted.status >= 400) {
+      setPostErr(true);
+    } else {
+      const parsed = await posted.json();
+      setPosts([...posts, parsed]);
+      setPostErr(false);
+    }
   };
-
-  // const getSnippet = async () => {
-  //   const receivedSnip = await fetch('/api/snipped');
-  //   const parsedSnip = await receivedSnip.json();
-  //   let newState = [];
-  //   parsedSnip.forEach((snip) => {
-  //     // console.log(snip);
-  //     newState.push(snip);
-  //   });
-  //   setPosts([...posts, newState]);
-  //   console.log(posts);
-  //   return;
-  // };
 
   const reset = () => {
     const lines = document.getElementsByClassName('cm-line');
     const arrayed = Array.from(lines);
     arrayed.forEach((el) => (el.innerText = ''));
+    setPostErr(false);
   };
 
   useEffect(() => {
     fetch('/api/snipped')
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status >= 400) throw { message: 'Problem retrieving data' };
+        else return res.json();
+      })
       .then((data) => {
         setPosts(data);
+      })
+      .catch((e) => {
+        console.log(e.message);
       });
   }, []);
 
@@ -59,11 +57,18 @@ const App = () => {
     <div className='headContainer'>
       <Header />
       <TextEditor
+        postErr={postErr}
         reset={reset}
         postSnippet={postSnippet}
-        change={onChange}
+        onChange={onChange}
         posts={posts}
       />
+      {posts &&
+        posts.map((post, i) => (
+          <div className='textBox'>
+            <SavedEditors savedID={i} val={post.snippet}></SavedEditors>
+          </div>
+        ))}
     </div>
   );
   //<p>{!data ? 'Loading...' : data}</p>;
