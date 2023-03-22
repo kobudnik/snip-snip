@@ -1,11 +1,6 @@
 body {
   margin: 0;
-}
-#root {
-  display: flex;
-  /* height: 100vh; */
-  color: rgb(34, 34, 34);
-  font-size: 40px;
+  height: 100vh;
   background-image: linear-gradient(
       180deg,
       rgba(114, 0, 0, 0.01),
@@ -31,6 +26,13 @@ body {
       rgba(238, 189, 10, 0.865),
       transparent 50%
     ) !important;
+}
+
+#root {
+  display: flex;
+  /* height: 100vh; */
+  color: rgb(48, 78, 119);
+  font-size: 40px;
 }
 
 .headContainer {

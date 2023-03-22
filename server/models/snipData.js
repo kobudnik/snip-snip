@@ -1,12 +1,21 @@
 const { Pool } = require('pg');
+const dotEnv = require('dotenv');
+dotEnv.config();
 
-const PG_URI =
-  'postgres://fqslfsxx:0zJzt8o_bIJGff2Rk-wj9ud7syByD1-a@ruby.db.elephantsql.com/fqslfsxx';
+const PG_URI = process.env.PG_URI;
 
 // create a new pool here using the connection string above
-const pool = new Pool({
-  connectionString: PG_URI,
-});
+const pool = new Pool(
+  {
+    connectionString: PG_URI,
+  },
+  (e) => {
+    if (e) console.log(e);
+    else {
+      console.log('Connected to Postgres DB');
+    }
+  },
+);
 
 // Adding some notes about the database here will be helpful for future you or other developers.
 // Schema for the database can be found below:

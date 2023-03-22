@@ -20,7 +20,7 @@ module.exports = {
     // fallback to root for other urls
     static: {
       // match the output path
-      directory: path.resolve(__dirname, './dist'),
+      directory: path.resolve(__dirname, 'dist'),
       // match the output 'publicPath'
       publicPath: '/',
     },

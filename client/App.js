@@ -16,6 +16,7 @@ const App = () => {
   }, []);
 
   //POST AND UPDATE STATE
+  //need to implement error handling here. if status 200 else show some error message or something
   const postSnippet = async () => {
     const posted = await fetch('/api/snipped', {
       method: 'POST',
