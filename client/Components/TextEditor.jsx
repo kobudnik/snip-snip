@@ -27,6 +27,11 @@ const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
       <button onClick={reset}>Reset</button>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
       {postErr.minLengthErr && <div> Minimum 3 chars </div>}
+      <label for='dropdown'>Select an option:</label>
+      <select id='dropdown' name='dropdown'>
+        <option value=''>--Select--</option>
+        <option value='delete'>Delete</option>
+      </select>
     </div>
   );
 };
