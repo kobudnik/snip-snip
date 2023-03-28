@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -30,15 +32,11 @@ body {
 }
 
 #root {
-  display: flex;
   /* height: 100vh; */
   color: rgb(48, 78, 119);
   font-size: 40px;
 }
 
-.headContainer {
-  width: 100%;
-}
 .header {
   display: flex;
   justify-content: space-between;
@@ -96,4 +94,143 @@ a:hover {
   line-height: 16px;
   background-color: black;
   color: white;
+}
+
+#error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+#standard-rdr {
+  display: block;
+  font-size: 24px;
+  color: rgb(1, 0, 0);
+  margin-top: 20px;
+}
+
+.standard-body {
+  height: 100vh;
+  /* margin: 0; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 24px;
+  background-color: lavender;
+}
+
+.standard-title {
+  margin-top: 30px;
+  font-size: 1.75rem;
+}
+
+.standard-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 7rem;
+  background-color: rgb(227, 227, 227);
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  border-style: invisible;
+  border-radius: 20px;
+
+  height: 68vh;
+  width: 30vw;
+  box-shadow: 1px 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.standard-button {
+  margin-top: 50px;
+  width: 23vw;
+  border-radius: 10px;
+  height: 60px;
+  background-color: rgb(229, 142, 210);
+  cursor: pointer;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.5);
+  margin-top: 2vh;
+  border-style: hidden;
+  text-decoration: none;
+  font-size: 26px;
+  color: white;
+}
+
+.standard-input {
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: hidden;
+  color: black;
+  font-weight: 500;
+  font-family: 'Poppins';
+  font-size: 14px;
+  height: 7vh;
+  width: 25vw;
+  margin-bottom: 5vh;
+  background-color: white;
+  text-align: center;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+.white-button {
+  background-color: rgb(55, 70, 67);
+  text-align: center;
+  line-height: 7vh;
+  color: white;
+  font-size: 20px;
+  width: 20vw;
+}
+
+.create-body {
+  min-height: 100vh;
+  background-size: cover;
+  font-size: 20px;
+
+  background-image: linear-gradient(
+      200deg,
+      rgba(3, 47, 14, 0.896),
+      rgba(255, 255, 255, 1) 85%
+    ),
+    radial-gradient(
+      ellipse at top left,
+      rgba(101, 101, 101, 0.5),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at top right,
+      rgba(194, 160, 39, 0.5),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at center right,
+      rgba(127, 199, 4, 0.5),
+      transparent 90%
+    ),
+    radial-gradient(ellipse at center left, rgb(255, 255, 255), transparent 50%);
+}
+
+.create-body h1 {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 2.5rem;
+}
+
+.create-form {
+  width: 30vw;
+  height: 70vh;
+  background-color: rgb(28, 101, 84);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+.create-input {
+  box-shadow: 4px 4px 4px 4px rgba(14, 14, 14, 0.5);
+}
+
+.create-button {
+  background-color: rgb(174, 174, 174);
+  font-size: 22px;
+  color: white;
+}
+input:focus {
+  outline: none;
 }
