@@ -3,7 +3,8 @@
   "scripts": {
     "start": "webpack serve --open --mode development",
     "server": "nodemon server/server.js",
-    "build": "webpack --mode production && node server/server.js"
+    "build": "webpack --mode production"
+  
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

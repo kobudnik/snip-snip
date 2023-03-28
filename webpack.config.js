@@ -24,7 +24,7 @@ module.exports = {
       // match the output 'publicPath'
       publicPath: '/',
     },
-
+    historyApiFallback: true,
     proxy: {
       '/api/**': {
         target: 'http://localhost:3000/',

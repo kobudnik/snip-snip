@@ -29,6 +29,11 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
+//catch all to ensure refresh works
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
+
 app.listen(PORT, (e) => {
   if (e) console.log(e);
   else {
