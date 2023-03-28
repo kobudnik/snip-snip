@@ -11,6 +11,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.2",
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "eslint": "^8.32.0",
@@ -28,7 +29,7 @@
     "@codemirror/lang-javascript": "github:codemirror/lang-javascript",
     "@uiw/codemirror-theme-dracula": "^4.19.7",
     "@uiw/react-codemirror": "^4.19.7",
-    "concurrently": "^7.6.0",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "eslint-config-prettier": "^8.6.0",
@@ -37,9 +38,7 @@
     "mongoose": "^5.11.9",
     "pg": "^8.8.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^6.8.2",
     "sass-loader": "^12.3.0"
   }
 }
