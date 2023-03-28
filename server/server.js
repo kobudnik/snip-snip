@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const userRouter = require('./routes/userRouter');
 const snippedRouter = require('./routes/snippedRouter');
+const sessionRouter = require('./routes/sessionRouter');
 const PORT = 3000;
 const app = express();
 app.use(express.json());
@@ -13,7 +14,8 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 
 //Routes
 app.use('/api/snipped', snippedRouter);
-app.use('/api/users', userRouter);
+app.use('/api/user', userRouter);
+app.use('/api/session', sessionRouter);
 
 //Global Error Handler
 app.use((err, req, res, next) => {
