@@ -1,4 +1,4 @@
-const db = require('../models/snipData.js');
+const db = require('../models/snipDB.js');
 
 const userController = {};
 
@@ -10,7 +10,7 @@ userController.checkExists = async (req, res, next) => {
       throw { message: 'Missing credentials' };
     }
     const params = [username];
-    const text = 'SELECT FROM users WHERE username = ($1)';
+    const text = 'SELECT * FROM users WHERE username = ($1)';
     const { rows } = await db.query(text, params);
     if (rows.length > 0) {
       throw {

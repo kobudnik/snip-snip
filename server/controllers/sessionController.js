@@ -1,23 +1,27 @@
-const db = require('../models/snipData.js');
-
+const db = require('../models/snipDB.js');
 const sessionController = {};
+const bcrypt = require('bcrypt');
 
 sessionController.veryifyUser = async (req, res, next) => {
+  console.log('here');
   try {
     const { username, password } = req.body;
     if (!(username && password)) {
-      return next({ message: 'Missing credentials' });
+      throw { message: 'Missing credentials' };
     }
 
-    const params = [username];
-    const text = `SELECT * FROM users WHERE username = $(1)`;
-    const query = await db.query(text, params);
+    const text = `SELECT * FROM users WHERE username = ($1)`;
+    const query = await db.query(text, [username]);
+
     const user = query.rows[0];
     const hashPass = user.password;
-    if (bcrypt.compare(password, hashPass)) {
+    const decrypt = await bcrypt.compare(password, hashPass);
+
+    if (decrypt) {
+      req.session.username = username;
       return next();
     } else {
-      return next({ message: 'Passwords do not match' });
+      throw { message: 'Passwords do not match' };
     }
   } catch (e) {
     return next({

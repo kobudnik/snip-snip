@@ -1,11 +1,10 @@
-const db = require('../models/snipData.js');
-
+const db = require('../models/snipDB.js');
 const snipController = {};
 
 snipController.addSnip = async (req, res, next) => {
   try {
     // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    const params = [2, 2, req.body.snippet];
+    const params = [10, 10, req.body.snippet];
     const text =
       'INSERT INTO snippets (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
     const inserted = await db.query(text, params);
