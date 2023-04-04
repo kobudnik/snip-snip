@@ -3,7 +3,7 @@ import Header from './Header.jsx';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import '../index.css';
-import { useUsername } from '../contextProviders.jsx';
+import { useUsername } from '../ContextProviders.jsx';
 
 const Home = () => {
   const [snipState, setSnipState] = useState('');

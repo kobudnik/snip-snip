@@ -32,7 +32,6 @@ snipController.deleteSnip = async (req, res, next) => {
     const params = [11];
     const text = 'DELETE FROM snippets WHERE id = ($1) RETURNING *';
     const inserted = await db.query(text, params);
-    console.log(inserted.rows);
     return next();
   } catch (e) {
     return next({ message: 'Error in Delete Snip Middleware', e });

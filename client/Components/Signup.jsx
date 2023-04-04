@@ -16,7 +16,6 @@ const Signup = () => {
     const email = data.get('email');
 
     const userBody = JSON.stringify({ username, password, email });
-    console.log(userBody);
 
     const post = await fetch('/api/user', {
       method: 'POST',

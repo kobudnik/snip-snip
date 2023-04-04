@@ -2,7 +2,7 @@ const express = require('express');
 const sessionRouter = express.Router();
 const {
   veryifyUser,
-  checkLoggedIn,
+  checkSessionStatus,
 } = require('../controllers/sessionController');
 
 sessionRouter.get('/', (req, res) => {
@@ -10,8 +10,8 @@ sessionRouter.get('/', (req, res) => {
 });
 
 //
-sessionRouter.get('/checkStatus', checkLoggedIn, (req, res) => {
-  return res.status(200).json({ username: res.locals.username });
+sessionRouter.post('/checkStatus', checkSessionStatus, (req, res) => {
+  return res.status(200).json({ sessionStatus: 'verified' });
 });
 
 sessionRouter.post('/', veryifyUser, (req, res) => {

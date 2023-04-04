@@ -9,7 +9,6 @@ hashController.hashPassword = async (req, res, next) => {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
         if (err) throw { message: err, status: 400 };
         res.locals.hashPW = hash;
-        console.log('hashed password', hash);
         return next();
       });
     });

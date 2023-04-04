@@ -3,7 +3,6 @@ const sessionController = {};
 const bcrypt = require('bcrypt');
 
 sessionController.veryifyUser = async (req, res, next) => {
-  console.log('here');
   try {
     const { username, password } = req.body;
     if (!(username && password)) {
@@ -33,13 +32,13 @@ sessionController.veryifyUser = async (req, res, next) => {
   }
 };
 
-sessionController.checkLoggedIn = async (req, res, next) => {
+sessionController.checkSessionStatus = (req, res, next) => {
   try {
-    if (!(req.session.id && req.session.username)) {
+    if (!req.body.username || req.body.username !== req.session.username) {
       throw { message: 'No valid session' };
+    } else {
+      return next();
     }
-    res.locals.username = req.session.username;
-    return next();
   } catch (e) {
     return next({ message: e.message });
   }

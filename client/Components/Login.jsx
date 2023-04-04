@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, Outlet } from 'react-router-dom';
-import { useUsername } from '../contextProviders';
+import { useUsername } from '../ContextProviders';
 
 const Login = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const { setUsername } = useUsername();
+  const { username, setUsername, isAuthenticated, setAuthenticated } =
+    useUsername();
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username }),
+  };
 
   useEffect(() => {
-    try {
-      fetch('/api/session/checkStatus')
-        .then((user) => user.json())
-        .then(({ username }) => {
-          setUsername(username);
-          navigate('/home');
+    if (isAuthenticated && username) {
+      navigate('/home');
+    } else if (username) {
+      fetch('/api/session/checkStatus', requestOptions)
+        .then((session) => {
+          if (!session.ok) {
+            throw { message: 'HTTP error, status = ' + session.status };
+          }
+          setAuthenticated(true);
+        })
+        .catch((e) => {
+          console.log(e);
         });
-    } catch (e) {
-      console.log(e);
     }
-  }, []);
+  }, [isAuthenticated, username]);
 
   const sendLogin = async (e) => {
     e.preventDefault();
@@ -37,9 +48,14 @@ const Login = () => {
         },
         credentials: 'include',
       });
+
+      if (!post.ok) {
+        throw { message: 'HTTP error, status = ' + response.status };
+      }
       const { username } = await post.json();
       setUsername(username);
-      navigate('/home');
+      localStorage.setItem('username', username);
+      setAuthenticated(true);
     } catch (e) {
       console.log(e.message);
       setError(true);

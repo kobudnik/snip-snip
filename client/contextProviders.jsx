@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useMemo } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+} from 'react';
 
 const UserContext = createContext();
 
@@ -7,13 +13,31 @@ export function useUsername() {
 }
 
 export function UserProvider({ children }) {
-  const [username, setUsername] = useState('Howdy');
+  const [username, setUsername] = useState(
+    localStorage.getItem('username') || null,
+  );
+
+  const [isAuthenticated, setAuthenticated] = useState(false);
+
+  // useEffect(() => {
+  //   // update state whenever local storage changes
+  //   const handleStorageChange = () => {
+  //     setUsername(localStorage.getItem('username') || '');
+  //   };
+  //   window.addEventListener('storage', handleStorageChange);
+  //   return () => {
+  //     window.removeEventListener('storage', handleStorageChange);
+  //   };
+  // }, []);
+
   const user = useMemo(
     () => ({
       username,
       setUsername,
+      isAuthenticated,
+      setAuthenticated,
     }),
-    [username],
+    [username, isAuthenticated],
   );
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;

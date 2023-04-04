@@ -16,8 +16,9 @@ const PORT = 3000;
 const app = express();
 
 app.use(express.json());
-// app.use(cors());
-//;
+
+app.use(cors());
+
 const redisClient = createClient();
 redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
