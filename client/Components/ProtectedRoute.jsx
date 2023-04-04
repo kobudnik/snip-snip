@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUsername } from '../ContextProviders';
+import Header from './Header';
 
-export default function AuthenticatedRoute({ children }) {
+export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const { username, isAuthenticated, setAuthenticated } = useUsername();
 
@@ -45,5 +46,16 @@ export default function AuthenticatedRoute({ children }) {
     }
   }, [username, isAuthenticated, navigate]);
 
-  return <>{isAuthenticated && username ? children : null}</>;
+  // const component = (
+  //   <>
+  //     <div className='header'>
+  //       {' '}
+  //       <a href='#'>Snippets Collection</a>{' '}
+  //       <span className='welcome'>Welcome Back</span> <a href='#'>Logout</a>
+  //     </div>
+  //     <Outlet />
+  //   </>
+  // );
+
+  return <>{isAuthenticated && username ? <Header /> : null}</>;
 }

@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRouter = require('./routes/userRouter');
 const snippedRouter = require('./routes/snippedRouter');
 const sessionRouter = require('./routes/sessionRouter');
+const folderRouter = require('./routes/folderRouter');
 const session = require('express-session');
 const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
@@ -51,6 +52,7 @@ app.use(
 app.use('/api/snipped', snippedRouter);
 app.use('/api/user', userRouter);
 app.use('/api/session', sessionRouter);
+app.use('/api/folders', folderRouter);
 
 //Global Error Handler
 app.use((err, req, res, next) => {

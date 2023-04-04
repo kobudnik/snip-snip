@@ -23,8 +23,9 @@ const Login = () => {
         .then((session) => {
           if (!session.ok) {
             throw { message: 'HTTP error, status = ' + session.status };
+          } else {
+            setAuthenticated(true);
           }
-          setAuthenticated(true);
         })
         .catch((e) => {
           console.log(e);
@@ -50,7 +51,7 @@ const Login = () => {
       });
 
       if (!post.ok) {
-        throw { message: 'HTTP error, status = ' + response.status };
+        throw { message: 'HTTP error, status = ' + post.status };
       }
       const { username } = await post.json();
       setUsername(username);
@@ -101,3 +102,10 @@ const Login = () => {
 };
 
 export default Login;
+
+//need to automatically add default folder every time new user is created and insert it in database folders table automatically (trigger function)
+//need to update addfolders fetch to grab name from an input and submit it.
+//same for delete
+//then need to add a get to get all the folders and display them and store in state
+//on click will go to the nested route
+//where we will display all the snippets for that folder in state

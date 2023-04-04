@@ -6,6 +6,21 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import SavedEditors from './SavedEditors';
 
+const addFolder = async (e) => {
+  try {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ folderName: 'delilah' }),
+    };
+    const postFolder = await fetch('/api/folders', requestOptions);
+    const response = await postFolder.json();
+    console.log(response);
+  } catch (e) {
+    console.log('error adding folder in texteditor', e.message);
+  }
+};
+
 const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
   const editor = (
     <CodeMirror
@@ -32,6 +47,7 @@ const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
         <option value=''>--Select--</option>
         <option value='delete'>Delete</option>
       </select>
+      <button onClick={addFolder}>ADD A NEW FOLDER BOYO</button>
     </div>
   );
 };

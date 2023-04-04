@@ -6,6 +6,8 @@ import React, {
   useEffect,
 } from 'react';
 
+import { Outlet } from 'react-router-dom';
+
 const UserContext = createContext();
 
 export function useUsername() {
@@ -40,5 +42,9 @@ export function UserProvider({ children }) {
     [username, isAuthenticated],
   );
 
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={user}>
+      <Outlet />
+    </UserContext.Provider>
+  );
 }
