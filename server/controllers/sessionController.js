@@ -19,6 +19,7 @@ sessionController.veryifyUser = async (req, res, next) => {
 
     if (decrypt) {
       req.session.userID = user.id;
+      req.session.username = user.username;
       res.locals.username = username;
       return next();
     } else {
