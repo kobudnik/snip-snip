@@ -18,7 +18,8 @@ sessionController.veryifyUser = async (req, res, next) => {
     const decrypt = await bcrypt.compare(password, hashPass);
 
     if (decrypt) {
-      req.session.username = username;
+      req.session.id = user.id;
+      res.locals.username = username;
       return next();
     } else {
       throw { message: 'Passwords do not match' };

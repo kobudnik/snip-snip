@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from './Header.jsx';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import '../index.css';
+import { useUsername } from '../contextProviders.jsx';
 
 const Home = () => {
   const [snipState, setSnipState] = useState('');
@@ -66,8 +67,11 @@ const Home = () => {
     }
   }, [shouldFetch]);
 
+  const username = useUsername();
+
   return (
     <div className='headContainer'>
+      <p>{username}</p>
       <TextEditor
         postErr={postErr}
         reset={reset}

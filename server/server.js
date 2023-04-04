@@ -42,7 +42,7 @@ app.use(
     name: '_redisDemo',
     secret: 'whatagatabetoosberry',
     resave: false,
-    cookie: { secure: false, maxAge: 60000 }, // Set to secure:false and expire in 1 minute for demo purposes
+    cookie: { secure: false, maxAge: 60000 * 60 * 24 }, // Set to secure:false and expire in 1 minute for demo purposes
     saveUninitialized: false,
   }),
 );
