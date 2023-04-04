@@ -1,2 +1,3 @@
-# Code-Snippet-Note-Application
-Quick and easy way to write /save /organize formatted code snippets. Useful while learning to code.
+# Snip-Snip
+
+Markdown Editor for creating/storing code snippets. Built out as a full stack application, mainly for fun. 
