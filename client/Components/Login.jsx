@@ -1,33 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, Outlet } from 'react-router-dom';
+import { useUsername } from '../contextProviders';
 
 const Login = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+
+  const { setUsername } = useUsername();
+
+  useEffect(() => {
+    try {
+      fetch('/api/session/checkStatus')
+        .then((user) => user.json())
+        .then(({ username }) => {
+          setUsername(username);
+          navigate('/home');
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
   const sendLogin = async (e) => {
     e.preventDefault();
     setError(false);
     const data = new FormData(e.target);
     const username = data.get('username');
     const password = data.get('password');
-
-    console.log(username, password);
     const loginBody = JSON.stringify({ username, password });
-
-    const post = await fetch('/api/session', {
-      method: 'POST',
-      body: loginBody,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    if (post.status === 200) {
-      console.log('routing to home!');
+    try {
+      const post = await fetch('/api/session', {
+        method: 'POST',
+        body: loginBody,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const { username } = await post.json();
+      setUsername(username);
       navigate('/home');
-    } else {
+    } catch (e) {
+      console.log(e.message);
       setError(true);
     }
   };

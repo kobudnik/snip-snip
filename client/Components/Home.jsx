@@ -67,7 +67,7 @@ const Home = () => {
     }
   }, [shouldFetch]);
 
-  const username = useUsername();
+  const { username } = useUsername();
 
   return (
     <div className='headContainer'>

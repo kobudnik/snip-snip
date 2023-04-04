@@ -4,7 +4,7 @@ import Home from './Components/Home.jsx';
 import Error from './Components/Error.jsx';
 import Signup from './Components/Signup.jsx';
 import Login from './Components/Login.jsx';
-import { SessionProvider } from './contextProviders.jsx';
+import { UserProvider } from './contextProviders.jsx';
 // import CreateAccount from './routes/CreateAccount.jsx';
 // import Home, { eventLoader } from './routes/Home.jsx';
 // import Error from './components/Error.jsx';
@@ -22,9 +22,9 @@ const App = () => {
   return (
     <>
       {
-        <SessionProvider>
+        <UserProvider>
           <Outlet></Outlet>
-        </SessionProvider>
+        </UserProvider>
       }
     </>
   );

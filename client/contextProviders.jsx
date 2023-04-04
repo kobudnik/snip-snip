@@ -1,24 +1,20 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 
-const usernameContext = createContext();
-const updateUsernameContext = createContext();
+const UserContext = createContext();
 
 export function useUsername() {
-  return useContext(usernameContext);
+  return useContext(UserContext);
 }
 
-export function useUpdateUsername() {
-  return useContext(updateUsernameContext);
-}
-
-export function SessionProvider({ children }) {
-  const [username, setUsername] = useState('Kennan');
-
-  return (
-    <usernameContext.Provider value={username}>
-      <updateUsernameContext.Provider value={setUsername}>
-        {children}
-      </updateUsernameContext.Provider>
-    </usernameContext.Provider>
+export function UserProvider({ children }) {
+  const [username, setUsername] = useState('Howdy');
+  const user = useMemo(
+    () => ({
+      username,
+      setUsername,
+    }),
+    [username],
   );
+
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }

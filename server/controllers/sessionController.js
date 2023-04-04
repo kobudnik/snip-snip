@@ -33,4 +33,16 @@ sessionController.veryifyUser = async (req, res, next) => {
   }
 };
 
+sessionController.checkLoggedIn = async (req, res, next) => {
+  try {
+    if (!(req.session.id && req.session.username)) {
+      throw { message: 'No valid session' };
+    }
+    res.locals.username = req.session.username;
+    return next();
+  } catch (e) {
+    return next({ message: e.message });
+  }
+};
+
 module.exports = sessionController;
