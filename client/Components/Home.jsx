@@ -49,6 +49,13 @@ const Home = () => {
     setPostErr(false);
   };
 
+  //testing get all folders
+  // useEffect(() => {
+  //   fetch('/api/folders')
+  //     .then((res) => res.json)
+  //     .then((res) => console.log(res.folders));
+  // });
+
   useEffect(() => {
     if (shouldFetch) {
       fetch('/api/snipped')
