@@ -10,10 +10,6 @@ import Folders from './Folders.jsx';
 
 const Home = () => {
   const [editorState, setEditorState] = useState('');
-  // const [posts, setPosts] = useState([]);
-  // const [folders, setFolders] = useState([]);
-
-  //created to trigger new fetch after deletion (may just return all remaining snippets from that particular folder, however, in which case this may not be necessary)
 
   const [postErr, setPostErr] = useState({
     minLengthErr: false,
@@ -22,38 +18,6 @@ const Home = () => {
 
   const { posts, setPosts, setFolders, selection, setSelection, folderNames } =
     useData();
-
-  // const addFolder = async (e) => {
-  //   try {
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ folderName: 'josiah' }),
-  //     };
-  //     console.log('adding a folder here');
-  //     const postFolder = await fetch('/api/folders', requestOptions);
-  //     const retrievedFolders = await postFolder.json();
-  //     setFolders(retrievedFolders);
-  //   } catch (e) {
-  //     console.log('error adding folder in texteditor', e.message);
-  //   }
-  // };
-
-  // const addFolder = useCallback(async () => {
-  //   try {
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ folderName: 'josiah' }),
-  //     };
-  //     const postFolder = await fetch('/api/folders', requestOptions);
-  //     const retrievedFolders = await postFolder.json();
-  //     console.log(folders, 'in folders callback');
-  //     setFolders([...folders, retrievedFolders]);
-  //   } catch (e) {
-  //     console.log('error adding folder in texteditor', e.message);
-  //   }
-  // }, [folders]);
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');

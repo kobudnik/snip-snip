@@ -7,9 +7,6 @@ import Login from './Components/Login.jsx';
 import { UserProvider } from './Providers/UserProvider.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
-// import CreateAccount from './routes/CreateAccount.jsx';
-// import Home, { eventLoader } from './routes/Home.jsx';
-// import Error from './components/Error.jsx';
 import './index.css';
 import {
   createBrowserRouter,
@@ -19,18 +16,6 @@ import {
   Outlet,
 } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-
-// const App = () => {
-//   return (
-//     <>
-//       {
-//         <UserProvider>
-//           <Outlet></Outlet>
-//         </UserProvider>
-//       }
-//     </>
-//   );
-// };
 
 const router = createBrowserRouter(
   createRoutesFromElements(
