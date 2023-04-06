@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, Outlet } from 'react-router-dom';
-import { useUsername } from '../ContextProviders';
+import { useUsername } from '../Providers/UserProvider';
 
 const Login = () => {
   const [error, setError] = useState(false);

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useMemo,
-  useEffect,
-} from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 
 import { Outlet } from 'react-router-dom';
 

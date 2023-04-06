@@ -1,34 +1,25 @@
 import React from 'react';
-import CodeMirror, { basicSetup } from '@uiw/react-codemirror';
-import { EditorView } from '@codemirror/view';
-//think you can use this with state to clear the underlying dom el that this is built on top of . probably in app.js, not here.
+import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
+import { java } from '@codemirror/lang-java';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import SavedEditors from './SavedEditors';
+import { useData } from '../Providers/DataProvider.jsx';
 
-const addFolder = async (e) => {
-  try {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ folderName: 'delilah' }),
-    };
-    const postFolder = await fetch('/api/folders', requestOptions);
-    const response = await postFolder.json();
-    console.log(response);
-  } catch (e) {
-    console.log('error adding folder in texteditor', e.message);
-  }
-};
+const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
+  const { usePostFolder } = useData();
 
-const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
   const editor = (
     <CodeMirror
-      id='instance'
-      value={snipState}
-      height='200px'
+      id='texteditor'
+      value={editorState}
+      height='25vh'
       width='50vw'
-      extensions={[javascript({ jsx: true })]}
+      extensions={[
+        javascript({ jsx: true, typescript: true }),
+        python(),
+        java(),
+      ]}
       theme={dracula}
       placeholder='Give me your code.'
       onChange={onChange}
@@ -47,7 +38,7 @@ const TextEditor = ({ snipState, onChange, postSnippet, reset, postErr }) => {
         <option value=''>--Select--</option>
         <option value='delete'>Delete</option>
       </select>
-      <button onClick={addFolder}>ADD A NEW FOLDER BOYO</button>
+      <button onClick={usePostFolder}>ADD A NEW FOLDER BOYO</button>
     </div>
   );
 };

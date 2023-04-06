@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUsername } from '../ContextProviders';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { useUsername } from '../Providers/UserProvider';
 import Header from './Header';
+import { DataProvider } from '../Providers/DataProvider.jsx';
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
@@ -57,5 +58,16 @@ export default function ProtectedRoute({ children }) {
   //   </>
   // );
 
-  return <>{isAuthenticated && username ? <Header /> : null}</>;
+  return (
+    <>
+      {isAuthenticated && username ? (
+        <>
+          <DataProvider>
+            <Header />
+            <Outlet />
+          </DataProvider>
+        </>
+      ) : null}
+    </>
+  );
 }

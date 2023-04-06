@@ -4,7 +4,7 @@ import Home from './Components/Home.jsx';
 import Error from './Components/Error.jsx';
 import Signup from './Components/Signup.jsx';
 import Login from './Components/Login.jsx';
-import { UserProvider } from './ContextProviders.jsx';
+import { UserProvider } from './Providers/UserProvider.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
 // import CreateAccount from './routes/CreateAccount.jsx';
@@ -37,8 +37,8 @@ const router = createBrowserRouter(
     <Route path='/' element={<UserProvider />}>
       <Route index element={<Login />}></Route>
       <Route path='create' element={<Signup></Signup>}></Route>
-      <Route path='home' element={<ProtectedRoute />}>
-        <Route index element={<Home />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path='home' element={<Home />} />
       </Route>
     </Route>,
   ),

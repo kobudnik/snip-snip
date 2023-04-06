@@ -10,8 +10,8 @@ folderController.addFolder = async (req, res, next) => {
     const text =
       'INSERT INTO folders (user_id, name) VALUES ($1, $2) RETURNING *';
 
-    const inserted = await db.query(text, params);
-    res.locals.folders = inserted.rows[0];
+    const insertQuery = await db.query(text, params);
+    res.locals.folders = insertQuery.rows[0];
     console.log(res.locals.folders);
     return next();
   } catch (e) {
@@ -25,17 +25,35 @@ folderController.getAllFolders = async (req, res, next) => {
     const params = [req.session.userID];
     console.log(req.session.userID);
     const text = 'SELECT * FROM folders WHERE user_id = ($1)';
-
-    const inserted = await db.query(text, params);
-    console.log(inserted.rows);
-    res.locals.allFolders = inserted.rows;
-    console.log(res.locals.allFolders);
+    const retrieveQuery = await db.query(text, params);
+    res.locals.allFolders = retrieveQuery.rows;
     return next();
   } catch (e) {
     console.log('error in get all folders');
     return next({ message: 'Error in Add Folder Middleware', e });
   }
 };
+folderController.deleteFolders = async (req, res, next) => {
+  try {
+    const ids = req.body.ids;
+    console.log(ids);
+    const text = `
+  WITH deleted_rows AS (
+    DELETE FROM folders WHERE id = ANY($1) RETURNING *
+  )
+  SELECT * FROM folders WHERE NOT EXISTS (
+    SELECT 1 FROM deleted_rows WHERE folders.id = deleted_rows.id
+  )
+`;
+    const deleteQuery = await db.query(text, [ids]);
+    res.locals.remainingFolders = deleteQuery.rows;
+    return next();
+  } catch (e) {
+    console.log(e, 'this is a postman err');
+    return next({ message: e.message });
+  }
+};
+
 //  'DELETE FROM folders WHERE  (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
 
 module.exports = folderController;

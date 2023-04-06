@@ -39,12 +39,12 @@ app.use(
   session({
     genid: () => uuidV4(),
     store: redisStore,
-    resave: false, // required: force lightweight session keep alive (touch)
-    saveUninitialized: false, // recommended: only save session when data exists
+    resave: false,
+    saveUninitialized: false,
     name: '_redisDemo',
     secret: 'whatagatabetoosberry',
     resave: false,
-    cookie: { secure: false, maxAge: 60000 * 60 * 24 }, // Set to secure:false and expire in 1 minute for demo purposes
+    cookie: { secure: false, maxAge: 60000 * 60 * 24 },
     saveUninitialized: false,
   }),
 );
