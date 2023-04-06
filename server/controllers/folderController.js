@@ -12,7 +12,6 @@ folderController.addFolder = async (req, res, next) => {
 
     const insertQuery = await db.query(text, params);
     res.locals.folders = insertQuery.rows[0];
-    console.log(res.locals.folders);
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Folder Middleware', e });
@@ -23,7 +22,6 @@ folderController.getAllFolders = async (req, res, next) => {
   try {
     // const params = [req.body.folderID, req.body.userID, req.body.snippet];
     const params = [req.session.userID];
-    console.log(req.session.userID);
     const text = 'SELECT * FROM folders WHERE user_id = ($1)';
     const retrieveQuery = await db.query(text, params);
     res.locals.allFolders = retrieveQuery.rows;
@@ -36,7 +34,6 @@ folderController.getAllFolders = async (req, res, next) => {
 folderController.deleteFolders = async (req, res, next) => {
   try {
     const ids = req.body.ids;
-    console.log(ids);
     const text = `
   WITH deleted_rows AS (
     DELETE FROM folders WHERE id = ANY($1) RETURNING *

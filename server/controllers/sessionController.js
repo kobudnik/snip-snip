@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 sessionController.veryifyUser = async (req, res, next) => {
   try {
-    console.log('in verify user');
     const { username, password } = req.body;
     if (!(username && password)) {
       throw { message: 'Missing credentials' };
