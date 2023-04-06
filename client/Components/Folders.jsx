@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
-import { useData } from '../Providers/DataProvider.jsx';
+import { useData } from '../ContextProviders/DataProvider.jsx';
 
 const Folders = ({ currentFolder }) => {
   const { folders, setFolders } = useData();

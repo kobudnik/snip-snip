@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { java } from '@codemirror/lang-java';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import { useData } from '../Providers/DataProvider.jsx';
+import { useData } from '../ContextProviders/DataProvider.jsx';
 
 const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
   const { usePostFolder } = useData();

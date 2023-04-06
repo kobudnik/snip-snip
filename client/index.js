@@ -4,7 +4,7 @@ import Home from './Components/Home.jsx';
 import Error from './Components/Error.jsx';
 import Signup from './Components/Signup.jsx';
 import Login from './Components/Login.jsx';
-import { UserProvider } from './Providers/UserProvider.jsx';
+import { UserProvider } from './ContextProviders/UserProvider.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
 import './index.css';

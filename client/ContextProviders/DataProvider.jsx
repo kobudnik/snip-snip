@@ -55,9 +55,5 @@ export function DataProvider({ children }) {
     [posts, folders, selectedSnips],
   );
 
-  return (
-    <DataContext.Provider value={data}>
-      <Outlet />
-    </DataContext.Provider>
-  );
+  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 }

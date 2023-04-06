@@ -2,7 +2,7 @@ import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import { useData } from '../Providers/DataProvider';
+import { useData } from '../ContextProviders/DataProvider';
 
 const SavedEditors = ({ val, inputID }) => {
   const editor = (
@@ -25,13 +25,9 @@ const SavedEditors = ({ val, inputID }) => {
     if (event.target.checked) {
       setSelectedSnips([...selectedSnips, checkboxId]);
     } else {
-      setSelectedSnips(
-        selectedSnips
-          .filter((snip) => snip.id !== checkboxId)
-          .map((snips) => snips.id),
-      );
+      setSelectedSnips(selectedSnips.filter((snip) => snip !== checkboxId));
     }
-    console.log(selectedSnips);
+    console.log(selectedSnips, 'hello from handleboxchange');
   };
   return (
     <div className='editor-container'>

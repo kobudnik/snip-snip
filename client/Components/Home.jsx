@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import '../index.css';
-import { useUsername } from '../Providers/UserProvider.jsx';
+import { useUsername } from '../ContextProviders/UserProvider.jsx';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
-import { useData } from '../Providers/DataProvider.jsx';
+import { useData } from '../ContextProviders/DataProvider.jsx';
 import Folders from './Folders.jsx';
 
 const Home = () => {

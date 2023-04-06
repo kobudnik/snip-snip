@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { useUsername } from '../Providers/UserProvider';
+import { useUsername } from '../ContextProviders/UserProvider';
 import Header from './Header';
-import { DataProvider } from '../Providers/DataProvider.jsx';
+import { DataProvider } from '../ContextProviders/DataProvider.jsx';
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
