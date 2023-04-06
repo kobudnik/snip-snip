@@ -3,7 +3,7 @@ import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import '../index.css';
 import { useUsername } from '../Providers/UserProvider.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
@@ -16,8 +16,45 @@ const Home = () => {
     networkErr: false,
   });
 
-  const { posts, setPosts, setFolders, selection, setSelection, folderNames } =
-    useData();
+  const [currentFolder, setCurrentFolder] = useState('');
+
+  const {
+    posts,
+    setPosts,
+    setFolders,
+    folders,
+    selection,
+    setSelection,
+    folderNames,
+  } = useData();
+
+  const { username } = useUsername();
+  const { folder } = useParams();
+
+  useEffect(() => {
+    if (folders.length) {
+      console.log(folders, 'preconditional');
+      console.log(folder, 'this is the folder param');
+      const folderID = folders.filter(
+        (eachFolder) => eachFolder.name === folder,
+      )[0].id;
+      console.log(folderID, 'this is the folder id!!');
+      console.log(folders);
+      console.log(folder, 'this is folder name inside useeffect');
+      const id = folders.filter((eachFolder) => eachFolder.name === folder);
+      console.log(id, 'These are posts in use effect');
+      fetch('/api/snipped')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    }
+  }, [folders, folder]);
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -52,21 +89,6 @@ const Home = () => {
       resetEditor();
     }
   };
-
-  useEffect(() => {
-    fetch('/api/snipped')
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  }, []);
-
-  const { username } = useUsername();
 
   return (
     <div className='headContainer'>

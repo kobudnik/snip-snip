@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<Login />}></Route>
       <Route path='create' element={<Signup></Signup>}></Route>
       <Route element={<ProtectedRoute />}>
-        <Route path='home' element={<Home />} />
+        <Route path=':folder' element={<Home />} />
       </Route>
     </Route>,
   ),
