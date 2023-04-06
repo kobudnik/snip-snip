@@ -17,7 +17,7 @@ export function useData() {
 export function DataProvider({ children }) {
   const [posts, setPosts] = useState('');
   const [folders, setFolders] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selectedSnips, setSelectedSnips] = useState([]);
 
   useEffect(() => {
     fetch('/api/folders')
@@ -48,11 +48,11 @@ export function DataProvider({ children }) {
       setPosts,
       folders,
       setFolders,
-      selection,
-      setSelection,
+      selectedSnips,
+      setSelectedSnips,
       usePostFolder,
     }),
-    [posts, folders, selection],
+    [posts, folders, selectedSnips],
   );
 
   return (

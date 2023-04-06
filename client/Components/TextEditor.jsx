@@ -42,4 +42,5 @@ const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
     </div>
   );
 };
+
 export default TextEditor;
