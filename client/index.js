@@ -6,14 +6,13 @@ import Signup from './Components/Signup.jsx';
 import Login from './Components/Login.jsx';
 import { UserProvider } from './Providers/UserProvider.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
-
 import './index.css';
+import './input.css';
 import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
   Route,
-  Outlet,
 } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 
@@ -21,9 +20,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<UserProvider />}>
       <Route index element={<Login />}></Route>
-      <Route path='create' element={<Signup></Signup>}></Route>
+      <Route path='create' element={<Signup />}></Route>
       <Route element={<ProtectedRoute />}>
-        <Route path='home' element={<Home />} />
+        <Route path=':currentFolder' element={<Home />} />
       </Route>
     </Route>,
   ),

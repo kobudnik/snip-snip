@@ -5,27 +5,27 @@ body {
   min-height: 100vh;
   background-image: linear-gradient(
       180deg,
-      rgba(114, 0, 0, 0.01),
-      rgba(9, 255, 255, 1) 85%
+      rgba(237, 187, 8, 0.865),
+      rgba(237, 187, 8, 0.5)
     ),
     radial-gradient(
       ellipse at top left,
-      rgba(238, 189, 10, 0.865),
+      rgba(237, 187, 8, 0.865),
       transparent 50%
     ),
     radial-gradient(
       ellipse at top right,
-      rgba(238, 189, 10, 0.865),
+      rgba(126, 126, 126, 0.865),
       transparent 50%
     ),
     radial-gradient(
       ellipse at center right,
-      rgba(238, 189, 10, 0.8652),
+      rgba(126, 126, 126, 0.865),
       transparent 50%
     ),
     radial-gradient(
       ellipse at center left,
-      rgba(238, 189, 10, 0.865),
+      rgba(126, 126, 126, 0.865),
       transparent 50%
     );
   background-size: cover;
@@ -70,12 +70,16 @@ a:hover {
   margin-bottom: 3vh;
 }
 
-/* too center checkboxes*/
+/* to center checkboxes*/
 .editor-container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 20px;
+}
+
+.checkbox {
+  margin-left: 0.1vw;
 }
 
 .checkbox::before {
@@ -85,6 +89,9 @@ a:hover {
   height: 1em;
   border: 2px solid black;
   background-color: white;
+  position: relative;
+  bottom: 0.15em;
+  z-index: 1000;
 }
 
 .checkbox:checked::before {
@@ -94,6 +101,11 @@ a:hover {
   line-height: 16px;
   background-color: black;
   color: white;
+  width: 1.3em;
+  height: 1.3em;
+  position: relative;
+  bottom: 0.5em;
+  border-radius: 0.15em;
 }
 
 #error-page {

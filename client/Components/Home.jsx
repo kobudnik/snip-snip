@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
-import '../index.css';
 import { useUsername } from '../Providers/UserProvider.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
@@ -16,8 +15,36 @@ const Home = () => {
     networkErr: false,
   });
 
-  const { posts, setPosts, setFolders, selection, setSelection, folderNames } =
-    useData();
+  const {
+    posts,
+    setPosts,
+    setFolders,
+    folders,
+    selection,
+    setSelection,
+    folderNames,
+  } = useData();
+
+  const { username } = useUsername();
+  const { currentFolder } = useParams();
+
+  useEffect(() => {
+    if (folders.length) {
+      const folderID = folders.filter(({ name }) => name === currentFolder)[0]
+        .id;
+
+      fetch('/api/snipped')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    }
+  }, [folders, currentFolder]);
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -30,7 +57,6 @@ const Home = () => {
     setEditorState(value);
   }, []);
   const postSnippet = async () => {
-    console.log(editorState);
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
         ...prev,
@@ -53,25 +79,10 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    fetch('/api/snipped')
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  }, []);
-
-  const { username } = useUsername();
-
   return (
     <div className='headContainer'>
       <p>{username}</p>
-      <Folders currentFolder='default' />
+      <Folders currentFolder={currentFolder} />
       <TextEditor
         postErr={postErr}
         postSnippet={postSnippet}

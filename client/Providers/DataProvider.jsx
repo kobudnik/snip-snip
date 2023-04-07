@@ -6,8 +6,6 @@ import React, {
   useEffect,
 } from 'react';
 
-import { Outlet } from 'react-router-dom';
-
 const DataContext = createContext();
 
 export function useData() {
@@ -17,7 +15,7 @@ export function useData() {
 export function DataProvider({ children }) {
   const [posts, setPosts] = useState('');
   const [folders, setFolders] = useState(false);
-  const [selection, setSelection] = useState(null);
+  const [selectedSnips, setSelectedSnips] = useState([]);
 
   useEffect(() => {
     fetch('/api/folders')
@@ -48,16 +46,12 @@ export function DataProvider({ children }) {
       setPosts,
       folders,
       setFolders,
-      selection,
-      setSelection,
+      selectedSnips,
+      setSelectedSnips,
       usePostFolder,
     }),
-    [posts, folders, selection],
+    [posts, folders, selectedSnips],
   );
 
-  return (
-    <DataContext.Provider value={data}>
-      <Outlet />
-    </DataContext.Provider>
-  );
+  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 }

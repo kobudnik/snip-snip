@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, Outlet } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useUsername } from '../Providers/UserProvider';
 
 const Login = () => {
@@ -17,7 +17,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated && username) {
-      navigate('/home');
+      navigate('/default');
     } else if (username) {
       fetch('/api/session/checkStatus', requestOptions)
         .then((session) => {

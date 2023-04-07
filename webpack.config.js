@@ -11,7 +11,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
     host: 'localhost',
     port: 8080,
@@ -45,8 +45,19 @@ module.exports = {
         },
       },
       {
-        test: /.(css|scss)$/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
+            },
+          },
+        ],
       },
     ],
   },

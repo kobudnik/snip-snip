@@ -47,17 +47,6 @@ export default function ProtectedRoute({ children }) {
     }
   }, [username, isAuthenticated, navigate]);
 
-  // const component = (
-  //   <>
-  //     <div className='header'>
-  //       {' '}
-  //       <a href='#'>Snippets Collection</a>{' '}
-  //       <span className='welcome'>Welcome Back</span> <a href='#'>Logout</a>
-  //     </div>
-  //     <Outlet />
-  //   </>
-  // );
-
   return (
     <>
       {isAuthenticated && username ? (
