@@ -15,9 +15,7 @@ const { v4: uuidV4 } = require('uuid');
 const PORT = 3000;
 // MIDDLEWARE
 const app = express();
-
 app.use(express.json());
-
 app.use(cors());
 
 const redisClient = createClient();

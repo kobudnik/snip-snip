@@ -9,7 +9,6 @@ sessionRouter.get('/', (req, res) => {
   return res.status(200).json();
 });
 
-//
 sessionRouter.post('/checkStatus', checkSessionStatus, (req, res) => {
   return res.status(200).json({ sessionStatus: 'verified' });
 });
