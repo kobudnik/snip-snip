@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { useUsername } from '../ContextProviders/UserProvider';
+import { useUsername } from '../Providers/UserProvider';
 import Header from './Header';
-import { DataProvider } from '../ContextProviders/DataProvider.jsx';
+import { DataProvider } from '../Providers/DataProvider.jsx';
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
@@ -46,17 +46,6 @@ export default function ProtectedRoute({ children }) {
         });
     }
   }, [username, isAuthenticated, navigate]);
-
-  // const component = (
-  //   <>
-  //     <div className='header'>
-  //       {' '}
-  //       <a href='#'>Snippets Collection</a>{' '}
-  //       <span className='welcome'>Welcome Back</span> <a href='#'>Logout</a>
-  //     </div>
-  //     <Outlet />
-  //   </>
-  // );
 
   return (
     <>

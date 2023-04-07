@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
-import '../index.css';
-import { useUsername } from '../ContextProviders/UserProvider.jsx';
+import { useUsername } from '../Providers/UserProvider.jsx';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
-import { useData } from '../ContextProviders/DataProvider.jsx';
+import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
 
 const Home = () => {
@@ -15,8 +14,6 @@ const Home = () => {
     minLengthErr: false,
     networkErr: false,
   });
-
-  const [currentFolder, setCurrentFolder] = useState('');
 
   const {
     posts,
@@ -29,20 +26,13 @@ const Home = () => {
   } = useData();
 
   const { username } = useUsername();
-  const { folder } = useParams();
+  const { currentFolder } = useParams();
 
   useEffect(() => {
     if (folders.length) {
-      console.log(folders, 'preconditional');
-      console.log(folder, 'this is the folder param');
-      const folderID = folders.filter(
-        (eachFolder) => eachFolder.name === folder,
-      )[0].id;
-      console.log(folderID, 'this is the folder id!!');
-      console.log(folders);
-      console.log(folder, 'this is folder name inside useeffect');
-      const id = folders.filter((eachFolder) => eachFolder.name === folder);
-      console.log(id, 'These are posts in use effect');
+      const folderID = folders.filter(({ name }) => name === currentFolder)[0]
+        .id;
+
       fetch('/api/snipped')
         .then((res) => {
           return res.json();
@@ -54,7 +44,7 @@ const Home = () => {
           console.log(e.message);
         });
     }
-  }, [folders, folder]);
+  }, [folders, currentFolder]);
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -67,7 +57,6 @@ const Home = () => {
     setEditorState(value);
   }, []);
   const postSnippet = async () => {
-    console.log(editorState);
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
         ...prev,
@@ -93,7 +82,7 @@ const Home = () => {
   return (
     <div className='headContainer'>
       <p>{username}</p>
-      <Folders currentFolder='default' />
+      <Folders currentFolder={currentFolder} />
       <TextEditor
         postErr={postErr}
         postSnippet={postSnippet}

@@ -2,7 +2,7 @@ import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import { useData } from '../ContextProviders/DataProvider';
+import { useData } from '../Providers/DataProvider';
 
 const SavedEditors = ({ val, inputID }) => {
   const editor = (
