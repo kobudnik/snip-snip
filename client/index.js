@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Components/Header.jsx';
 import Home from './Components/Home.jsx';
 import Error from './Components/Error.jsx';
 import Signup from './Components/Signup.jsx';

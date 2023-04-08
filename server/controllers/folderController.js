@@ -46,7 +46,7 @@ folderController.deleteFolders = async (req, res, next) => {
     res.locals.remainingFolders = deleteQuery.rows;
     return next();
   } catch (e) {
-    console.log(e, 'this is a postman err');
+    console.log(e.message);
     return next({ message: e.message });
   }
 };
