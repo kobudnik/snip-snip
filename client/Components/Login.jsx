@@ -36,6 +36,7 @@ const Login = () => {
 
   const handleFocus = (e) => {
     e.target.placeholder = '';
+    setError(false);
   };
 
   const handleBlur = (e) => {
@@ -79,7 +80,7 @@ const Login = () => {
             Welcome back to Snip Snip!
           </h1>
         </div>
-        <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg'>
+        <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg '>
           <img
             className='inline-block mb-4'
             src={scissorsImage}
