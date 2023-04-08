@@ -8,23 +8,12 @@ export function useUsername() {
   return useContext(UserContext);
 }
 
-export function UserProvider({ children }) {
+export function UserProvider() {
   const [username, setUsername] = useState(
     localStorage.getItem('username') || null,
   );
 
   const [isAuthenticated, setAuthenticated] = useState(false);
-
-  // useEffect(() => {
-  //   // update state whenever local storage changes
-  //   const handleStorageChange = () => {
-  //     setUsername(localStorage.getItem('username') || '');
-  //   };
-  //   window.addEventListener('storage', handleStorageChange);
-  //   return () => {
-  //     window.removeEventListener('storage', handleStorageChange);
-  //   };
-  // }, []);
 
   const user = useMemo(
     () => ({

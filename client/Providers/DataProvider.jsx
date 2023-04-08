@@ -33,7 +33,6 @@ export function DataProvider({ children }) {
       };
       const postFolder = await fetch('/api/folders', requestOptions);
       const retrievedFolders = await postFolder.json();
-      console.log(folders, 'in folders callback');
       setFolders([...folders, retrievedFolders]);
     } catch (e) {
       console.log('error adding folder in texteditor', e.message);

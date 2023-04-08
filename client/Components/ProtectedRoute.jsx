@@ -20,12 +20,6 @@ export default function ProtectedRoute({ children }) {
   };
 
   useEffect(() => {
-    if (!isAuthenticated & !username) {
-      navigate('/');
-    }
-  }, [isAuthenticated, username]);
-
-  useEffect(() => {
     if (!username) {
       navigate('/');
     } else if (!isAuthenticated) {
@@ -45,7 +39,7 @@ export default function ProtectedRoute({ children }) {
           navigate('/');
         });
     }
-  }, [username, isAuthenticated, navigate]);
+  }, [username, isAuthenticated]);
 
   return (
     <>
