@@ -21,13 +21,11 @@ const SavedEditors = ({ val, inputID }) => {
 
   const handleCheckboxChange = (event) => {
     const checkboxId = event.target.id;
-    console.log(selectedSnips);
     if (event.target.checked) {
       setSelectedSnips([...selectedSnips, checkboxId]);
     } else {
       setSelectedSnips(selectedSnips.filter((snip) => snip !== checkboxId));
     }
-    console.log(selectedSnips, 'hello from handleboxchange');
   };
   return (
     <div className='editor-container'>
