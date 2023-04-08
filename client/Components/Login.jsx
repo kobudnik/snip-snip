@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUsername } from '../Providers/UserProvider';
+import scissorsImage from '../Images/scissors.png';
 
 const Login = () => {
   const [error, setError] = useState(false);
@@ -74,11 +75,18 @@ const Login = () => {
     <>
       <div className='bg-gray-900 flex flex-col bg-gray-900 align-center h-screen'>
         <div className='flex justify-center'>
-          <h1 className='text-5xl font-bold m-0 mt-20'>
+          <h1 className='text-5xl font-bold m-0 mt-16'>
             Welcome back to Snip Snip!
           </h1>
         </div>
-        <div className='flex flex-col items-center justify-center flex-grow pb-40'>
+        <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg'>
+          <img
+            className='inline-block mb-4'
+            src={scissorsImage}
+            alt='scissors-image'
+            height='200px'
+            width='250px'
+          />
           <form
             className='flex flex-col items-center justify-between h-60 rounded-3xl  w-96 m-0 mb-7'
             onSubmit={sendLogin}
@@ -86,7 +94,7 @@ const Login = () => {
             <input
               type='text'
               placeholder='username'
-              className='border text-center rounded-3xl py-3 my-4 w-80 outline-none'
+              className='rounded-3xl py-3 my-4 w-80 text-center outline-none'
               aria-label='login-username-input'
               name='username'
               onFocus={handleFocus}
@@ -95,14 +103,14 @@ const Login = () => {
             <input
               type='password'
               placeholder='password'
-              className='border text-center rounded-3xl py-3 mb-4 w-80 outline-none'
+              className=' rounded-3xl py-3 mb-4 w-80 text-center outline-none'
               name='password'
               aria-label='login-password-input'
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
             <button
-              className='bg-pink-500 text-white rounded-3xl  w-full h-14'
+              className='bg-pink-600 text-white text-xl rounded-xl w-full h-14 hover:bg-pink-500'
               aria-label='login-submit-button'
             >
               Sign in
@@ -110,7 +118,10 @@ const Login = () => {
           </form>
           <div className='text-white text-center'>
             New here?{' '}
-            <Link to='/signup' className='underline inline-block'>
+            <Link
+              to='/signup'
+              className='underline hover:text-gray-300 text-lg'
+            >
               Create an account
             </Link>
           </div>

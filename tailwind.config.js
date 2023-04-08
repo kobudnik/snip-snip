@@ -15,11 +15,12 @@ module.exports = {
       xl: '1280px',
       // => @media (min-width: 1280px) { ... }
     },
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+    },
     extend: {},
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
 
-  daisyui: {
-    themes: ['dark'],
-  },
+  daisyui: {},
 };
