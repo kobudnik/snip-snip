@@ -33,6 +33,14 @@ const Login = () => {
     }
   }, [isAuthenticated, username]);
 
+  const handleFocus = (e) => {
+    e.target.placeholder = '';
+  };
+
+  const handleBlur = (e) => {
+    e.target.placeholder = e.target.name;
+  };
+
   const sendLogin = async (e) => {
     e.preventDefault();
     setError(false);
@@ -64,38 +72,54 @@ const Login = () => {
   };
   return (
     <>
-      <div className='standard-body'>
-        <div className='standard-title'>
-          <h1>Welcome to Snip-Snip!</h1>
+      <div className='bg-gray-900 flex flex-col bg-gray-900 align-center h-screen'>
+        <div className='flex justify-center'>
+          <h1 className='text-5xl font-bold m-0 mt-20'>
+            Welcome back to Snip Snip!
+          </h1>
         </div>
-        <form
-          className='standard-form'
-          role='form'
-          action='/api/login'
-          onSubmit={sendLogin}
-        >
-          <input
-            className='standard-input'
-            aria-label='login-username-input'
-            placeholder='username'
-            type='text'
-            name='username'
-          />
-          <input
-            className='standard-input'
-            aria-label='login-password-input'
-            placeholder='password'
-            type='password'
-            name='password'
-          />
-          <button className='standard-button' type='submit'>
-            Submit
-          </button>
-          {error && <div>Failed to login...Please check your credentials</div>}
-        </form>
-        <Link to={'create'} id='standard-rdr'>
-          New here? Create an Account
-        </Link>
+        <div className='flex flex-col items-center justify-center flex-grow pb-40'>
+          <form
+            className='flex flex-col items-center justify-between h-60 rounded-3xl  w-96 m-0 mb-7'
+            onSubmit={sendLogin}
+          >
+            <input
+              type='text'
+              placeholder='username'
+              className='border text-center rounded-3xl py-3 my-4 w-80 outline-none'
+              aria-label='login-username-input'
+              name='username'
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <input
+              type='password'
+              placeholder='password'
+              className='border text-center rounded-3xl py-3 mb-4 w-80 outline-none'
+              name='password'
+              aria-label='login-password-input'
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <button
+              className='bg-pink-500 text-white rounded-3xl  w-full h-14'
+              aria-label='login-submit-button'
+            >
+              Sign in
+            </button>
+          </form>
+          <div className='text-white text-center'>
+            New here?{' '}
+            <Link to='/signup' className='underline inline-block'>
+              Create an account
+            </Link>
+          </div>
+          {error && (
+            <div className='text-red-400 mt-3'>
+              Failed to login... Please check your credentials.
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

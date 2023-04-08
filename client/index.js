@@ -6,7 +6,7 @@ import Signup from './Components/Signup.jsx';
 import Login from './Components/Login.jsx';
 import { UserProvider } from './Providers/UserProvider.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
-import './index.css';
+// import './index.css';
 import './input.css';
 import {
   createBrowserRouter,
@@ -20,7 +20,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<UserProvider />}>
       <Route index element={<Login />}></Route>
-      <Route path='create' element={<Signup />}></Route>
+      <Route path='signup' element={<Signup />}></Route>
       <Route element={<ProtectedRoute />}>
         <Route path=':currentFolder' element={<Home />} />
       </Route>
