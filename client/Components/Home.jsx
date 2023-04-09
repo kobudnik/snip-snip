@@ -80,7 +80,7 @@ const Home = () => {
   };
 
   return (
-    <div className='headContainer'>
+    <div className='bg-gray-900'>
       <p>{username}</p>
       <Folders currentFolder={currentFolder} />
       <TextEditor
@@ -92,7 +92,7 @@ const Home = () => {
       />
       {posts &&
         posts.map((post, i) => (
-          <div className='textBox' key={post.id.toString()}>
+          <div key={post.id.toString()}>
             <SavedEditors val={post.snippet} inputID={post.id}></SavedEditors>
           </div>
         ))}

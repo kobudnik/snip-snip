@@ -15,10 +15,14 @@ const Folders = ({ currentFolder }) => {
   );
 
   return (
-    <div className='folder-container'>
+    <div id='folder-container'>
       {allFolders &&
         filteredFolders(currentFolder).map((folderName) => (
-          <Link to={`../${folderName}`} key={uuidV4()}>
+          <Link
+            to={`../${folderName}`}
+            key={uuidV4()}
+            className='underline hover:text-gray-300 text-lg'
+          >
             {folderName}
           </Link>
         ))}

@@ -77,7 +77,7 @@ const Login = () => {
       <div className='bg-gray-900 flex flex-col bg-gray-900 align-center h-screen'>
         <div className='flex justify-center'>
           <h1 className='text-5xl font-bold m-0 mt-16'>
-            Welcome back to Snip Snip!
+            Welcome to Snip Snip!
           </h1>
         </div>
         <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg '>

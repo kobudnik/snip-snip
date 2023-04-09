@@ -8,7 +8,7 @@ const SavedEditors = ({ val, inputID }) => {
   const editor = (
     <CodeMirror
       value={val}
-      height='200px'
+      height='35vh'
       width='50vw'
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
@@ -28,11 +28,11 @@ const SavedEditors = ({ val, inputID }) => {
     }
   };
   return (
-    <div className='editor-container'>
+    <div id='editor-container' className='flex justify-center ml-5 mb-5'>
       {editor}
       <input
         type='checkbox'
-        className='checkbox'
+        className='checkbox self-center bg-gray-300 ml-1 '
         id={inputID}
         onChange={handleCheckboxChange}
       ></input>
