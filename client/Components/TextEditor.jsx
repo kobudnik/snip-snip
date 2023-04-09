@@ -27,10 +27,7 @@ const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
   );
 
   return (
-    <div
-      id='textBox'
-      className='flex flex-col items-center justify-center ml-5'
-    >
+    <div id='textBox' className='flex flex-col items-center justify-center'>
       {editor}
       <button
         data-te-ripple-init
@@ -52,15 +49,15 @@ const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
       </button>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
       {postErr.minLengthErr && <div> Minimum 3 chars </div>}
-      <label
+      {/* <label
         htmlFor='actions'
-        className='mb-2 text-sm font-medium text-gray-900 dark:text-white'
+        className='mb-2 text-sm font-medium text-xl text-gray-900 dark:text-white'
       >
         Select an option
-      </label>
+      </label> */}
       <select
         id='actions'
-        className='focus:outline-none inline-block w-[30vw] bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
+        className='focus:outline-none inline-block w-1/4 text-xl bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
       >
         <option value=''>--Select an action--</option>
         <option value='PUT'>Move snippet</option>

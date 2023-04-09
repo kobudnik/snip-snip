@@ -10,7 +10,7 @@ export function useUsername() {
 
 export function UserProvider() {
   const [username, setUsername] = useState(
-    localStorage.getItem('username') || null,
+    localStorage.getItem('username') || '',
   );
 
   const [isAuthenticated, setAuthenticated] = useState(false);

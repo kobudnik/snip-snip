@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import { useUsername } from '../Providers/UserProvider.jsx';
-import { Link, useParams } from 'react-router-dom';
-import { v4 as uuidV4 } from 'uuid';
+import { useParams } from 'react-router-dom';
 import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
 
@@ -31,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     if (folders.length) {
       const folderID = folders.filter(({ name }) => name === currentFolder)[0]
-        .id;
+        ?.id;
 
       fetch('/api/snipped')
         .then((res) => {
