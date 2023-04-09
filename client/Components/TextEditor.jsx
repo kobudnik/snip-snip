@@ -6,7 +6,14 @@ import { java } from '@codemirror/lang-java';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider.jsx';
 
-const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
+const TextEditor = ({
+  editorState,
+  handleChange,
+  handleFocus,
+  postSnippet,
+  postErr,
+  reset,
+}) => {
   const { usePostFolder } = useData();
 
   const editor = (
@@ -22,7 +29,8 @@ const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
       ]}
       theme={dracula}
       placeholder='Give me your code.'
-      onChange={onChange}
+      onChange={handleChange}
+      onFocus={handleFocus}
     />
   );
 
@@ -57,7 +65,7 @@ const TextEditor = ({ editorState, onChange, postSnippet, postErr, reset }) => {
       </label> */}
       <select
         id='actions'
-        className='focus:outline-none inline-block w-1/4 text-xl bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
+        className='focus:outline-none inline-block w-1/4 text-xl bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
       >
         <option value=''>--Select an action--</option>
         <option value='PUT'>Move snippet</option>

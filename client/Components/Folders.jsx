@@ -15,7 +15,7 @@ const Folders = ({ currentFolder }) => {
   );
 
   return (
-    <div id='folder-container'>
+    <div id='folder-container' className='bg-yellow-300 w-1/5'>
       {allFolders &&
         filteredFolders(currentFolder).map((folderName) => (
           <Link

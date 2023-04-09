@@ -139,9 +139,16 @@ const Login = () => {
 
 export default Login;
 
-//need to automatically add default folder every time new user is created and insert it in database folders table automatically (trigger function)
 //need to update addfolders fetch to grab name from an input and submit it.
 //same for delete
 //then need to add a get to get all the folders and display them and store in state
 //on click will go to the nested route
 //where we will display all the snippets for that folder in state
+
+//4/8 : basically need to style the folders and buttons. need to create state based on the selection of the dropdown
+//createfolder -> new input to type folder name and submit
+//move snippet -> put to update the db and return all the values of the updated folder
+// update the get snippets function to only get snippet of current folder , (where id = req.query.id)
+// add x's next to folders to delete folder. have popup appear to ask if user is sure (all snippets inside will be deleted permanently)
+//probably style the header to look a bit nicer
+//and maybe use drawer for the folders

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import { useUsername } from '../Providers/UserProvider.jsx';
@@ -52,9 +52,13 @@ const Home = () => {
     setPostErr(false);
   };
 
-  const onChange = useCallback((value, viewUpdate) => {
+  const handleChange = useCallback((value, viewUpdate) => {
     setEditorState(value);
   }, []);
+
+  const handleFocus = useCallback(() =>
+    setPostErr({ minLengthErr: false, networkErr: false }),
+  );
   const postSnippet = async () => {
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
@@ -85,7 +89,8 @@ const Home = () => {
       <TextEditor
         postErr={postErr}
         postSnippet={postSnippet}
-        onChange={onChange}
+        handleChange={handleChange}
+        handleFocus={handleFocus}
         posts={posts}
         reset={resetEditor}
       />
