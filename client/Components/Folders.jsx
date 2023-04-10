@@ -8,7 +8,7 @@ const Folders = ({ current_folder }) => {
 
   return (
     <div id='folder-container' className='w-1/5 mt-60 fixed font-poppins'>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center h-80  overflow-y-scroll'>
         {folders.length > 1 && (
           <span className='text-xl font-bold mb-2'>Your folders:</span>
         )}

@@ -41,7 +41,10 @@ const Actions = () => {
   const { current_folder } = useParams();
 
   const postMethods = {
-    ADD: () => usePostFolder(new_folder),
+    ADD: () => {
+      usePostFolder(new_folder);
+      setAction('');
+    },
     DELETE: () => handleDeletedSnips(selectedSnips),
   };
 
@@ -69,6 +72,7 @@ const Actions = () => {
       onFocus={handleFocus}
       onBlur={handleBlur}
       onChange={handleFolderChange}
+      value={new_folder}
     />
   );
 
@@ -131,7 +135,7 @@ hover:bg-green-600'
 
         {action === 'DELETE' && folder_select}
       </div>
-      {submitButton}
+      {action && submitButton}
     </div>
   );
 };
