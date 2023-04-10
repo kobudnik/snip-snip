@@ -3,7 +3,8 @@ import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const { usePostFolder, useFiltered } = useData();
+  const { usePostFolder, useFiltered, selectedSnips, posts, setPosts } =
+    useData();
   const [action, setAction] = useState('');
   const [chosen_folder, setChosen] = useState(0);
   const [new_folder, setNew] = useState('');
@@ -18,10 +19,30 @@ const Actions = () => {
     console.log(action);
   };
 
+  const handleDeletedSnips = async (event) => {
+    try {
+      const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ snip_ids: selectedSnips }),
+      };
+      const deleteSnips = await fetch('/api/snipped', requestOptions);
+      if (!deleteSnips.ok) {
+        throw { message: 'Unable to delete snippets' };
+      }
+      const updated_list = await deleteSnips.json();
+      console.log('this is the updated list');
+      setPosts(updated_list);
+    } catch (e) {
+      console.log('error deleting snippets in texteditor', e.message);
+    }
+  };
+
   const { current_folder } = useParams();
 
   const postMethods = {
     ADD: () => usePostFolder(new_folder),
+    DELETE: () => handleDeletedSnips(selectedSnips),
   };
 
   const available_folders = useFiltered(current_folder);

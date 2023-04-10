@@ -20,7 +20,7 @@ const SavedEditors = ({ val, id }) => {
   const { selectedSnips, setSelectedSnips } = useData();
 
   const handleCheckboxChange = (event) => {
-    const checkboxId = event.target.id;
+    const checkboxId = Number(event.target.id);
     if (event.target.checked) {
       setSelectedSnips([...selectedSnips, checkboxId]);
     } else {

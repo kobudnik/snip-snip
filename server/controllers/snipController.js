@@ -31,9 +31,26 @@ snipController.getSnips = async (req, res, next) => {
 snipController.deleteSnip = async (req, res, next) => {
   try {
     //for testing. will modify to allow for multiple snips to be deleted at any one time later on
-    const params = [11];
-    const text = 'DELETE FROM snippets WHERE id = ($1) RETURNING *';
-    const inserted = await db.query(text, params);
+    const { snip_ids } = req.body;
+
+    console.log(snip_ids, 'these are the snip ids');
+    if (!snip_ids || snip_ids.length === 0)
+      throw { message: 'No snips provided' };
+    const params = snip_ids;
+
+    const text = `
+    WITH deleted_snips AS (
+      DELETE FROM snippets WHERE id = ANY($1) RETURNING id, folder_id
+    )
+    SELECT * FROM snippets 
+    WHERE folder_id IN (SELECT folder_id FROM deleted_snips)
+      AND id NOT IN (SELECT id FROM deleted_snips);
+    
+  `;
+
+    const remainingSnips = await db.query(text, [params]);
+    console.log(remainingSnips, 'these are the remainders');
+    res.locals.remaining_snips = remainingSnips.rows;
     return next();
   } catch (e) {
     return next({ message: 'Error in Delete Snip Middleware', e });

@@ -11,8 +11,6 @@ snippedRouter.get('/:folder_id', snipController.getSnips, (req, res) => {
 });
 
 snippedRouter.delete('/', snipController.deleteSnip, (req, res) => {
-  return res
-    .status(200)
-    .json('deletion works, need to return all snips remaining in folder later');
+  return res.status(200).json(res.locals.remaining_snips);
 });
 module.exports = snippedRouter;
