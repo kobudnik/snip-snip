@@ -139,6 +139,9 @@ const Login = () => {
 
 export default Login;
 
+//410 need to remove ability to double post folder w same name
+//migrate post state to object for easy id retrieval
+
 //need to update addfolders fetch to grab name from an input and submit it.
 //same for delete
 //then need to add a get to get all the folders and display them and store in state

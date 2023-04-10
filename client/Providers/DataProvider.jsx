@@ -31,10 +31,11 @@ export function DataProvider({ children }) {
   const usePostFolder = useCallback(
     async (folder_name) => {
       try {
+        const parsed_name = folder_name.replace(/[?]/g, '').trim();
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ folder_name }),
+          body: JSON.stringify({ folder_name: parsed_name }),
         };
         const postFolder = await fetch('/api/folders', requestOptions);
         const retrievedFolders = await postFolder.json();
