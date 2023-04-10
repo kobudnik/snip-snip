@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
-import { useUsername } from '../Providers/UserProvider.jsx';
 import { useParams } from 'react-router-dom';
 import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
@@ -84,24 +83,26 @@ const Home = () => {
   }, [folders, currentFolder]);
 
   return (
-    <div className='bg-gray-900 grow mt-20'>
-      <Folders currentFolder={currentFolder} />
-      <TextEditor
-        postErr={postErr}
-        postSnippet={postSnippet}
-        handleChange={handleChange}
-        handleFocus={handleFocus}
-        posts={posts}
-        reset={resetEditor}
-      />
-      {posts.length
-        ? posts.map((post, i) => (
-            <div key={post.id.toString()}>
-              <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
-            </div>
-          ))
-        : null}
-    </div>
+    <>
+      <div className='bg-gray-900 grow mt-20 flex flex-col '>
+        <Folders currentFolder={currentFolder} />
+        <TextEditor
+          postErr={postErr}
+          postSnippet={postSnippet}
+          handleChange={handleChange}
+          handleFocus={handleFocus}
+          posts={posts}
+          reset={resetEditor}
+        />
+        {posts.length
+          ? posts.map((post, i) => (
+              <div key={post.id.toString()}>
+                <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
+              </div>
+            ))
+          : null}
+      </div>
+    </>
   );
 };
 
