@@ -21,7 +21,7 @@ const router = createBrowserRouter(
       <Route index element={<Login />}></Route>
       <Route path='signup' element={<Signup />}></Route>
       <Route element={<ProtectedRoute />}>
-        <Route path=':currentFolder' element={<Home />} />
+        <Route path=':current_folder' element={<Home />} />
       </Route>
     </Route>,
   ),

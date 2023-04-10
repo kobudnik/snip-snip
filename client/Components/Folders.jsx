@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 
-const Folders = ({ currentFolder }) => {
-  const { folders } = useData();
-
-  const filteredFolders = useCallback(
-    (ignoredFolder) =>
-      folders.filter((folder) => folder.name !== ignoredFolder),
-    [folders],
-  );
+const Folders = ({ current_folder }) => {
+  const { folders, useFiltered } = useData();
 
   return (
     <div id='folder-container' className='w-1/5 mt-60 fixed font-poppins'>
@@ -19,11 +13,10 @@ const Folders = ({ currentFolder }) => {
           <span className='text-xl font-bold mb-2'>Your folders:</span>
         )}
         {folders.length > 0 &&
-          filteredFolders(currentFolder).map(({ name, id }) => (
-            <div>
+          useFiltered(current_folder).map(({ name, id }) => (
+            <div key={uuidV4()}>
               <Link
                 to={`../${name}`}
-                key={uuidV4()}
                 className='text-orange-800 hover:text-gray-500 text-lg no-underline hover:underline inline-block mb-4'
               >
                 {name === 'default' ? 'Home' : name}

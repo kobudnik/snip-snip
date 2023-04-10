@@ -23,7 +23,7 @@ const Home = () => {
     folderNames,
   } = useData();
 
-  const { currentFolder } = useParams();
+  const { current_folder } = useParams();
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -41,7 +41,7 @@ const Home = () => {
   );
 
   const postSnippet = useCallback(async () => {
-    const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
+    const folder_id = folders.filter(({ name }) => name === current_folder)[0]
       ?.id;
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
@@ -63,11 +63,11 @@ const Home = () => {
       setPostErr({ minLengthErr: false, networkErr: false });
       resetEditor();
     }
-  }, [editorState, currentFolder]);
+  }, [editorState, current_folder]);
 
   useEffect(() => {
     if (folders.length) {
-      const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
+      const folder_id = folders.filter(({ name }) => name === current_folder)[0]
         ?.id;
       fetch(`/api/snipped/${folder_id}`)
         .then((res) => {
@@ -80,12 +80,12 @@ const Home = () => {
           console.log(e.message);
         });
     }
-  }, [folders, currentFolder]);
+  }, [folders, current_folder]);
 
   return (
     <>
       <div className='bg-gray-900 grow mt-20 flex flex-col '>
-        <Folders currentFolder={currentFolder} />
+        <Folders current_folder={current_folder} />
         <TextEditor
           postErr={postErr}
           postSnippet={postSnippet}
