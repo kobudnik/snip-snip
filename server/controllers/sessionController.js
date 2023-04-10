@@ -17,7 +17,7 @@ sessionController.veryifyUser = async (req, res, next) => {
     const decrypt = await bcrypt.compare(password, hashPass);
 
     if (decrypt) {
-      req.session.userID = user.id;
+      req.session.user_id = user.id;
       req.session.username = user.username;
       res.locals.username = username;
       return next();

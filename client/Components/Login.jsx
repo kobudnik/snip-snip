@@ -74,7 +74,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className='bg-gray-900 flex flex-col bg-gray-900 align-center h-screen'>
+      <div className='bg-gray-900 flex flex-col align-center h-screen'>
         <div className='flex justify-center'>
           <h1 className='text-5xl font-bold m-0 mt-16'>
             Welcome to Snip Snip!
@@ -152,3 +152,5 @@ export default Login;
 // add x's next to folders to delete folder. have popup appear to ask if user is sure (all snippets inside will be deleted permanently)
 //probably style the header to look a bit nicer
 //and maybe use drawer for the folders
+//oh and need to implement error routes for folders that don't exist.
+//and regular error routes too

@@ -29,10 +29,9 @@ const Home = () => {
 
   useEffect(() => {
     if (folders.length) {
-      const folderID = folders.filter(({ name }) => name === currentFolder)[0]
+      const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
         ?.id;
-
-      fetch('/api/snipped')
+      fetch(`/api/snipped/${folder_id}`)
         .then((res) => {
           return res.json();
         })
@@ -59,7 +58,10 @@ const Home = () => {
   const handleFocus = useCallback(() =>
     setPostErr({ minLengthErr: false, networkErr: false }),
   );
-  const postSnippet = async () => {
+
+  const postSnippet = useCallback(async () => {
+    const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
+      ?.id;
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
         ...prev,
@@ -70,7 +72,7 @@ const Home = () => {
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ snippet: editorState }),
+      body: JSON.stringify({ folder_id, snippet: editorState }),
     });
     if (posted.status >= 400) {
       setPostErr(true);
@@ -80,10 +82,10 @@ const Home = () => {
       setPostErr({ minLengthErr: false, networkErr: false });
       resetEditor();
     }
-  };
+  }, [editorState, currentFolder]);
 
   return (
-    <div className='bg-gray-900'>
+    <div className='bg-gray-900 bg-cover flex-grow'>
       <p>{username}</p>
       <Folders currentFolder={currentFolder} />
       <TextEditor
@@ -94,12 +96,13 @@ const Home = () => {
         posts={posts}
         reset={resetEditor}
       />
-      {posts &&
-        posts.map((post, i) => (
-          <div key={post.id.toString()}>
-            <SavedEditors val={post.snippet} inputID={post.id}></SavedEditors>
-          </div>
-        ))}
+      {posts.length
+        ? posts.map((post, i) => (
+            <div key={post.id.toString()}>
+              <SavedEditors val={post.snippet} inputID={post.id}></SavedEditors>
+            </div>
+          ))
+        : null}
     </div>
   );
 };

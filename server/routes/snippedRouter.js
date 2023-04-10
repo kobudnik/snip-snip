@@ -6,7 +6,7 @@ snippedRouter.post('/', snipController.addSnip, (req, res) => {
   return res.status(200).json(res.locals.snipSuccess);
 });
 
-snippedRouter.get('/', snipController.getSnips, (req, res) => {
+snippedRouter.get('/:folder_id', snipController.getSnips, (req, res) => {
   return res.status(200).json(res.locals.allSnips);
 });
 

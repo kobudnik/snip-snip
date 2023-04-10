@@ -5,8 +5,8 @@ const folderController = {};
 folderController.addFolder = async (req, res, next) => {
   try {
     // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    if (!req.body.folderName) throw { message: 'No folder name provided' };
-    const params = [req.session.userID, req.body.folderName];
+    if (!req.body.folder_name) throw { message: 'No folder name provided' };
+    const params = [req.session.user_id, req.body.folder_name];
     const text =
       'INSERT INTO folders (user_id, name) VALUES ($1, $2) RETURNING *';
 
@@ -20,8 +20,7 @@ folderController.addFolder = async (req, res, next) => {
 
 folderController.getAllFolders = async (req, res, next) => {
   try {
-    // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    const params = [req.session.userID];
+    const params = [req.session.user_id];
     const text = 'SELECT * FROM folders WHERE user_id = ($1)';
     const retrieveQuery = await db.query(text, params);
     res.locals.allFolders = retrieveQuery.rows;

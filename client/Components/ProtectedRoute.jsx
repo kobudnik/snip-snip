@@ -46,8 +46,9 @@ export default function ProtectedRoute({ children }) {
       {isAuthenticated && username ? (
         <>
           <DataProvider>
-            <Header />
-            <Outlet />
+            <Header>
+              <Outlet />
+            </Header>
           </DataProvider>
         </>
       ) : null}

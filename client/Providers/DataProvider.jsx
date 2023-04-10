@@ -13,8 +13,8 @@ export function useData() {
 }
 
 export function DataProvider({ children }) {
-  const [posts, setPosts] = useState('');
-  const [folders, setFolders] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [folders, setFolders] = useState([]);
   const [selectedSnips, setSelectedSnips] = useState([]);
 
   useEffect(() => {
@@ -24,12 +24,12 @@ export function DataProvider({ children }) {
         setFolders(folders);
       });
   }, []);
-  const usePostFolder = async (folderName) => {
+  const usePostFolder = async (folder_name) => {
     try {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ folderName: 'josiah' }),
+        body: JSON.stringify({ folder_name: 'messiah' }),
       };
       const postFolder = await fetch('/api/folders', requestOptions);
       const retrievedFolders = await postFolder.json();

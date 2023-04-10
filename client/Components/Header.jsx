@@ -15,9 +15,9 @@ const Header = ({ children }) => {
     } catch (e) {
       console.log(e.message);
     }
-  }, [setAuthenticated]);
+  }, []);
   return (
-    <>
+    <div className='flex flex-col h-screen'>
       <div className='flex justify-between bg-yellow-800 h-24 items-center'>
         <a className='inline-block ml-10' href='#'>
           Snippets Collection
@@ -27,7 +27,8 @@ const Header = ({ children }) => {
           Logout
         </button>
       </div>
-    </>
+      {children}
+    </div>
   );
 };
 
