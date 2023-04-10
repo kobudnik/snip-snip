@@ -26,23 +26,6 @@ const Home = () => {
 
   const { currentFolder } = useParams();
 
-  useEffect(() => {
-    if (folders.length) {
-      const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
-        ?.id;
-      fetch(`/api/snipped/${folder_id}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          setPosts(data);
-        })
-        .catch((e) => {
-          console.log(e.message);
-        });
-    }
-  }, [folders, currentFolder]);
-
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
     const arrayed = Array.from(lines);
@@ -82,6 +65,23 @@ const Home = () => {
       resetEditor();
     }
   }, [editorState, currentFolder]);
+
+  useEffect(() => {
+    if (folders.length) {
+      const folder_id = folders.filter(({ name }) => name === currentFolder)[0]
+        ?.id;
+      fetch(`/api/snipped/${folder_id}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    }
+  }, [folders, currentFolder]);
 
   return (
     <div className='bg-gray-900 grow mt-20'>

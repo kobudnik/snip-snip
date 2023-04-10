@@ -29,7 +29,10 @@ const Header = ({ children }) => {
           <img src={scissorsImage} alt='scissors-icon' className='h-16 w-16' />
           <span className='username ml-7'>{username} </span>
         </div>
-        <button className='inline-block pr-10' onClick={logout}>
+        <button
+          className='inline-block pr-10 hover:text-gray-800'
+          onClick={logout}
+        >
           Logout
         </button>
       </div>

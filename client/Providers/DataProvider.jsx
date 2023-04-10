@@ -4,6 +4,7 @@ import React, {
   useContext,
   useMemo,
   useEffect,
+  useCallback,
 } from 'react';
 
 const DataContext = createContext();
@@ -24,7 +25,7 @@ export function DataProvider({ children }) {
         setFolders(folders);
       });
   }, []);
-  const usePostFolder = async (folder_name) => {
+  const usePostFolder = useCallback(async (folder_name) => {
     try {
       const requestOptions = {
         method: 'POST',
@@ -37,7 +38,7 @@ export function DataProvider({ children }) {
     } catch (e) {
       console.log('error adding folder in texteditor', e.message);
     }
-  };
+  }, folders);
 
   const data = useMemo(
     () => ({

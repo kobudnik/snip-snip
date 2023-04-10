@@ -16,33 +16,6 @@ const Login = () => {
     body: JSON.stringify({ username: username }),
   };
 
-  useEffect(() => {
-    if (isAuthenticated && username) {
-      navigate('/default');
-    } else if (username) {
-      fetch('/api/session/checkStatus', requestOptions)
-        .then((session) => {
-          if (!session.ok) {
-            throw { message: 'HTTP error, status = ' + session.status };
-          } else {
-            setAuthenticated(true);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, [isAuthenticated, username]);
-
-  const handleFocus = (e) => {
-    e.target.placeholder = '';
-    setError(false);
-  };
-
-  const handleBlur = (e) => {
-    e.target.placeholder = e.target.name;
-  };
-
   const sendLogin = async (e) => {
     e.preventDefault();
     setError(false);
@@ -71,6 +44,33 @@ const Login = () => {
       console.log(e.message);
       setError(true);
     }
+
+    const handleFocus = (e) => {
+      e.target.placeholder = '';
+      setError(false);
+    };
+
+    const handleBlur = (e) => {
+      e.target.placeholder = e.target.name;
+    };
+
+    useEffect(() => {
+      if (isAuthenticated && username) {
+        navigate('/default');
+      } else if (username) {
+        fetch('/api/session/checkStatus', requestOptions)
+          .then((session) => {
+            if (!session.ok) {
+              throw { message: 'HTTP error, status = ' + session.status };
+            } else {
+              setAuthenticated(true);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }, [isAuthenticated, username]);
   };
   return (
     <>
