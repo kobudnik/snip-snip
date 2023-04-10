@@ -22,6 +22,7 @@ const TextEditor = ({
       value={editorState}
       height='25vh'
       width='50vw'
+      fontSize='24'
       extensions={[
         javascript({ jsx: true, typescript: true }),
         python(),
@@ -35,26 +36,31 @@ const TextEditor = ({
   );
 
   return (
-    <div id='textBox' className='flex flex-col items-center justify-center'>
+    <div
+      id='textBox'
+      className='flex flex-col items-center justify-center mt-8'
+    >
       {editor}
-      <button
-        data-te-ripple-init
-        data-te-ripple-color='light'
-        className='inline-block w-40 px-6
+      <div className='flex justify-around mt-3'>
+        <button
+          data-te-ripple-init
+          data-te-ripple-color='light'
+          className='inline-block w-40 px-6 mr-2
         py-2 text-sm font-medium text-center rounded text-white bg-green-700
         hover:bg-green-600'
-        onClick={postSnippet}
-      >
-        SAVE
-      </button>
-      <button
-        data-te-ripple-init
-        data-te-ripple-color='light'
-        className='w-40 px-6 py-2 text-sm font-medium text-center rounded text-rose-100 bg-rose-600 hover:bg-rose-500'
-        onClick={reset}
-      >
-        Reset
-      </button>
+          onClick={postSnippet}
+        >
+          SAVE
+        </button>
+        <button
+          data-te-ripple-init
+          data-te-ripple-color='light'
+          className='w-40 px-6 py-2 text-sm font-medium text-center rounded text-rose-100 bg-rose-400 hover:bg-rose-300'
+          onClick={reset}
+        >
+          Reset
+        </button>
+      </div>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
       {postErr.minLengthErr && <div> Minimum 3 chars </div>}
       {/* <label
@@ -65,19 +71,14 @@ const TextEditor = ({
       </label> */}
       <select
         id='actions'
-        className='focus:outline-none inline-block w-1/4 text-xl bg-gray-50 text-center border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
+        className='focus:outline-none  w-1/4 text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
       >
         <option value=''>--Select an action--</option>
         <option value='PUT'>Move snippet</option>
 
         <option value='DELETE'>Delete</option>
       </select>
-      {/* <label htmlFor='dropdown'>Select an option:</label>
-      
-      <select id='dropdown' name='dropdown'>
-        <option value=''>--Select--</option>
-        <option value='delete'>Delete</option>
-      </select> */}
+
       <button
         data-te-ripple-init
         data-te-ripple-color='light'
@@ -86,7 +87,7 @@ const TextEditor = ({
         hover:bg-green-600'
         onClick={usePostFolder}
       >
-        ADD A NEW FOLDER BOYO
+        Submit
       </button>
     </div>
   );

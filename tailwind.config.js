@@ -17,6 +17,7 @@ module.exports = {
     },
     fontFamily: {
       poppins: ['Poppins', 'sans-serif'],
+      sans: ['Trebuchet MS', 'sans-serif'],
     },
     extend: {},
   },

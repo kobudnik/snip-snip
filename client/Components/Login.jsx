@@ -148,9 +148,7 @@ export default Login;
 //4/8 : basically need to style the folders and buttons. need to create state based on the selection of the dropdown
 //createfolder -> new input to type folder name and submit
 //move snippet -> put to update the db and return all the values of the updated folder
-// update the get snippets function to only get snippet of current folder , (where id = req.query.id)
 // add x's next to folders to delete folder. have popup appear to ask if user is sure (all snippets inside will be deleted permanently)
 //probably style the header to look a bit nicer
-//and maybe use drawer for the folders
 //oh and need to implement error routes for folders that don't exist.
 //and regular error routes too

@@ -24,7 +24,6 @@ const Home = () => {
     folderNames,
   } = useData();
 
-  const { username } = useUsername();
   const { currentFolder } = useParams();
 
   useEffect(() => {
@@ -85,8 +84,7 @@ const Home = () => {
   }, [editorState, currentFolder]);
 
   return (
-    <div className='bg-gray-900 bg-cover flex-grow'>
-      <p>{username}</p>
+    <div className='bg-gray-900 grow mt-20'>
       <Folders currentFolder={currentFolder} />
       <TextEditor
         postErr={postErr}
@@ -99,7 +97,7 @@ const Home = () => {
       {posts.length
         ? posts.map((post, i) => (
             <div key={post.id.toString()}>
-              <SavedEditors val={post.snippet} inputID={post.id}></SavedEditors>
+              <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
             </div>
           ))
         : null}

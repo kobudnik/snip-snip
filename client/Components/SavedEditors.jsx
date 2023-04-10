@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
-const SavedEditors = ({ val, inputID }) => {
+const SavedEditors = ({ val, id }) => {
   const editor = (
     <CodeMirror
       value={val}
@@ -33,7 +33,7 @@ const SavedEditors = ({ val, inputID }) => {
       <input
         type='checkbox'
         className='checkbox self-center bg-gray-300 ml-1 '
-        id={inputID}
+        id={id}
         onChange={handleCheckboxChange}
       ></input>
     </div>

@@ -46,7 +46,7 @@ const Signup = () => {
   };
   return (
     <>
-      <div className='bg-black flex flex-col bg-gray-800 align-center h-screen'>
+      <div className='flex flex-col bg-gray-800 align-center h-screen'>
         <div className='flex justify-center'>
           <h1 className='text-5xl font-poppins font-bold m-0 mt-16  text-gray-300'>
             Create your account.
@@ -98,7 +98,7 @@ const Signup = () => {
           </form>
           <Link
             to={'/'}
-            className='font-poppins text-white text-3xl text-white inline-block mb-11 mt-4 hover:text-blue-400'
+            className='font-poppins text-3xl text-white inline-block mb-11 mt-4 hover:text-blue-400'
           >
             {' '}
             Go Back
