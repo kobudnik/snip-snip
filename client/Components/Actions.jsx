@@ -66,7 +66,7 @@ const Actions = () => {
     <input
       type='text'
       placeholder='folder name'
-      className='rounded-3xl py-3 my-4 w-48 text-center outline-none'
+      className='rounded-3xl py-3 w-48 text-center outline-none'
       aria-label='login-username-input'
       name='folder_name'
       onFocus={handleFocus}
@@ -80,7 +80,7 @@ const Actions = () => {
     <>
       <label
         htmlFor='folder-selector'
-        className='block font-medium text-gray-700'
+        className='block font-medium text-yellow-500'
       >
         Select a folder:
       </label>
@@ -107,8 +107,8 @@ const Actions = () => {
       data-te-ripple-init
       data-te-ripple-color='light'
       className='w-40 px-6 block
-py-2 text-sm font-medium text-center rounded text-white bg-green-700
-hover:bg-green-600'
+py-4 text-sm font-medium text-center rounded text-white bg-green-800
+hover:bg-green-700 mt-4'
       onClick={() => postMethods[action]()}
     >
       Submit
@@ -117,25 +117,27 @@ hover:bg-green-600'
 
   return (
     <div className='right-24 fixed top-1/4'>
-      <select
-        id='action-selector'
-        className='focus:outline-none text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
-        onChange={handleActionChange}
-        value={action}
-      >
-        <option value=''>Select an option</option>
-        <option value='ADD'>Create Folder</option>
-        <option value='MOVE'>Move snippet</option>
-        <option value='DELETE'>Delete</option>
-      </select>
-      <div>
-        {action === 'ADD' && folder_input}
+      <div className='flex flex-col items-center'>
+        <select
+          id='action-selector'
+          className='focus:outline-none mb-4 text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
+          onChange={handleActionChange}
+          value={action}
+        >
+          <option value=''>Select an option</option>
+          <option value='ADD'>Create Folder</option>
+          <option value='MOVE'>Move snippet</option>
+          <option value='DELETE'>Delete</option>
+        </select>
+        <div>
+          {action === 'ADD' && folder_input}
 
-        {action === 'MOVE' && folder_select}
+          {action === 'MOVE' && folder_select}
 
-        {action === 'DELETE' && folder_select}
+          {action === 'DELETE' && folder_select}
+        </div>
+        {action && submitButton}
       </div>
-      {action && submitButton}
     </div>
   );
 };
