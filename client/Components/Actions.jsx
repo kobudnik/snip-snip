@@ -1,24 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const {
-    usePostFolder,
-    useFiltered,
-    selectedSnips,
-    posts,
-    setPosts,
-    folders,
-  } = useData();
+  const { usePostFolder, useFiltered, selectedSnips, setPosts, folders } =
+    useData();
   const [action, setAction] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('');
   const [newFolder, setNewFolder] = useState('');
 
-  const handleActionChange = (event) => {
+  const handleActionChange = useCallback((event) => {
     setAction(event.target.value);
-    console.log(action);
-  };
+  });
 
   const handleSelectedFolder = (event) => {
     const selected =
@@ -26,7 +19,7 @@ const Actions = () => {
     setSelectedFolder(selected);
   };
 
-  const handleDeletedSnips = async (event) => {
+  const handleDeletedSnips = useCallback(async () => {
     try {
       const requestOptions = {
         method: 'DELETE',
@@ -38,34 +31,36 @@ const Actions = () => {
         throw { message: 'Unable to delete snippets' };
       }
       const updatedList = await deleteSnips.json();
-      console.log('this is the updated list');
       setPosts(updatedList);
     } catch (e) {
       console.log('error deleting snippets in texteditor', e.message);
     }
-  };
+  }, [selectedSnips]);
 
-  const handleMoveSnips = async (selectedName) => {
-    try {
-      const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          snipIDs: selectedSnips,
-          newFolderID: folders[selectedName],
-          folderID: folders[currentFolder],
-        }),
-      };
-      const moveSnips = await fetch('/api/snipped', requestOptions);
-      if (!moveSnips.ok) {
-        throw { message: 'Unable to move snippets' };
+  const handleMoveSnips = useCallback(
+    async (selectedName) => {
+      try {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            snipIDs: selectedSnips,
+            newFolderID: folders[selectedName],
+            folderID: folders[currentFolder],
+          }),
+        };
+        const moveSnips = await fetch('/api/snipped', requestOptions);
+        if (!moveSnips.ok) {
+          throw { message: 'Unable to move snippets' };
+        }
+        const updatedList = await moveSnips.json();
+        setPosts(updatedList);
+      } catch (e) {
+        console.log('error moving snippets to new folder', e.message);
       }
-      const updatedList = await moveSnips.json();
-      setPosts(updatedList);
-    } catch (e) {
-      console.log('error moving snippets to new folder', e.message);
-    }
-  };
+    },
+    [selectedSnips, folders, currentFolder],
+  );
 
   const { currentFolder } = useParams();
 
@@ -86,17 +81,17 @@ const Actions = () => {
     },
   };
 
-  const handleFocus = (e) => {
+  const handleFocus = useCallback((e) => {
     e.target.placeholder = '';
-  };
+  });
 
-  const handleBlur = (e) => {
+  const handleBlur = useCallback((e) => {
     e.target.placeholder = e.target.name;
-  };
+  });
 
-  const handleFolderChange = (e) => {
+  const handleFolderChange = useCallback((e) => {
     setNewFolder(e.target.value);
-  };
+  });
 
   const folderInput = (
     <input
