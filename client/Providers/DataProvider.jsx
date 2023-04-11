@@ -15,31 +15,35 @@ export function useData() {
 
 export function DataProvider({ children }) {
   const [posts, setPosts] = useState([]);
-  const [folders, setFolders] = useState([]);
-  const [availableFolders, setAvailable] = useState([]);
-  const [selectedSnips, setSelectedSnips] = useState([]);
+  const [folders, setFolders] = useState({});
+  const [selected_snips, setSelected] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/folders')
-      .then((res) => res.json())
-      .then((folders) => {
-        setFolders(folders);
-        console.log(folders, 'these are the folders');
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/folders')
+  //     .then((res) => res.json())
+  //     .then((all_folders) => {
+  //       if (all_folders.length) {
+  //         const folderObj = {};
+  //         all_folders.forEach(({ name, id }) => (folderObj[name] = id));
+  //         setFolders(folderObj);
+  //         console.log(folders, 'these are the folders');
+  //       }
+  //     });
+  // }, []);
 
   const usePostFolder = useCallback(
     async (folder_name) => {
       try {
         const parsed_name = folder_name.replace(/[?]/g, '').trim();
+        if (parsed_name in folders) throw { message: 'Folder already exists' };
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ folder_name: parsed_name }),
         };
         const postFolder = await fetch('/api/folders', requestOptions);
-        const retrievedFolders = await postFolder.json();
-        setFolders([...folders, retrievedFolders]);
+        const { name, id } = await postFolder.json();
+        setFolders((prev) => ({ ...prev, [name]: id }));
       } catch (e) {
         console.log('error adding folder in texteditor', e.message);
       }
@@ -57,8 +61,14 @@ export function DataProvider({ children }) {
         };
         const postFolder = await fetch('/api/folders', requestOptions);
         if (!postFolder.ok) throw { message: 'Problem deleting your folder' };
-        const retrievedFolders = await postFolder.json();
-        setFolders(retrievedFolders);
+        const updated_list = await postFolder.json();
+        const new_folders_list = {};
+        updated_list.forEach(
+          ({ name: folder_name, id: folder_id }) =>
+            (new_folders_list[folder_name] = folder_id),
+        );
+
+        setFolders(new_folders_list);
       } catch (e) {
         console.log('error adding folder in texteditor', e.message);
       }
@@ -68,7 +78,7 @@ export function DataProvider({ children }) {
 
   const useFiltered = useCallback(
     (ignoredFolder) =>
-      folders.filter((folder) => folder.name !== ignoredFolder),
+      Object.keys(folders).filter((name) => name !== ignoredFolder),
     [folders],
   );
 
@@ -77,18 +87,14 @@ export function DataProvider({ children }) {
       posts,
       setPosts,
       folders,
-
       setFolders,
-
-      availableFolders,
-      setAvailable,
-      selectedSnips,
-      setSelectedSnips,
+      selected_snips,
+      setSelected,
       usePostFolder,
       useFiltered,
       handleDeleteFolder,
     }),
-    [posts, folders, selectedSnips],
+    [posts, folders, selected_snips],
   );
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;

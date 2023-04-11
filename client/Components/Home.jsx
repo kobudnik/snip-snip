@@ -41,8 +41,6 @@ const Home = () => {
   );
 
   const postSnippet = useCallback(async () => {
-    const folder_id = folders.filter(({ name }) => name === current_folder)[0]
-      ?.id;
     if (editorState.length <= 3) {
       setPostErr((prev) => ({
         ...prev,
@@ -50,6 +48,7 @@ const Home = () => {
       }));
       return;
     }
+    const folder_id = folders[current_folder];
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -66,9 +65,8 @@ const Home = () => {
   }, [editorState, current_folder]);
 
   useEffect(() => {
-    if (folders.length) {
-      const folder_id = folders.filter(({ name }) => name === current_folder)[0]
-        ?.id;
+    if (folders.default) {
+      const folder_id = folders[current_folder];
       fetch(`/api/snipped/${folder_id}`)
         .then((res) => {
           return res.json();

@@ -6,21 +6,35 @@ CREATE TABLE users (
 );
 
 CREATE TABLE folders (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    is_default BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  user_id INTEGER NOT NULL,
 );
 
 CREATE TABLE snippets (
-    id SERIAL PRIMARY KEY,
-    folder_id INT NOT NULL,
-    user_id INT NOT NULL,
-    snippet TEXT NOT NULL,
-    FOREIGN KEY (folder_id) REFERENCES folders(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  folder_id INTEGER NOT NULL,
+  CONSTRAINT fk_folder_id FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE CASCADE
 );
+
+-- CREATE TABLE folders (
+--     id SERIAL PRIMARY KEY,
+--     user_id INT NOT NULL,
+--     name VARCHAR(255) NOT NULL,
+--     is_default BOOLEAN NOT NULL DEFAULT FALSE,
+--     FOREIGN KEY (user_id) REFERENCES users(id)
+-- );
+
+-- CREATE TABLE snippets (
+--     id SERIAL PRIMARY KEY,
+--     folder_id INT NOT NULL,
+--     user_id INT NOT NULL,
+--     snippet TEXT NOT NULL,
+--     FOREIGN KEY (folder_id) REFERENCES folders(id),
+--     FOREIGN KEY (user_id) REFERENCES users(id)
+-- );
 
 
 /* Trigger function to automatically create default folder for each user that gets created

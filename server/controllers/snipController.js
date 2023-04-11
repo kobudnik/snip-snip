@@ -33,7 +33,33 @@ snipController.deleteSnip = async (req, res, next) => {
     const { snip_ids } = req.body;
     if (!snip_ids || snip_ids.length === 0)
       throw { message: 'No snips provided' };
-    const params = snip_ids;
+    const params = [snip_ids];
+
+    const text = `
+    WITH deleted_snips AS (
+      DELETE FROM snippets WHERE id = ANY($1) RETURNING id, folder_id
+    )
+    SELECT * FROM snippets 
+    WHERE folder_id IN (SELECT folder_id FROM deleted_snips)
+      AND id NOT IN (SELECT id FROM deleted_snips);
+    
+  `;
+
+    const remainingSnips = await db.query(text, params);
+    console.log(remainingSnips, 'these are the remainders');
+    res.locals.remaining_snips = remainingSnips.rows;
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in Delete Snip Middleware', e });
+  }
+};
+
+snipController.moveSnip = async (req, res, next) => {
+  try {
+    const { snip_ids, new_folder_id } = req.body;
+    if (!snip_ids || snip_ids.length === 0 || !new_folder_id)
+      throw { message: 'Invalid data provided to relocate the snippet' };
+    const params = [snip_ids, new_folder_id];
 
     const text = `
     WITH deleted_snips AS (

@@ -61,7 +61,7 @@ const TextEditor = ({
         </button>
       </div>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
-      {postErr.minLengthErr && <div> Minimum 3 chars </div>}
+      {postErr.minLengthErr && <div> Minimum 4 chars </div>}
       <Actions />
     </div>
   );

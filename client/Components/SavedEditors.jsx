@@ -17,14 +17,14 @@ const SavedEditors = ({ val, id }) => {
     />
   );
 
-  const { selectedSnips, setSelectedSnips } = useData();
+  const { selected_snips, setSelected } = useData();
 
   const handleCheckboxChange = (event) => {
     const checkboxId = Number(event.target.id);
     if (event.target.checked) {
-      setSelectedSnips([...selectedSnips, checkboxId]);
+      setSelected([...selected_snips, checkboxId]);
     } else {
-      setSelectedSnips(selectedSnips.filter((snip) => snip !== checkboxId));
+      setSelected(selected_snips.filter((snip) => snip !== checkboxId));
     }
   };
   return (
@@ -32,7 +32,7 @@ const SavedEditors = ({ val, id }) => {
       {editor}
       <input
         type='checkbox'
-        className='checkbox self-center bg-gray-300 ml-1 '
+        className='checkbox self-center bg-gray-300 ml-2 '
         id={id}
         onChange={handleCheckboxChange}
       ></input>

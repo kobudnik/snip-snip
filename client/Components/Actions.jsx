@@ -3,8 +3,14 @@ import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const { usePostFolder, useFiltered, selectedSnips, posts, setPosts } =
-    useData();
+  const {
+    usePostFolder,
+    useFiltered,
+    selected_snips,
+    posts,
+    setPosts,
+    folders,
+  } = useData();
   const [action, setAction] = useState('');
   const [chosen_folder, setChosen] = useState(0);
   const [new_folder, setNew] = useState('');
@@ -24,7 +30,7 @@ const Actions = () => {
       const requestOptions = {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ snip_ids: selectedSnips }),
+        body: JSON.stringify({ snip_ids: selected_snips }),
       };
       const deleteSnips = await fetch('/api/snipped', requestOptions);
       if (!deleteSnips.ok) {
@@ -45,7 +51,10 @@ const Actions = () => {
       usePostFolder(new_folder);
       setAction('');
     },
-    DELETE: () => handleDeletedSnips(selectedSnips),
+    DELETE: () => {
+      handleDeletedSnips(selected_snips);
+      setAction('');
+    },
   };
 
   const available_folders = useFiltered(current_folder);
@@ -91,10 +100,14 @@ const Actions = () => {
         value={chosen_folder}
       >
         {available_folders.length > 0 &&
-          available_folders.map((folder) => {
+          available_folders.map((folder_name) => {
             return (
-              <option value={folder.name} id={folder.id} key={folder.id}>
-                {folder.name}
+              <option
+                value={folder_name}
+                id={folders[folder_name]}
+                key={folders[folder_name]}
+              >
+                {folder_name}
               </option>
             );
           })}
@@ -127,14 +140,12 @@ hover:bg-green-700 mt-4'
           <option value=''>Select an option</option>
           <option value='ADD'>Create Folder</option>
           <option value='MOVE'>Move snippet</option>
-          <option value='DELETE'>Delete</option>
+          <option value='DELETE'>Delete snippet</option>
         </select>
         <div>
           {action === 'ADD' && folder_input}
 
           {action === 'MOVE' && folder_select}
-
-          {action === 'DELETE' && folder_select}
         </div>
         {action && submitButton}
       </div>

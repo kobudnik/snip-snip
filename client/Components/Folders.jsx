@@ -1,19 +1,32 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 
 const Folders = ({ current_folder }) => {
-  const { folders, useFiltered, handleDeleteFolder } = useData();
+  const { folders, setFolders, useFiltered, handleDeleteFolder } = useData();
+
+  useEffect(() => {
+    fetch('/api/folders/')
+      .then((res) => res.json())
+      .then((all_folders) => {
+        if (all_folders.length) {
+          const folderObj = {};
+          all_folders.forEach(({ name, id }) => (folderObj[name] = id));
+          setFolders(folderObj);
+          console.log(folderObj, 'these are the folders');
+        }
+      });
+  }, []);
 
   return (
     <div id='folder-container' className='w-1/5 mt-60 fixed font-poppins'>
       <div className='flex flex-col items-center h-80  overflow-y-scroll'>
-        {folders.length > 1 && (
+        {folders.default && (
           <span className='text-xl font-bold mb-2'>Your folders:</span>
         )}
-        {folders.length > 0 &&
-          useFiltered(current_folder).map(({ name, id }) => (
+        {folders.default &&
+          useFiltered(current_folder).map((name) => (
             <div key={uuidV4()}>
               <Link
                 to={`../${name}`}
@@ -24,7 +37,7 @@ const Folders = ({ current_folder }) => {
               &nbsp;
               {name === 'default' ? null : (
                 <button
-                  id={id}
+                  id={folders[name]}
                   className='text-sm hover:underline'
                   onClick={(e) => handleDeleteFolder(Number(e.target.id))}
                 >
