@@ -8,7 +8,7 @@ const Folders = ({ currentFolder }) => {
   const { folders, setFolders, useFiltered, handleDeleteFolder } = useData();
 
   const [showModal, setShow] = useState(false);
-  const [folderID, setID] = useState(0);
+  const [deleteName, setDelete] = useState(0);
 
   useEffect(() => {
     fetch('/api/folders/')
@@ -33,7 +33,7 @@ const Folders = ({ currentFolder }) => {
         )}
         {folders.default &&
           useFiltered(currentFolder).map((name) => (
-            <div key={uuidV4()}>
+            <div className='relative' key={uuidV4()}>
               <Link
                 to={`../${name}`}
                 className='text-orange-800 hover:text-gray-500 text-lg no-underline hover:underline inline-block mb-4'
@@ -46,7 +46,7 @@ const Folders = ({ currentFolder }) => {
                   id={folders[name]}
                   className='text-sm hover:underline'
                   onClick={(e) => {
-                    setID(Number(e.target.id));
+                    setDelete(name);
                     setShow(true);
                   }}
                 >
@@ -57,7 +57,7 @@ const Folders = ({ currentFolder }) => {
               {showModal && (
                 <ConfirmationModal
                   setShow={setShow}
-                  folderID={folderID}
+                  deleteName={deleteName}
                   handleDeleteFolder={handleDeleteFolder}
                 />
               )}

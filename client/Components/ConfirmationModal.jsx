@@ -1,11 +1,11 @@
 import React from 'react';
 import { useData } from '../Providers/DataProvider.jsx';
 
-const ConfirmationModal = ({ setShow, folderID, handleDeleteFolder }) => {
+const ConfirmationModal = ({ setShow, deleteName, handleDeleteFolder }) => {
   const { folders } = useData();
 
   const handleDelete = () => {
-    handleDeleteFolder(folderID);
+    handleDeleteFolder(folders[deleteName]);
     setShow(false);
   };
 
@@ -13,11 +13,18 @@ const ConfirmationModal = ({ setShow, folderID, handleDeleteFolder }) => {
     setShow(false);
   };
 
+  // Number(e.target.id);
+
   return (
-    <div className='z-[10000] inset-0 absolute t-[50%] r-[50%] bg-gray-700 bg-opacity-0 flex items-center justify-center'>
-      <div className='bg-white rounded-md shadow-md p-4'>
-        <p className='mb-4'>Are you sure you want to delete this folder?</p>
-        <p className='mb-4'>Doing so will delete all snippets inside.</p>
+    <div className='z-[10000] inset-0 absolute b-0 bg-gray-700 bg-opacity-0 flex items-center justify-center '>
+      <div
+        className='bg-white rounded-md shadow-md p-6 text-center flex flex-col items-center justify-center'
+        style={{ alignItems: 'flex-start' }}
+      >
+        <p className='p-5'>
+          Deleting "{deleteName}" will remove all snips inside.
+        </p>
+
         <div className='flex justify-end'>
           <button
             className='bg-gray-200 rounded-md px-4 py-2 mr-2'
@@ -29,7 +36,7 @@ const ConfirmationModal = ({ setShow, folderID, handleDeleteFolder }) => {
             className='bg-red-500 text-white rounded-md px-4 py-2'
             onClick={handleDelete}
           >
-            Delete
+            Confirm
           </button>
         </div>
       </div>
