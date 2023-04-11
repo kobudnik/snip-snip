@@ -5,8 +5,8 @@ const folderController = {};
 folderController.addFolder = async (req, res, next) => {
   try {
     // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    if (!req.body.folder_name) throw { message: 'No folder name provided' };
-    const params = [req.session.user_id, req.body.folder_name];
+    if (!req.body.folderName) throw { message: 'No folder name provided' };
+    const params = [req.session.userID, req.body.folderName];
     const text =
       'INSERT INTO folders (user_id, name) VALUES ($1, $2) RETURNING *';
 
@@ -20,7 +20,7 @@ folderController.addFolder = async (req, res, next) => {
 
 folderController.getAllFolders = async (req, res, next) => {
   try {
-    const params = [req.session.user_id];
+    const params = [req.session.userID];
     const text = 'SELECT * FROM folders WHERE user_id = ($1)';
     const retrieveQuery = await db.query(text, params);
     res.locals.allFolders = retrieveQuery.rows;
@@ -32,12 +32,12 @@ folderController.getAllFolders = async (req, res, next) => {
 };
 folderController.deleteFolder = async (req, res, next) => {
   try {
-    const { folder_id } = req.body;
-    if (!folder_id || typeof folder_id !== 'number') {
+    const { folderID } = req.body;
+    if (!folderID || typeof folderID !== 'number') {
       throw { message: 'Improper folder id provided' };
     }
 
-    const params = [folder_id, req.session.user_id];
+    const params = [folderID, req.session.userID];
     const text = `
     WITH deleted_rows AS (
       DELETE FROM folders WHERE id = ($1) AND name != 'default' RETURNING *
@@ -47,14 +47,12 @@ folderController.deleteFolder = async (req, res, next) => {
     ) AND user_id = ($2);
 `;
     const deleteQuery = await db.query(text, params);
-    res.locals.remaining_folders = deleteQuery.rows;
+    res.locals.remainingFolders = deleteQuery.rows;
     return next();
   } catch (e) {
     console.log(e.message);
     return next({ message: e.message });
   }
 };
-
-//  'DELETE FROM folders WHERE  (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
 
 module.exports = folderController;

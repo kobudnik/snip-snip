@@ -11,8 +11,8 @@ const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 const { v4: uuidV4 } = require('uuid');
 
-//SERVER PORT
 const PORT = 3000;
+
 // MIDDLEWARE
 const app = express();
 app.use(express.json());

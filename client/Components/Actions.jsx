@@ -6,14 +6,14 @@ const Actions = () => {
   const {
     usePostFolder,
     useFiltered,
-    selected_snips,
+    selectedSnips,
     posts,
     setPosts,
     folders,
   } = useData();
   const [action, setAction] = useState('');
-  const [chosen_folder, setChosen] = useState(0);
-  const [new_folder, setNew] = useState('');
+  const [chosenFolder, setChosenFolder] = useState(0);
+  const [newFolder, setNewFolder] = useState('');
 
   const handleActionChange = (event) => {
     setAction(event.target.value);
@@ -21,7 +21,7 @@ const Actions = () => {
   };
 
   const handleSelectedFolder = (event) => {
-    setChosen(event.target.value);
+    setChosenFolder(event.target.value);
     console.log(action);
   };
 
@@ -30,34 +30,32 @@ const Actions = () => {
       const requestOptions = {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ snip_ids: selected_snips }),
+        body: JSON.stringify({ snipIDs: selectedSnips }),
       };
       const deleteSnips = await fetch('/api/snipped', requestOptions);
       if (!deleteSnips.ok) {
         throw { message: 'Unable to delete snippets' };
       }
-      const updated_list = await deleteSnips.json();
+      const updatedList = await deleteSnips.json();
       console.log('this is the updated list');
-      setPosts(updated_list);
+      setPosts(updatedList);
     } catch (e) {
       console.log('error deleting snippets in texteditor', e.message);
     }
   };
 
-  const { current_folder } = useParams();
+  const { currentFolder } = useParams();
 
   const postMethods = {
     ADD: () => {
-      usePostFolder(new_folder);
+      usePostFolder(newFolder);
       setAction('');
     },
     DELETE: () => {
-      handleDeletedSnips(selected_snips);
+      handleDeletedSnips(selectedSnips);
       setAction('');
     },
   };
-
-  const available_folders = useFiltered(current_folder);
 
   const handleFocus = (e) => {
     e.target.placeholder = '';
@@ -68,24 +66,26 @@ const Actions = () => {
   };
 
   const handleFolderChange = (e) => {
-    setNew(e.target.value);
+    setNewFolder(e.target.value);
   };
 
-  const folder_input = (
+  const folderInput = (
     <input
       type='text'
       placeholder='folder name'
       className='rounded-3xl py-3 w-48 text-center outline-none'
       aria-label='login-username-input'
-      name='folder_name'
+      name='folderName'
       onFocus={handleFocus}
       onBlur={handleBlur}
       onChange={handleFolderChange}
-      value={new_folder}
+      value={newFolder}
     />
   );
 
-  const folder_select = (
+  const availableFolders = useFiltered(currentFolder);
+
+  const folderSelect = (
     <>
       <label
         htmlFor='folder-selector'
@@ -97,17 +97,17 @@ const Actions = () => {
         id='folder-selector'
         className='focus:outline-none text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
         onChange={handleSelectedFolder}
-        value={chosen_folder}
+        value={chosenFolder}
       >
-        {available_folders.length > 0 &&
-          available_folders.map((folder_name) => {
+        {availableFolders.length > 0 &&
+          availableFolders.map((folderName) => {
             return (
               <option
-                value={folder_name}
-                id={folders[folder_name]}
-                key={folders[folder_name]}
+                value={folderName}
+                id={folders[folderName]}
+                key={folders[folderName]}
               >
-                {folder_name}
+                {folderName}
               </option>
             );
           })}
@@ -143,9 +143,9 @@ hover:bg-green-700 mt-4'
           <option value='DELETE'>Delete snippet</option>
         </select>
         <div>
-          {action === 'ADD' && folder_input}
+          {action === 'ADD' && folderInput}
 
-          {action === 'MOVE' && folder_select}
+          {action === 'MOVE' && folderSelect}
         </div>
         {action && submitButton}
       </div>

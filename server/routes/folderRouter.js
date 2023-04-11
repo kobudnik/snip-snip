@@ -15,7 +15,7 @@ folderRouter.post('/', addFolder, (req, res) => {
 });
 
 folderRouter.delete('/', deleteFolder, (req, res) => {
-  return res.status(200).json(res.locals.remaining_folders);
+  return res.status(200).json(res.locals.remainingFolders);
 });
 
 module.exports = folderRouter;

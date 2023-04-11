@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 
-const Folders = ({ current_folder }) => {
+const Folders = ({ currentFolder }) => {
   const { folders, setFolders, useFiltered, handleDeleteFolder } = useData();
 
   useEffect(() => {
     fetch('/api/folders/')
       .then((res) => res.json())
-      .then((all_folders) => {
-        if (all_folders.length) {
+      .then((allFolders) => {
+        if (allFolders.length) {
           const folderObj = {};
-          all_folders.forEach(({ name, id }) => (folderObj[name] = id));
+          allFolders.forEach(({ name, id }) => (folderObj[name] = id));
           setFolders(folderObj);
-          console.log(folderObj, 'these are the folders');
         }
       });
   }, []);
@@ -26,7 +25,7 @@ const Folders = ({ current_folder }) => {
           <span className='text-xl font-bold mb-2'>Your folders:</span>
         )}
         {folders.default &&
-          useFiltered(current_folder).map((name) => (
+          useFiltered(currentFolder).map((name) => (
             <div key={uuidV4()}>
               <Link
                 to={`../${name}`}

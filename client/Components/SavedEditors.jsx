@@ -17,14 +17,14 @@ const SavedEditors = ({ val, id }) => {
     />
   );
 
-  const { selected_snips, setSelected } = useData();
+  const { selectedSnips, setSelected } = useData();
 
   const handleCheckboxChange = (event) => {
     const checkboxId = Number(event.target.id);
     if (event.target.checked) {
-      setSelected([...selected_snips, checkboxId]);
+      setSelected([...selectedSnips, checkboxId]);
     } else {
-      setSelected(selected_snips.filter((snip) => snip !== checkboxId));
+      setSelected(selectedSnips.filter((snip) => snip !== checkboxId));
     }
   };
   return (

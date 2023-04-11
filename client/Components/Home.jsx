@@ -23,7 +23,7 @@ const Home = () => {
     folderNames,
   } = useData();
 
-  const { current_folder } = useParams();
+  const { currentFolder } = useParams();
 
   const resetEditor = () => {
     const lines = document.getElementsByClassName('cm-line');
@@ -48,11 +48,12 @@ const Home = () => {
       }));
       return;
     }
-    const folder_id = folders[current_folder];
+    const folderID = folders[currentFolder];
+
     const posted = await fetch('/api/snipped', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ folder_id, snippet: editorState }),
+      body: JSON.stringify({ folderID, snippet: editorState }),
     });
     if (posted.status >= 400) {
       setPostErr(true);
@@ -62,12 +63,12 @@ const Home = () => {
       setPostErr({ minLengthErr: false, networkErr: false });
       resetEditor();
     }
-  }, [editorState, current_folder]);
+  }, [editorState, currentFolder]);
 
   useEffect(() => {
     if (folders.default) {
-      const folder_id = folders[current_folder];
-      fetch(`/api/snipped/${folder_id}`)
+      const folderID = folders[currentFolder];
+      fetch(`/api/snipped/${folderID}`)
         .then((res) => {
           return res.json();
         })
@@ -78,12 +79,12 @@ const Home = () => {
           console.log(e.message);
         });
     }
-  }, [folders, current_folder]);
+  }, [folders, currentFolder]);
 
   return (
     <>
       <div className='bg-gray-900 grow mt-20 flex flex-col '>
-        <Folders current_folder={current_folder} />
+        <Folders currentFolder={currentFolder} />
         <TextEditor
           postErr={postErr}
           postSnippet={postSnippet}

@@ -1,10 +1,9 @@
 import React from 'react';
-import CodeMirror, { EditorView } from '@uiw/react-codemirror';
+import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { java } from '@codemirror/lang-java';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import { useData } from '../Providers/DataProvider.jsx';
 import Actions from './Actions.jsx';
 
 const TextEditor = ({
