@@ -12,7 +12,10 @@ const Folders = ({ currentFolder }) => {
       .then((allFolders) => {
         if (allFolders.length) {
           const folderObj = {};
-          allFolders.forEach(({ name, id }) => (folderObj[name] = id));
+          allFolders.forEach(
+            ({ name, id }) =>
+              (folderObj[name === 'Home' ? 'default' : name] = id),
+          );
           setFolders(folderObj);
         }
       });

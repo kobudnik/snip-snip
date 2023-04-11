@@ -12,7 +12,7 @@ const Actions = () => {
     folders,
   } = useData();
   const [action, setAction] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState(0);
+  const [selectedFolder, setSelectedFolder] = useState('');
   const [newFolder, setNewFolder] = useState('');
 
   const handleActionChange = (event) => {
@@ -21,8 +21,9 @@ const Actions = () => {
   };
 
   const handleSelectedFolder = (event) => {
-    setSelectedFolder(event.target.value);
-    console.log(action);
+    const selected =
+      event.target.value === 'Home' ? 'default' : event.target.value;
+    setSelectedFolder(selected);
   };
 
   const handleDeletedSnips = async (event) => {
@@ -81,6 +82,7 @@ const Actions = () => {
     MOVE: (e) => {
       handleMoveSnips(selectedFolder);
       setAction('');
+      setSelectedFolder('');
     },
   };
 
@@ -126,8 +128,9 @@ const Actions = () => {
         onChange={handleSelectedFolder}
         value={selectedFolder}
       >
+        <option value=''>Choose from below</option>
         {availableFolders.length > 0 &&
-          availableFolders.map((folderName) => {
+          availableFolders.map((folderName, i) => {
             return (
               <option
                 value={folderName}
