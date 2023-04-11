@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
@@ -27,6 +27,13 @@ const SavedEditors = ({ val, id }) => {
       setSelected(selectedSnips.filter((snip) => snip !== checkboxId));
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setSelected([]);
+    };
+  }, []);
+
   return (
     <div id='editor-container' className='flex justify-center ml-5 mb-5'>
       {editor}
