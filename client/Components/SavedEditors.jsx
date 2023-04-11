@@ -35,7 +35,7 @@ const SavedEditors = ({ val, id }) => {
   }, []);
 
   return (
-    <div id='editor-container' className='flex justify-center ml-5 mb-5'>
+    <div id='editor-container' className='flex justify-center ml-4 mb-5'>
       {editor}
       <input
         type='checkbox'

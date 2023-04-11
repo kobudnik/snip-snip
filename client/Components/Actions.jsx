@@ -68,6 +68,7 @@ const Actions = () => {
     ADD: () => {
       usePostFolder(newFolder);
       setAction('');
+      setNewFolder('');
     },
     DELETE: () => {
       handleDeletedSnips(selectedSnips);

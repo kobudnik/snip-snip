@@ -93,13 +93,15 @@ const Home = () => {
           posts={posts}
           reset={resetEditor}
         />
-        {posts.length
-          ? posts.map((post, i) => (
-              <div key={post.id.toString()}>
-                <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
-              </div>
-            ))
-          : null}
+        <div className='mt-10'>
+          {posts.length
+            ? posts.map((post, i) => (
+                <div key={post.id.toString()}>
+                  <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
+                </div>
+              ))
+            : null}
+        </div>
       </div>
     </>
   );
