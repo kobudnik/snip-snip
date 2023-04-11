@@ -138,20 +138,3 @@ const Login = () => {
 };
 
 export default Login;
-
-//410 need to remove ability to double post folder w same name
-//migrate post state to object for easy id retrieval
-
-//need to update addfolders fetch to grab name from an input and submit it.
-//same for delete
-//then need to add a get to get all the folders and display them and store in state
-//on click will go to the nested route
-//where we will display all the snippets for that folder in state
-
-//4/8 : basically need to style the folders and buttons. need to create state based on the selection of the dropdown
-//createfolder -> new input to type folder name and submit
-//move snippet -> put to update the db and return all the values of the updated folder
-// add x's next to folders to delete folder. have popup appear to ask if user is sure (all snippets inside will be deleted permanently)
-//probably style the header to look a bit nicer
-//oh and need to implement error routes for folders that don't exist.
-//and regular error routes too
