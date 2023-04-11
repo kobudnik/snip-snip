@@ -12,7 +12,7 @@ const Actions = () => {
     folders,
   } = useData();
   const [action, setAction] = useState('');
-  const [chosenFolder, setChosenFolder] = useState(0);
+  const [selectedFolder, setSelectedFolder] = useState(0);
   const [newFolder, setNewFolder] = useState('');
 
   const handleActionChange = (event) => {
@@ -21,7 +21,7 @@ const Actions = () => {
   };
 
   const handleSelectedFolder = (event) => {
-    setChosenFolder(event.target.value);
+    setSelectedFolder(event.target.value);
     console.log(action);
   };
 
@@ -44,6 +44,28 @@ const Actions = () => {
     }
   };
 
+  const handleMoveSnips = async (selectedName) => {
+    try {
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          snipIDs: selectedSnips,
+          newFolderID: folders[selectedName],
+          folderID: folders[currentFolder],
+        }),
+      };
+      const moveSnips = await fetch('/api/snipped', requestOptions);
+      if (!moveSnips.ok) {
+        throw { message: 'Unable to move snippets' };
+      }
+      const updatedList = await moveSnips.json();
+      setPosts(updatedList);
+    } catch (e) {
+      console.log('error moving snippets to new folder', e.message);
+    }
+  };
+
   const { currentFolder } = useParams();
 
   const postMethods = {
@@ -53,6 +75,11 @@ const Actions = () => {
     },
     DELETE: () => {
       handleDeletedSnips(selectedSnips);
+      setAction('');
+    },
+
+    MOVE: (e) => {
+      handleMoveSnips(selectedFolder);
       setAction('');
     },
   };
@@ -97,7 +124,7 @@ const Actions = () => {
         id='folder-selector'
         className='focus:outline-none text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
         onChange={handleSelectedFolder}
-        value={chosenFolder}
+        value={selectedFolder}
       >
         {availableFolders.length > 0 &&
           availableFolders.map((folderName) => {
