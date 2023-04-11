@@ -36,7 +36,7 @@ const Folders = ({ currentFolder }) => {
             <div className='relative' key={uuidV4()}>
               <Link
                 to={`../${name}`}
-                className='text-orange-800 hover:text-gray-500 text-lg no-underline hover:underline inline-block mb-4'
+                className='text-yellow-500 hover:text-gray-500 text-lg no-underline hover:underline inline-block mb-4'
               >
                 {name === 'default' ? 'Home' : name}
               </Link>
