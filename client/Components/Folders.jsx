@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
+import ConfirmationModal from './ConfirmationModal.jsx';
 
 const Folders = ({ currentFolder }) => {
   const { folders, setFolders, useFiltered, handleDeleteFolder } = useData();
+
+  const [showModal, setShow] = useState(false);
+  const [folderID, setID] = useState(0);
 
   useEffect(() => {
     fetch('/api/folders/')
@@ -41,11 +45,21 @@ const Folders = ({ currentFolder }) => {
                 <button
                   id={folders[name]}
                   className='text-sm hover:underline'
-                  onClick={(e) => handleDeleteFolder(Number(e.target.id))}
+                  onClick={(e) => {
+                    setID(Number(e.target.id));
+                    setShow(true);
+                  }}
                 >
                   {' '}
                   &#10005;
                 </button>
+              )}
+              {showModal && (
+                <ConfirmationModal
+                  setShow={setShow}
+                  folderID={folderID}
+                  handleDeleteFolder={handleDeleteFolder}
+                />
               )}
             </div>
           ))}
