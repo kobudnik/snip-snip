@@ -35,53 +35,75 @@ const Signup = () => {
       setFailed(true);
     }
   };
+
+  const handleFocus = (e) => {
+    e.target.placeholder = '';
+    setFailed(false);
+  };
+
+  const handleBlur = (e) => {
+    e.target.placeholder = e.target.name;
+  };
   return (
     <>
-      <div id='create-body' className='standard-body create-body'>
-        <div className='standard-title font-thin'>
-          <h1>Welcome! Please create your account.</h1>
+      <div className='flex flex-col bg-gray-800 align-center h-screen'>
+        <div className='flex justify-center'>
+          <h1 className='text-5xl font-poppins font-bold m-0 mt-16  text-gray-300'>
+            Create your account.
+          </h1>
         </div>
+        <div className='flex flex-col items-center justify-center flex-grow  font-poppins text-lg'>
+          <form
+            className='flex flex-col items-center justify-evenly  rounded-3xl h-[550px] w-[30%] m-0 bg-gray-900'
+            onSubmit={createUser}
+          >
+            <input
+              type='text'
+              placeholder='username'
+              className='rounded-3xl py-3  w-80 text-center outline-none'
+              aria-label='signup-username-input'
+              name='username'
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <input
+              type='password'
+              placeholder='password'
+              className=' rounded-3xl py-3  w-80 text-center outline-none'
+              name='password'
+              aria-label='signup-password-input'
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
 
-        <form
-          id='user-create-form'
-          className='standard-form create-form'
-          role='form'
-          onSubmit={createUser}
-        >
-          <input
-            className='standard-input create-input'
-            aria-label='new-username-input'
-            placeholder='username'
-            type='text'
-            name='username'
-            onChange={(e) => setFailed(false)}
-          />
-          <input
-            className='standard-input create-input'
-            aria-label='new-password-input'
-            placeholder='password'
-            type='password'
-            name='password'
-          />
-          <input
-            className='standard-input create-input'
-            aria-label='new-email-input'
-            placeholder='email'
-            type='text'
-            name='email'
-          />
-          <button type='submit' className='standard-button create-button'>
+            <input
+              type='email'
+              placeholder='email'
+              className=' rounded-3xl py-3  w-80 text-center outline-none'
+              name='email'
+              aria-label='signup-email-input'
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <button
+              className='bg-orange-900 text-white text-xl rounded-2xl w-[90%] h-1/6 hover:bg-orange-800'
+              aria-label='submit-submit-button'
+              type='submit'
+            >
+              Sign Up
+            </button>
+            {loading && <p>Please wait...</p>}
+            {success && <p>Success!</p>}
+            {failed && <p>Username not available</p>}
+          </form>
+          <Link
+            to={'/'}
+            className='font-poppins text-3xl text-white inline-block mb-11 mt-4 hover:text-blue-400'
+          >
             {' '}
-            Submit
-          </button>
-          {loading && <p>Please wait...</p>}
-          {success && <p>Success!</p>}
-          {failed && <p>Username not available</p>}
-        </form>
-        <Link to={'/'} className='standard-button white-button'>
-          {' '}
-          Go Back
-        </Link>
+            Go Back
+          </Link>
+        </div>
       </div>
     </>
   );

@@ -6,13 +6,15 @@ snippedRouter.post('/', snipController.addSnip, (req, res) => {
   return res.status(200).json(res.locals.snipSuccess);
 });
 
-snippedRouter.get('/', snipController.getSnips, (req, res) => {
+snippedRouter.get('/:folderID', snipController.getSnips, (req, res) => {
   return res.status(200).json(res.locals.allSnips);
 });
 
 snippedRouter.delete('/', snipController.deleteSnip, (req, res) => {
-  return res
-    .status(200)
-    .json('deletion works, need to return all snips remaining in folder later');
+  return res.status(200).json(res.locals.remainingSnips);
+});
+
+snippedRouter.put('/', snipController.moveSnip, (req, res) => {
+  return res.status(200).json(res.locals.remainingSnips);
 });
 module.exports = snippedRouter;

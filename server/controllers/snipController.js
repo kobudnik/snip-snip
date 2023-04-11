@@ -3,8 +3,9 @@ const snipController = {};
 
 snipController.addSnip = async (req, res, next) => {
   try {
-    // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    const params = [10, 10, req.body.snippet];
+    const { folderID, snippet } = req.body;
+    const userID = req.session.userID;
+    const params = [folderID, userID, snippet];
     const text =
       'INSERT INTO snippets (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
     const inserted = await db.query(text, params);
@@ -17,8 +18,9 @@ snipController.addSnip = async (req, res, next) => {
 
 snipController.getSnips = async (req, res, next) => {
   try {
-    const text = 'SELECT * FROM snippets';
-    const retrievedSnips = await db.query(text);
+    const { folderID } = req.params;
+    const text = 'SELECT * FROM snippets WHERE folder_id = ($1)';
+    const retrievedSnips = await db.query(text, [folderID]);
     res.locals.allSnips = retrievedSnips['rows'];
     return next();
   } catch (e) {
@@ -28,14 +30,52 @@ snipController.getSnips = async (req, res, next) => {
 
 snipController.deleteSnip = async (req, res, next) => {
   try {
-    //for testing. will modify to allow for multiple snips to be deleted at any one time later on
-    const params = [11];
-    const text = 'DELETE FROM snippets WHERE id = ($1) RETURNING *';
-    const inserted = await db.query(text, params);
+    const { snipIDs } = req.body;
+    if (!snipIDs || snipIDs.length === 0)
+      throw { message: 'No snips provided' };
+    const params = [snipIDs];
+
+    const text = `
+    WITH deleted_snips AS (
+      DELETE FROM snippets WHERE id = ANY($1) RETURNING id, folder_id
+    )
+    SELECT * FROM snippets 
+    WHERE folder_id IN (SELECT folder_id FROM deleted_snips)
+      AND id NOT IN (SELECT id FROM deleted_snips);
+    
+  `;
+
+    const remainingSnips = await db.query(text, params);
+    res.locals.remainingSnips = remainingSnips.rows;
     return next();
   } catch (e) {
     return next({ message: 'Error in Delete Snip Middleware', e });
   }
 };
 
+snipController.moveSnip = async (req, res, next) => {
+  try {
+    const { snipIDs, newFolderID, folderID } = req.body;
+    if (!snipIDs || snipIDs.length === 0 || !newFolderID)
+      throw { message: 'Invalid data provided to relocate the snippet' };
+
+    const text = `
+      WITH moved_snips AS (
+        UPDATE snippets SET folder_id = $2 WHERE id = ANY($1) RETURNING *
+      ),
+      remaining_snips AS (
+        SELECT * FROM snippets WHERE folder_id = $3 AND id NOT IN (SELECT id FROM moved_snips)
+      )
+      SELECT * FROM remaining_snips;
+    `;
+
+    const params = [snipIDs, newFolderID, folderID];
+    const remainingSnips = await db.query(text, params);
+
+    res.locals.remainingSnips = remainingSnips.rows;
+    return next();
+  } catch (e) {
+    return next({ message: 'Error in Move Snip Middleware', e });
+  }
+};
 module.exports = snipController;

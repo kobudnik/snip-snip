@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
-const SavedEditors = ({ val, inputID }) => {
+const SavedEditors = ({ val, id }) => {
   const editor = (
     <CodeMirror
       value={val}
-      height='200px'
+      height='35vh'
       width='50vw'
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
@@ -17,23 +17,30 @@ const SavedEditors = ({ val, inputID }) => {
     />
   );
 
-  const { selectedSnips, setSelectedSnips } = useData();
+  const { selectedSnips, setSelected } = useData();
 
   const handleCheckboxChange = (event) => {
-    const checkboxId = event.target.id;
+    const checkboxId = Number(event.target.id);
     if (event.target.checked) {
-      setSelectedSnips([...selectedSnips, checkboxId]);
+      setSelected([...selectedSnips, checkboxId]);
     } else {
-      setSelectedSnips(selectedSnips.filter((snip) => snip !== checkboxId));
+      setSelected(selectedSnips.filter((snip) => snip !== checkboxId));
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setSelected([]);
+    };
+  }, []);
+
   return (
-    <div className='editor-container'>
+    <div id='editor-container' className='flex justify-center ml-4 mb-5'>
       {editor}
       <input
         type='checkbox'
-        className='checkbox'
-        id={inputID}
+        className='checkbox self-center bg-gray-300 ml-2 '
+        id={id}
         onChange={handleCheckboxChange}
       ></input>
     </div>

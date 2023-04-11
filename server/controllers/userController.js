@@ -45,4 +45,17 @@ userController.addUser = async (req, res, next) => {
   }
 };
 
+userController.logoutUser = async (req, res, next) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        throw { message: err.message };
+      }
+      return next();
+    });
+  } catch (e) {
+    return next({ message: e.message });
+  }
+};
+
 module.exports = userController;

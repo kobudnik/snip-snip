@@ -20,7 +20,6 @@ folderController.addFolder = async (req, res, next) => {
 
 folderController.getAllFolders = async (req, res, next) => {
   try {
-    // const params = [req.body.folderID, req.body.userID, req.body.snippet];
     const params = [req.session.userID];
     const text = 'SELECT * FROM folders WHERE user_id = ($1)';
     const retrieveQuery = await db.query(text, params);
@@ -31,18 +30,23 @@ folderController.getAllFolders = async (req, res, next) => {
     return next({ message: 'Error in Add Folder Middleware', e });
   }
 };
-folderController.deleteFolders = async (req, res, next) => {
+folderController.deleteFolder = async (req, res, next) => {
   try {
-    const ids = req.body.ids;
+    const { folderID } = req.body;
+    if (!folderID || typeof folderID !== 'number') {
+      throw { message: 'Improper folder id provided' };
+    }
+
+    const params = [folderID, req.session.userID];
     const text = `
-  WITH deleted_rows AS (
-    DELETE FROM folders WHERE id = ANY($1) RETURNING *
-  )
-  SELECT * FROM folders WHERE NOT EXISTS (
-    SELECT 1 FROM deleted_rows WHERE folders.id = deleted_rows.id
-  )
+    WITH deleted_rows AS (
+      DELETE FROM folders WHERE id = ($1) AND name != 'default' RETURNING *
+    )
+    SELECT * FROM folders WHERE NOT EXISTS (
+      SELECT 1 FROM deleted_rows WHERE folders.id = deleted_rows.id
+    ) AND user_id = ($2);
 `;
-    const deleteQuery = await db.query(text, [ids]);
+    const deleteQuery = await db.query(text, params);
     res.locals.remainingFolders = deleteQuery.rows;
     return next();
   } catch (e) {
@@ -50,7 +54,5 @@ folderController.deleteFolders = async (req, res, next) => {
     return next({ message: e.message });
   }
 };
-
-//  'DELETE FROM folders WHERE  (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
 
 module.exports = folderController;

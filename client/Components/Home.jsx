@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
-import { useUsername } from '../Providers/UserProvider.jsx';
-import { Link, useParams } from 'react-router-dom';
-import { v4 as uuidV4 } from 'uuid';
+import { useParams } from 'react-router-dom';
 import { useData } from '../Providers/DataProvider.jsx';
 import Folders from './Folders.jsx';
 
@@ -25,15 +23,52 @@ const Home = () => {
     folderNames,
   } = useData();
 
-  const { username } = useUsername();
   const { currentFolder } = useParams();
 
-  useEffect(() => {
-    if (folders.length) {
-      const folderID = folders.filter(({ name }) => name === currentFolder)[0]
-        .id;
+  const resetEditor = () => {
+    const lines = document.getElementsByClassName('cm-line');
+    const arrayed = Array.from(lines);
+    arrayed.forEach((el) => (el.innerText = ''));
+    setPostErr(false);
+  };
 
-      fetch('/api/snipped')
+  const handleChange = useCallback((value, viewUpdate) => {
+    setEditorState(value);
+  }, []);
+
+  const handleFocus = useCallback(() =>
+    setPostErr({ minLengthErr: false, networkErr: false }),
+  );
+
+  const postSnippet = useCallback(async () => {
+    if (editorState.length <= 3) {
+      setPostErr((prev) => ({
+        ...prev,
+        minLengthErr: true,
+      }));
+      return;
+    }
+    const folderID = folders[currentFolder];
+
+    const posted = await fetch('/api/snipped', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ folderID, snippet: editorState }),
+    });
+    if (posted.status >= 400) {
+      setPostErr(true);
+    } else {
+      const parsed = await posted.json();
+      setPosts([...posts, parsed]);
+      setPostErr({ minLengthErr: false, networkErr: false });
+      resetEditor();
+    }
+  }, [editorState, currentFolder]);
+
+  useEffect(() => {
+    if (folders.default) {
+      const folderID = folders[currentFolder];
+      fetch(`/api/snipped/${folderID}`)
         .then((res) => {
           return res.json();
         })
@@ -46,57 +81,29 @@ const Home = () => {
     }
   }, [folders, currentFolder]);
 
-  const resetEditor = () => {
-    const lines = document.getElementsByClassName('cm-line');
-    const arrayed = Array.from(lines);
-    arrayed.forEach((el) => (el.innerText = ''));
-    setPostErr(false);
-  };
-
-  const onChange = useCallback((value, viewUpdate) => {
-    setEditorState(value);
-  }, []);
-  const postSnippet = async () => {
-    if (editorState.length <= 3) {
-      setPostErr((prev) => ({
-        ...prev,
-        minLengthErr: true,
-      }));
-      return;
-    }
-    const posted = await fetch('/api/snipped', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ snippet: editorState }),
-    });
-    if (posted.status >= 400) {
-      setPostErr(true);
-    } else {
-      const parsed = await posted.json();
-      setPosts([...posts, parsed]);
-      setPostErr({ minLengthErr: false, networkErr: false });
-      resetEditor();
-    }
-  };
-
   return (
-    <div className='headContainer'>
-      <p>{username}</p>
-      <Folders currentFolder={currentFolder} />
-      <TextEditor
-        postErr={postErr}
-        postSnippet={postSnippet}
-        onChange={onChange}
-        posts={posts}
-        reset={resetEditor}
-      />
-      {posts &&
-        posts.map((post, i) => (
-          <div className='textBox' key={post.id.toString()}>
-            <SavedEditors val={post.snippet} inputID={post.id}></SavedEditors>
-          </div>
-        ))}
-    </div>
+    <>
+      <div className='bg-gray-900 grow mt-20 flex flex-col '>
+        <Folders currentFolder={currentFolder} />
+        <TextEditor
+          postErr={postErr}
+          postSnippet={postSnippet}
+          handleChange={handleChange}
+          handleFocus={handleFocus}
+          posts={posts}
+          reset={resetEditor}
+        />
+        <div className='mt-10'>
+          {posts.length
+            ? posts.map((post, i) => (
+                <div key={post.id.toString()}>
+                  <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
+                </div>
+              ))
+            : null}
+        </div>
+      </div>
+    </>
   );
 };
 
