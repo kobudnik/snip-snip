@@ -44,10 +44,10 @@ const TextEditor = ({
           data-te-ripple-init
           data-te-ripple-color='light'
           className='inline-block w-60 px-6 py-2 mr-2
-     text-md font-medium text-center rounded  text-rose-100 bg-rose-400 hover:bg-rose-300'
+     text-md font-medium text-center rounded  text-rose-100 bg-rose-500 hover:bg-rose-400'
           onClick={reset}
         >
-          RESET
+          Reset
         </button>
         <button
           data-te-ripple-init
@@ -56,7 +56,7 @@ const TextEditor = ({
           hover:bg-green-600'
           onClick={postSnippet}
         >
-          Reset
+          Submit
         </button>
       </div>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
