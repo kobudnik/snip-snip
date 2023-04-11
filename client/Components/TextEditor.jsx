@@ -43,20 +43,21 @@ const TextEditor = ({
         <button
           data-te-ripple-init
           data-te-ripple-color='light'
-          className='inline-block w-40 px-6 mr-2
-        py-2 text-sm font-medium text-center rounded text-white bg-green-700
+          className='w-60 mr-4 px-10 py-4 text-md font-medium text-center rounded text-rose-100 bg-rose-500 hover:bg-rose-400'
+          onClick={reset}
+        >
+          Reset
+        </button>
+
+        <button
+          data-te-ripple-init
+          data-te-ripple-color='light'
+          className='inline-block w-60 px-10 py-4 mr-4
+      text-md font-medium text-center rounded text-white bg-green-700
         hover:bg-green-600'
           onClick={postSnippet}
         >
           SAVE
-        </button>
-        <button
-          data-te-ripple-init
-          data-te-ripple-color='light'
-          className='w-40 px-6 py-2 text-sm font-medium text-center rounded text-rose-100 bg-rose-400 hover:bg-rose-300'
-          onClick={reset}
-        >
-          Reset
         </button>
       </div>
       {postErr.networkErr && <div> Unable to post new snippet </div>}
