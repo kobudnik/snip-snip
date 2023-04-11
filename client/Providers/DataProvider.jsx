@@ -47,6 +47,25 @@ export function DataProvider({ children }) {
     [folders],
   );
 
+  const handleDeleteFolder = useCallback(
+    async (folder_id) => {
+      try {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ folder_id }),
+        };
+        const postFolder = await fetch('/api/folders', requestOptions);
+        if (!postFolder.ok) throw { message: 'Problem deleting your folder' };
+        const retrievedFolders = await postFolder.json();
+        setFolders(retrievedFolders);
+      } catch (e) {
+        console.log('error adding folder in texteditor', e.message);
+      }
+    },
+    [folders],
+  );
+
   const useFiltered = useCallback(
     (ignoredFolder) =>
       folders.filter((folder) => folder.name !== ignoredFolder),
@@ -67,6 +86,7 @@ export function DataProvider({ children }) {
       setSelectedSnips,
       usePostFolder,
       useFiltered,
+      handleDeleteFolder,
     }),
     [posts, folders, selectedSnips],
   );

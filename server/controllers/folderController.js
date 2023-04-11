@@ -30,19 +30,24 @@ folderController.getAllFolders = async (req, res, next) => {
     return next({ message: 'Error in Add Folder Middleware', e });
   }
 };
-folderController.deleteFolders = async (req, res, next) => {
+folderController.deleteFolder = async (req, res, next) => {
   try {
-    const ids = req.body.ids;
+    const { folder_id } = req.body;
+    if (!folder_id || typeof folder_id !== 'number') {
+      throw { message: 'Improper folder id provided' };
+    }
+
+    const params = [folder_id, req.session.user_id];
     const text = `
-  WITH deleted_rows AS (
-    DELETE FROM folders WHERE id = ANY($1) RETURNING *
-  )
-  SELECT * FROM folders WHERE NOT EXISTS (
-    SELECT 1 FROM deleted_rows WHERE folders.id = deleted_rows.id
-  )
+    WITH deleted_rows AS (
+      DELETE FROM folders WHERE id = ($1) AND name != 'default' RETURNING *
+    )
+    SELECT * FROM folders WHERE NOT EXISTS (
+      SELECT 1 FROM deleted_rows WHERE folders.id = deleted_rows.id
+    ) AND user_id = ($2);
 `;
-    const deleteQuery = await db.query(text, [ids]);
-    res.locals.remainingFolders = deleteQuery.rows;
+    const deleteQuery = await db.query(text, params);
+    res.locals.remaining_folders = deleteQuery.rows;
     return next();
   } catch (e) {
     console.log(e.message);

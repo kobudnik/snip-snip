@@ -3,7 +3,7 @@ const folderRouter = express.Router();
 const {
   addFolder,
   getAllFolders,
-  deleteFolders,
+  deleteFolder,
 } = require('../controllers/folderController');
 
 folderRouter.get('/', getAllFolders, (req, res) => {
@@ -14,8 +14,8 @@ folderRouter.post('/', addFolder, (req, res) => {
   return res.status(200).json(res.locals.folders);
 });
 
-folderRouter.delete('/', deleteFolders, (req, res) => {
-  return res.status(200).json(res.locals.remainingFolders);
+folderRouter.delete('/', deleteFolder, (req, res) => {
+  return res.status(200).json(res.locals.remaining_folders);
 });
 
 module.exports = folderRouter;

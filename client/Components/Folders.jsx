@@ -4,7 +4,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { useData } from '../Providers/DataProvider.jsx';
 
 const Folders = ({ current_folder }) => {
-  const { folders, useFiltered } = useData();
+  const { folders, useFiltered, handleDeleteFolder } = useData();
 
   return (
     <div id='folder-container' className='w-1/5 mt-60 fixed font-poppins'>
@@ -23,7 +23,11 @@ const Folders = ({ current_folder }) => {
               </Link>
               &nbsp;
               {name === 'default' ? null : (
-                <button id={id} className='text-sm hover:underline'>
+                <button
+                  id={id}
+                  className='text-sm hover:underline'
+                  onClick={(e) => handleDeleteFolder(Number(e.target.id))}
+                >
                   {' '}
                   &#10005;
                 </button>

@@ -30,10 +30,7 @@ snipController.getSnips = async (req, res, next) => {
 
 snipController.deleteSnip = async (req, res, next) => {
   try {
-    //for testing. will modify to allow for multiple snips to be deleted at any one time later on
     const { snip_ids } = req.body;
-
-    console.log(snip_ids, 'these are the snip ids');
     if (!snip_ids || snip_ids.length === 0)
       throw { message: 'No snips provided' };
     const params = snip_ids;
