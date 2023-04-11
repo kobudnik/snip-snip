@@ -18,19 +18,6 @@ export function DataProvider({ children }) {
   const [folders, setFolders] = useState({});
   const [selected_snips, setSelected] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('/api/folders')
-  //     .then((res) => res.json())
-  //     .then((all_folders) => {
-  //       if (all_folders.length) {
-  //         const folderObj = {};
-  //         all_folders.forEach(({ name, id }) => (folderObj[name] = id));
-  //         setFolders(folderObj);
-  //         console.log(folders, 'these are the folders');
-  //       }
-  //     });
-  // }, []);
-
   const usePostFolder = useCallback(
     async (folder_name) => {
       try {
