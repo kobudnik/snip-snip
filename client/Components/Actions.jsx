@@ -9,9 +9,9 @@ const Actions = () => {
   const [selectedFolder, setSelectedFolder] = useState('');
   const [newFolder, setNewFolder] = useState('');
 
-  const handleActionChange = useCallback((event) => {
+  const handleActionChange = (event) => {
     setAction(event.target.value);
-  });
+  };
 
   const handleSelectedFolder = (event) => {
     const selected =
@@ -82,17 +82,17 @@ const Actions = () => {
     },
   };
 
-  const handleFocus = useCallback((e) => {
+  const handleFocus = (e) => {
     e.target.placeholder = '';
-  });
+  };
 
-  const handleBlur = useCallback((e) => {
+  const handleBlur = (e) => {
     e.target.placeholder = e.target.name;
-  });
+  };
 
-  const handleFolderChange = useCallback((e) => {
+  const handleFolderChange = (e) => {
     setNewFolder(e.target.value);
-  });
+  };
 
   const folderInput = (
     <input

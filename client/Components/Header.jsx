@@ -7,7 +7,7 @@ const Header = ({ children }) => {
   const { setAuthenticated, username } = useUsername();
   const { currentFolder } = useParams();
   const navigate = useNavigate();
-  const logout = useCallback(async () => {
+  const logout = async () => {
     try {
       const killSession = await fetch('/api/user/logout');
       if (!killSession.ok) throw { message: 'Logout failed' };
@@ -17,7 +17,7 @@ const Header = ({ children }) => {
     } catch (e) {
       console.log(e.message);
     }
-  }, []);
+  };
   return (
     <div className='flex flex-col min-h-screen'>
       <div className='fixed top-0 w-full z-50 flex justify-between bg-yellow-600 h-20 items-center font-sans text-gray-700 text-2xl'>

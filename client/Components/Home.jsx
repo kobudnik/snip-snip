@@ -13,15 +13,7 @@ const Home = () => {
     networkErr: false,
   });
 
-  const {
-    posts,
-    setPosts,
-    setFolders,
-    folders,
-    selection,
-    setSelection,
-    folderNames,
-  } = useData();
+  const { posts, setPosts, folders } = useData();
 
   const { currentFolder } = useParams();
 
@@ -32,13 +24,13 @@ const Home = () => {
     setPostErr(false);
   };
 
-  const handleChange = useCallback((value, viewUpdate) => {
+  const handleChange = (value, viewUpdate) => {
     setEditorState(value);
-  }, []);
+  };
 
-  const handleFocus = useCallback(() =>
-    setPostErr({ minLengthErr: false, networkErr: false }),
-  );
+  const handleFocus = () => {
+    setPostErr({ minLengthErr: false, networkErr: false });
+  };
 
   const postSnippet = useCallback(async () => {
     if (editorState.length <= 3) {
