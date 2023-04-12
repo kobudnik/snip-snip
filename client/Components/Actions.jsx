@@ -133,7 +133,7 @@ const Actions = () => {
                 id={folders[folderName]}
                 key={folders[folderName]}
               >
-                {folderName}
+                {folderName === 'default' ? 'Home' : folderName}
               </option>
             );
           })}
