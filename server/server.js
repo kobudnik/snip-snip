@@ -29,9 +29,6 @@ redisClient.on('error', function (err) {
 
 const redisStore = new RedisStore({ client: redisClient });
 
-//Serve all static files
-app.use(express.static(path.resolve(__dirname, '../dist')));
-
 //Initialize sesssion storage.
 app.use(
   session({
@@ -52,6 +49,14 @@ app.use('/api/user', userRouter);
 app.use('/api/session', sessionRouter);
 app.use('/api/folders', folderRouter);
 
+//Serve all static files
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+//catch all to ensure refresh works
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
+
 //Global Error Handler
 app.use((err, req, res, next) => {
   const defaultErr = {
@@ -62,11 +67,6 @@ app.use((err, req, res, next) => {
   const errorObj = { ...defaultErr, ...err };
   console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
-});
-
-//catch all to ensure refresh works
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
 app.listen(PORT, (e) => {
