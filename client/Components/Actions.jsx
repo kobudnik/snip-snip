@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const { usePostFolder, useFiltered, selectedSnips, setPosts, folders } =
+  const { useFiltered, selectedSnips, setPosts, setFolders, folders } =
     useData();
   const [action, setAction] = useState('');
+  const [actionStatus, setActionStatus] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('');
   const [newFolder, setNewFolder] = useState('');
 
@@ -13,13 +14,40 @@ const Actions = () => {
     setAction(event.target.value);
   };
 
+  const handlePostFolder = useCallback(
+    async (folderName) => {
+      try {
+        const parsedName = folderName.replace(/[?]/g, '').trim();
+        if (parsedName in folders) {
+          setActionStatus('Folder already exists');
+          return;
+        }
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ folderName: parsedName }),
+        };
+        const postFolder = await fetch('/api/folders', requestOptions);
+        if (postFolder.ok) {
+          const { name, id } = await postFolder.json();
+          setFolders((prev) => ({ ...prev, [name]: id }));
+          setActionStatus('Success!');
+        }
+      } catch (e) {
+        setActionStatus('An error occurred');
+        console.log('error adding folder in texteditor', e.message);
+      }
+    },
+    [folders],
+  );
+
   const handleSelectedFolder = (event) => {
     const selected =
       event.target.value === 'Home' ? 'default' : event.target.value;
     setSelectedFolder(selected);
   };
 
-  const handleDeletedSnips = useCallback(async () => {
+  const handleDeletedSnips = async () => {
     try {
       const requestOptions = {
         method: 'DELETE',
@@ -27,15 +55,15 @@ const Actions = () => {
         body: JSON.stringify({ snipIDs: selectedSnips }),
       };
       const deleteSnips = await fetch('/api/snipped', requestOptions);
-      if (!deleteSnips.ok) {
-        throw { message: 'Unable to delete snippets' };
+      if (deleteSnips.ok) {
+        const updatedList = await deleteSnips.json();
+        setPosts(updatedList);
+        setActionStatus('Success!');
       }
-      const updatedList = await deleteSnips.json();
-      setPosts(updatedList);
     } catch (e) {
-      console.log('error deleting snippets in texteditor', e.message);
+      setActionStatus('An Error Occurred');
     }
-  }, [selectedSnips]);
+  };
 
   const handleMoveSnips = useCallback(
     async (selectedName) => {
@@ -50,23 +78,33 @@ const Actions = () => {
           }),
         };
         const moveSnips = await fetch('/api/snipped', requestOptions);
-        if (!moveSnips.ok) {
-          throw { message: 'Unable to move snippets' };
+        if (moveSnips.ok) {
+          const updatedList = await moveSnips.json();
+          setPosts(updatedList);
+          setActionStatus('Success!');
         }
-        const updatedList = await moveSnips.json();
-        setPosts(updatedList);
       } catch (e) {
-        console.log('error moving snippets to new folder', e.message);
+        setActionStatus('An error occurred');
       }
     },
     [selectedSnips, folders, currentFolder],
   );
 
-  const { currentFolder } = useParams();
+  const handleFocus = (e) => {
+    e.target.placeholder = '';
+  };
+
+  const handleBlur = (e) => {
+    e.target.placeholder = e.target.name;
+  };
+
+  const handleFolderChange = (e) => {
+    setNewFolder(e.target.value);
+  };
 
   const postMethods = {
     ADD: () => {
-      usePostFolder(newFolder);
+      handlePostFolder(newFolder);
       setAction('');
       setNewFolder('');
     },
@@ -82,17 +120,7 @@ const Actions = () => {
     },
   };
 
-  const handleFocus = (e) => {
-    e.target.placeholder = '';
-  };
-
-  const handleBlur = (e) => {
-    e.target.placeholder = e.target.name;
-  };
-
-  const handleFolderChange = (e) => {
-    setNewFolder(e.target.value);
-  };
+  const { currentFolder } = useParams();
 
   const folderInput = (
     <input
@@ -125,18 +153,17 @@ const Actions = () => {
         value={selectedFolder}
       >
         <option value=''>Choose from below</option>
-        {availableFolders.length > 0 &&
-          availableFolders.map((folderName, i) => {
-            return (
-              <option
-                value={folderName}
-                id={folders[folderName]}
-                key={folders[folderName]}
-              >
-                {folderName === 'default' ? 'Home' : folderName}
-              </option>
-            );
-          })}
+        {availableFolders.map((folderName, i) => {
+          return (
+            <option
+              value={folderName}
+              id={folders[folderName]}
+              key={folders[folderName]}
+            >
+              {folderName === 'default' ? 'Home' : folderName}
+            </option>
+          );
+        })}
       </select>
     </>
   );
@@ -145,14 +172,28 @@ const Actions = () => {
     <button
       data-te-ripple-init
       data-te-ripple-color='light'
-      className='w-40 px-6 block
-py-4 text-sm font-medium text-center rounded text-white bg-green-800
-hover:bg-green-700 mt-4'
+      className={`w-40 px-6 block py-4 text-sm font-medium text-center rounded text-white ${
+        action === 'DELETE'
+          ? 'bg-red-600 hover:bg-red-500'
+          : 'bg-green-700 hover:bg-green-600'
+      } mt-4`}
       onClick={() => postMethods[action]()}
     >
-      Submit
+      {action}
     </button>
   );
+
+  useEffect(() => {
+    let timeoutId;
+    if (actionStatus) {
+      timeoutId = setTimeout(() => {
+        setActionStatus('');
+      }, 2000);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [actionStatus]);
 
   return (
     <div className='right-24 fixed top-1/4'>
@@ -174,6 +215,13 @@ hover:bg-green-700 mt-4'
           {action === 'MOVE' && folderSelect}
         </div>
         {action && submitButton}
+        <span
+          className={`${
+            actionStatus === 'Success!' ? 'text-green-800' : 'text-red-700'
+          } text-2xl font-extrabold `}
+        >
+          {actionStatus}
+        </span>
       </div>
     </div>
   );
