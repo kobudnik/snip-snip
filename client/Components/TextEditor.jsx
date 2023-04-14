@@ -27,10 +27,7 @@ const TextEditor = ({ currentFolder }) => {
   };
 
   const resetEditor = () => {
-    const lines = document.getElementsByClassName('cm-line');
-    const arrayed = Array.from(lines);
-    arrayed.forEach((el) => (el.innerText = ''));
-    setPostStatus('');
+    setEditorState('');
   };
 
   const { folders, setPosts, posts } = useData();
