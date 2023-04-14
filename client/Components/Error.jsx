@@ -1,9 +1,8 @@
 import React from 'react';
-import { useRouteError, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import scissorsImage from '../Images/scissors.png';
 
 const Error = () => {
-  const error = useRouteError();
   return (
     <div className='error-page flex flex-col items-center justify-center h-screen w-screen text-3xl text-yellow-600'>
       <img

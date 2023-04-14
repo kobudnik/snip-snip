@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUsername } from '../Providers/UserProvider.jsx';
 import scissorsImage from '../Images/scissors.png';

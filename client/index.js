@@ -22,7 +22,6 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         <Route path=':currentFolder' element={<Home />} />
       </Route>
-      <Route path='*' element={<Error />} />
     </Route>,
   ),
 );

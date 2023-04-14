@@ -13,8 +13,6 @@ const ConfirmationModal = ({ setShow, deleteName, handleDeleteFolder }) => {
     setShow(false);
   };
 
-  // Number(e.target.id);
-
   return (
     <div className='z-[10000] inset-0 absolute b-0 bg-gray-700 bg-opacity-0 flex items-center justify-center '>
       <div

@@ -34,14 +34,13 @@ const Login = () => {
       });
 
       if (!post.ok) {
-        throw { message: 'HTTP error, status = ' + post.status };
+        throw new Error('HTTP error, status = ' + post.status);
       }
       const { username } = await post.json();
       setUsername(username);
       localStorage.setItem('username', username);
       setAuthenticated(true);
     } catch (e) {
-      console.log(e.message);
       setError(true);
     }
   };

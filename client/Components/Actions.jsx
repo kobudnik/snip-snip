@@ -19,8 +19,7 @@ const Actions = () => {
       try {
         const parsedName = folderName.replace(/[?]/g, '').trim();
         if (parsedName in folders) {
-          setActionStatus('Folder already exists');
-          return;
+          throw new Error('Folder already exists');
         }
         const requestOptions = {
           method: 'POST',
@@ -28,14 +27,14 @@ const Actions = () => {
           body: JSON.stringify({ folderName: parsedName }),
         };
         const postFolder = await fetch('/api/folders', requestOptions);
-        if (postFolder.ok) {
-          const { name, id } = await postFolder.json();
-          setFolders((prev) => ({ ...prev, [name]: id }));
-          setActionStatus('Success!');
-        }
+
+        if (!postFolder.ok) throw new Error('An error occurred');
+
+        const { name, id } = await postFolder.json();
+        setFolders((prev) => ({ ...prev, [name]: id }));
+        setActionStatus('Success!');
       } catch (e) {
-        setActionStatus('An error occurred');
-        console.log('error adding folder in texteditor', e.message);
+        setActionStatus(e.message);
       }
     },
     [folders],
@@ -49,25 +48,27 @@ const Actions = () => {
 
   const handleDeletedSnips = async () => {
     try {
+      if (!selectedSnips.length) throw new Error('Please select snippets');
       const requestOptions = {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ snipIDs: selectedSnips }),
       };
       const deleteSnips = await fetch('/api/snipped', requestOptions);
-      if (deleteSnips.ok) {
-        const updatedList = await deleteSnips.json();
-        setPosts(updatedList);
-        setActionStatus('Success!');
-      }
+      if (!deleteSnips.ok) throw new Error('An error occurred.');
+
+      const updatedList = await deleteSnips.json();
+      setPosts(updatedList);
+      setActionStatus('Success!');
     } catch (e) {
-      setActionStatus('An Error Occurred');
+      setActionStatus(e.message);
     }
   };
 
   const handleMoveSnips = useCallback(
     async (selectedName) => {
       try {
+        if (!selectedSnips.length) throw new Error('Please select snippets');
         const requestOptions = {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -78,13 +79,12 @@ const Actions = () => {
           }),
         };
         const moveSnips = await fetch('/api/snipped', requestOptions);
-        if (moveSnips.ok) {
-          const updatedList = await moveSnips.json();
-          setPosts(updatedList);
-          setActionStatus('Success!');
-        }
+        if (!moveSnips.ok) throw new Error('An error occurred');
+        const updatedList = await moveSnips.json();
+        setPosts(updatedList);
+        setActionStatus('Success!');
       } catch (e) {
-        setActionStatus('An error occurred');
+        setActionStatus(e.message);
       }
     },
     [selectedSnips, folders, currentFolder],
@@ -215,13 +215,13 @@ const Actions = () => {
           {action === 'MOVE' && folderSelect}
         </div>
         {action && submitButton}
-        <span
+        <i
           className={`${
             actionStatus === 'Success!' ? 'text-green-800' : 'text-red-700'
           } text-2xl font-extrabold `}
         >
           {actionStatus}
-        </span>
+        </i>
       </div>
     </div>
   );

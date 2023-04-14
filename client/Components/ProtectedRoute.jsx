@@ -4,7 +4,7 @@ import { useUsername } from '../Providers/UserProvider';
 import Header from './Header';
 import { DataProvider } from '../Providers/DataProvider.jsx';
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = () => {
   const navigate = useNavigate();
   const { username, isAuthenticated, setAuthenticated } = useUsername();
 
@@ -49,4 +49,6 @@ export default function ProtectedRoute({ children }) {
       ) : null}
     </>
   );
-}
+};
+
+export default ProtectedRoute;
