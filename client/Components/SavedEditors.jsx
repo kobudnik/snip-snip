@@ -18,6 +18,7 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
     else if (editStarted) {
       setReadOnly(true);
       setEditStarted(false);
+      setUpdatedSnip('');
     } else {
       setReadOnly(false);
       setEditStarted(true);

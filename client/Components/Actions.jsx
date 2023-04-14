@@ -105,8 +105,9 @@ const Actions = () => {
         if (!selectedSnips.length > 0)
           throw new Error('Please select a snippet');
 
-        if (selectedSnips.length > 1) throw new Error('Select only one');
-        if (updatedSnip.length < 4) throw new Error('Minimum 4 chars');
+        if (selectedSnips.length > 1)
+          throw new Error('Select only last modified');
+        if (updatedSnip.length < 4) throw new Error('Minimum 4 new chars');
         const requestOptions = {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -120,7 +121,6 @@ const Actions = () => {
         const updateSnip = await fetch('/api/snipped', requestOptions);
         if (!updateSnip.ok) throw new Error('An error occurred.');
         const updatedList = await updateSnip.json();
-        console.log(updatedList, 'this is the updatedList');
         setPosts(updatedList);
         setActionStatus('Success!');
         setUpdatedSnip('');
@@ -263,8 +263,10 @@ const Actions = () => {
         {action && submitButton}
         <i
           className={`${
-            actionStatus === 'Success!' ? 'text-green-800' : 'text-red-700'
-          } text-2xl font-extrabold `}
+            actionStatus === 'Success!'
+              ? 'text-green-800 text-2xl'
+              : 'text-red-700 text-xl'
+          }  text-center font-extrabold `}
         >
           {actionStatus}
         </i>
