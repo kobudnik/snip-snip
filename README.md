@@ -1,6 +1,6 @@
 
-<a name="readme-top"></a>
 
+# Snip-Snip
 
 <!-- ABOUT -->
 <br />
@@ -15,7 +15,6 @@ Snip-Snip is a code manager designed to allow users to create & organize code sn
 
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- CONTRIBUTING -->
