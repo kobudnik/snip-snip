@@ -101,7 +101,6 @@ const Actions = () => {
   const handleUpdatedSnips = useCallback(
     async (snip) => {
       try {
-        console.log(folders[currentFolder], 'handle update console log');
         if (!selectedSnips.length > 0)
           throw new Error('Please select a snippet');
 

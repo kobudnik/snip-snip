@@ -59,7 +59,7 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
       <div
         className={` ${
           readOnly ? 'border-none' : 'border-solid border-2 border-sky-500 '
-        }`}
+        } ml-4`}
       >
         {editor}
       </div>
@@ -71,7 +71,7 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
           onChange={handleCheckboxChange}
         ></input>
         <button
-          className='rounded-md p-2 ml-2 h-10  text-xl hover:text-blue-300 '
+          className='rounded-md p-2 ml-3 mt-4 h-10  text-xl hover:text-blue-300 '
           onClick={handleEdit}
         >
           <span>&#9998;</span>
