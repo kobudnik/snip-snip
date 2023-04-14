@@ -3,42 +3,42 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
-  const [failed, setFailed] = useState(false);
   const navigate = useNavigate();
   const createUser = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const data = new FormData(e.target);
-    const username = data.get('username');
-    const password = data.get('password');
-    const email = data.get('email');
-
-    const userBody = JSON.stringify({ username, password, email });
-
-    const post = await fetch('/api/user', {
-      method: 'POST',
-      body: userBody,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-    setLoading(false);
-    if (post.status === 200) {
-      setSuccess(true);
+    try {
+      setLoading(true);
+      const data = new FormData(e.target);
+      const username = data.get('username');
+      const password = data.get('password');
+      const email = data.get('email');
+      const userBody = JSON.stringify({ username, password, email });
+      const postNewUser = await fetch('/api/user', {
+        method: 'POST',
+        body: userBody,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      setLoading(false);
+      if (!postNewUser.ok) {
+        throw new Error('Username not available');
+      }
+      setStatus('Success!');
       setTimeout(() => {
         navigate(-1);
       }, 500);
-    } else {
-      setFailed(true);
+    } catch (e) {
+      setStatus(e.message);
     }
   };
 
   const handleFocus = (e) => {
     e.target.placeholder = '';
-    setFailed(false);
+    setStatus('');
   };
 
   const handleBlur = (e) => {
@@ -93,8 +93,15 @@ const Signup = () => {
               Sign Up
             </button>
             {loading && <p>Please wait...</p>}
-            {success && <p>Success!</p>}
-            {failed && <p>Username not available</p>}
+            {status && (
+              <p
+                className={`${
+                  status === 'Success!' ? 'text-green-800' : 'text-red-600'
+                }`}
+              >
+                {status}
+              </p>
+            )}
           </form>
           <Link
             to={'/'}
