@@ -3,8 +3,16 @@ import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const { useFiltered, selectedSnips, setPosts, setFolders, folders } =
-    useData();
+  const {
+    useFiltered,
+    selectedSnips,
+    setPosts,
+    setFolders,
+    folders,
+    updatedSnip,
+    setUpdatedSnip,
+  } = useData();
+
   const [action, setAction] = useState('');
   const [actionStatus, setActionStatus] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('');
@@ -90,6 +98,38 @@ const Actions = () => {
     [selectedSnips, folders, currentFolder],
   );
 
+  const handleUpdatedSnips = useCallback(
+    async (snip) => {
+      try {
+        console.log(folders[currentFolder], 'handle update console log');
+        if (!selectedSnips.length > 0)
+          throw new Error('Please select a snippet');
+
+        if (selectedSnips.length > 1) throw new Error('Select only one');
+        if (updatedSnip.length < 4) throw new Error('Minimum 4 chars');
+        const requestOptions = {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            snipID: snip,
+            folderID: folders[currentFolder],
+            newSnip: updatedSnip,
+          }),
+        };
+
+        const updateSnip = await fetch('/api/snipped', requestOptions);
+        if (!updateSnip.ok) throw new Error('An error occurred.');
+        const updatedList = await updateSnip.json();
+        setPosts(updatedList);
+        setActionStatus('Success!');
+        setUpdatedSnip('');
+      } catch (e) {
+        setActionStatus(e.message);
+      }
+    },
+    [updatedSnip, selectedSnips],
+  );
+
   const handleFocus = (e) => {
     e.target.placeholder = '';
   };
@@ -113,10 +153,14 @@ const Actions = () => {
       setAction('');
     },
 
-    MOVE: (e) => {
+    MOVE: () => {
       handleMoveSnips(selectedFolder);
       setAction('');
       setSelectedFolder('');
+    },
+    UPDATE: () => {
+      handleUpdatedSnips(selectedSnips[0]);
+      setAction('');
     },
   };
 
@@ -205,9 +249,10 @@ const Actions = () => {
           value={action}
         >
           <option value=''>Select an option</option>
-          <option value='ADD'>Create Folder</option>
+          <option value='ADD'>Create folder</option>
           <option value='MOVE'>Move snippet</option>
           <option value='DELETE'>Delete snippet</option>
+          <option value='UPDATE'>Update snippet</option>
         </select>
         <div>
           {action === 'ADD' && folderInput}

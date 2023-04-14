@@ -78,4 +78,32 @@ snipController.moveSnip = async (req, res, next) => {
     return next({ message: 'Error in Move Snip Middleware', e });
   }
 };
+
+snipController.updateSnip = async (req, res, next) => {
+  try {
+    const { newSnip, snipID, folderID } = req.body;
+    if (!snipID)
+      throw { message: 'Invalid data provided to relocate the snippet' };
+
+    const text = `
+        WITH updated_snips AS (
+          UPDATE snippets SET snippet = $1 WHERE id = $2 RETURNING *
+        ),
+        updated_list AS (
+          SELECT * FROM snippets WHERE folder_id = $3
+        )
+        SELECT * FROM updated_list;
+      `;
+
+    const params = [newSnip, snipID, folderID];
+    const remainingSnips = await db.query(text, params);
+    res.locals.remainingSnips = remainingSnips.rows;
+
+    console.log(remainingSnips);
+    return next();
+  } catch (e) {
+    console.log(e.message);
+    return next({ message: 'Error in Move Snip Middleware', e });
+  }
+};
 module.exports = snipController;

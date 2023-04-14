@@ -1,10 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
 const SavedEditors = ({ val, id }) => {
+  const [readOnly, setReadOnly] = useState(true);
+
+  const { selectedSnips, setSelected, setUpdatedSnip } = useData();
+
+  const handleUpdate = (value) => {
+    setUpdatedSnip(value);
+  };
+
+  const handleEdit = (e) => {
+    setReadOnly(!readOnly);
+  };
+
   const editor = (
     <CodeMirror
       value={val}
@@ -13,11 +25,10 @@ const SavedEditors = ({ val, id }) => {
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
       placeholder='Give me your code.'
-      readOnly='true'
+      readOnly={readOnly}
+      onChange={handleUpdate}
     />
   );
-
-  const { selectedSnips, setSelected } = useData();
 
   const handleCheckboxChange = (event) => {
     const checkboxId = Number(event.target.id);
@@ -36,6 +47,7 @@ const SavedEditors = ({ val, id }) => {
 
   return (
     <div id='editor-container' className='flex justify-center ml-6 mb-5'>
+      <button onClick={handleEdit}>Edit</button>
       {editor}
       <input
         type='checkbox'
