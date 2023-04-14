@@ -86,14 +86,19 @@ snipController.updateSnip = async (req, res, next) => {
       throw { message: 'Invalid data provided to relocate the snippet' };
 
     const text = `
-        WITH updated_snips AS (
-          UPDATE snippets SET snippet = $1 WHERE id = $2 RETURNING *
-        ),
-        updated_list AS (
-          SELECT * FROM snippets WHERE folder_id = $3
-        )
-        SELECT * FROM updated_list;
-      `;
+    WITH updated_snippet AS (
+      UPDATE snippets
+      SET snippet = $1
+      WHERE id = $2 AND folder_id = $3
+      RETURNING *
+    ), 
+    folder_snippets AS (
+      SELECT * FROM snippets
+      WHERE folder_id = $3 AND id != $2
+    )
+    SELECT * FROM folder_snippets UNION ALL SELECT * FROM updated_snippet;
+    
+     `;
 
     const params = [newSnip, snipID, folderID];
     const remainingSnips = await db.query(text, params);

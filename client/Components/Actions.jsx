@@ -120,6 +120,7 @@ const Actions = () => {
         const updateSnip = await fetch('/api/snipped', requestOptions);
         if (!updateSnip.ok) throw new Error('An error occurred.');
         const updatedList = await updateSnip.json();
+        console.log(updatedList, 'this is the updatedList');
         setPosts(updatedList);
         setActionStatus('Success!');
         setUpdatedSnip('');

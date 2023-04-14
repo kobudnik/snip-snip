@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
-const SavedEditors = ({ val, id }) => {
+const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
   const [readOnly, setReadOnly] = useState(true);
 
   const { selectedSnips, setSelected, setUpdatedSnip } = useData();
@@ -14,7 +14,14 @@ const SavedEditors = ({ val, id }) => {
   };
 
   const handleEdit = (e) => {
-    setReadOnly(!readOnly);
+    if (editStarted && readOnly === true) return;
+    else if (editStarted) {
+      setReadOnly(true);
+      setEditStarted(false);
+    } else {
+      setReadOnly(false);
+      setEditStarted(true);
+    }
   };
 
   const editor = (
@@ -42,19 +49,33 @@ const SavedEditors = ({ val, id }) => {
   useEffect(() => {
     return () => {
       setSelected([]);
+      setEditStarted(false);
     };
   }, []);
 
   return (
-    <div id='editor-container' className='flex justify-center ml-6 mb-5'>
-      <button onClick={handleEdit}>Edit</button>
-      {editor}
-      <input
-        type='checkbox'
-        className='checkbox self-center bg-gray-300 ml-2 '
-        id={id}
-        onChange={handleCheckboxChange}
-      ></input>
+    <div id='editor-container' className='flex justify-center ml-6 mb-5 '>
+      <div
+        className={` ${
+          readOnly ? 'border-none' : 'border-solid border-2 border-sky-500 '
+        }`}
+      >
+        {editor}
+      </div>
+      <div className='flex flex-col items justify-center self-center'>
+        <input
+          type='checkbox'
+          className='checkbox self-center bg-gray-300 ml-2 '
+          id={id}
+          onChange={handleCheckboxChange}
+        ></input>
+        <button
+          className='rounded-md p-2 ml-2 h-10  text-xl hover:text-blue-300 '
+          onClick={handleEdit}
+        >
+          <span>&#9998;</span>
+        </button>
+      </div>
     </div>
   );
 };
