@@ -40,7 +40,7 @@ const Folders = ({ currentFolder }) => {
           const folderObj = {};
           allFolders.forEach(
             ({ name, id }) =>
-              (folderObj[name === 'Home' ? 'default' : name] = id),
+              (folderObj[name === 'default' ? 'home' : name] = id),
           );
           setFolders(folderObj);
         }
@@ -59,10 +59,10 @@ const Folders = ({ currentFolder }) => {
                 to={`../${name}`}
                 className='text-yellow-500 hover:text-gray-500 text-lg no-underline hover:underline inline-block pb-3 pt-1'
               >
-                {name === 'default' ? 'Home' : name}
+                {name === 'home' ? 'Home' : name}
               </Link>
               &nbsp;
-              {name === 'default' ? null : (
+              {name === 'home' ? null : (
                 <button
                   id={folders[name]}
                   className='text-sm hover:underline'

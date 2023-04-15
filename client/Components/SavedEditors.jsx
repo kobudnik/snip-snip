@@ -55,7 +55,7 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
   }, []);
 
   return (
-    <div id='editor-container' className='flex justify-center ml-6 mb-5 '>
+    <div id='editor-container' className='flex justify-center ml-8 mb-5 '>
       <div
         className={` ${
           readOnly ? 'border-none' : 'border-solid border-2 border-sky-500 '

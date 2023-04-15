@@ -12,7 +12,7 @@ const Home = () => {
   const { currentFolder } = useParams();
 
   useEffect(() => {
-    if (folders.default) {
+    if (folders.home) {
       const folderID = folders[currentFolder];
       fetch(`/api/snipped/${folderID}`)
         .then((res) => {
