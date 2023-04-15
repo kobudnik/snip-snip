@@ -104,7 +104,6 @@ snipController.updateSnip = async (req, res, next) => {
     const remainingSnips = await db.query(text, params);
     res.locals.remainingSnips = remainingSnips.rows;
 
-    console.log(remainingSnips);
     return next();
   } catch (e) {
     console.log(e.message);

@@ -48,43 +48,47 @@ const Folders = ({ currentFolder }) => {
   }, []);
 
   return (
-    <div id='folder-container' className='w-1/5 pt-60 fixed font-poppins'>
-      <div className='flex flex-col items-center h-80  overflow-y-scroll'>
-        <span className='text-xl font-bold pb-2'>Your folders:</span>
+    <>
+      <div id='folder-container' className={`w-1/5 pt-60 fixed font-poppins`}>
+        <div className='flex flex-col items-center h-80  overflow-y-scroll'>
+          <span className='text-xl font-bold pb-2'>Your folders:</span>
 
-        {useFiltered(currentFolder).map((name) => (
-          <div className='relative' key={uuidV4()}>
-            <Link
-              to={`../${name}`}
-              className='text-yellow-500 hover:text-gray-500 text-lg no-underline hover:underline inline-block pb-3 pt-1'
-            >
-              {name === 'default' ? 'Home' : name}
-            </Link>
-            &nbsp;
-            {name === 'default' ? null : (
-              <button
-                id={folders[name]}
-                className='text-sm hover:underline'
-                onClick={(e) => {
-                  setDelete(name);
-                  setShow(true);
-                }}
+          {useFiltered(currentFolder).map((name) => (
+            <div className='relative' key={uuidV4()}>
+              <Link
+                to={`../${name}`}
+                className='text-yellow-500 hover:text-gray-500 text-lg no-underline hover:underline inline-block pb-3 pt-1'
               >
-                {' '}
-                &#10005;
-              </button>
-            )}
-            {showModal && (
-              <ConfirmationModal
-                setShow={setShow}
-                deleteName={deleteName}
-                handleDeleteFolder={handleDeleteFolder}
-              />
-            )}
-          </div>
-        ))}
+                {name === 'default' ? 'Home' : name}
+              </Link>
+              &nbsp;
+              {name === 'default' ? null : (
+                <button
+                  id={folders[name]}
+                  className='text-sm hover:underline'
+                  onClick={(e) => {
+                    setDelete(name);
+                    setShow(true);
+                  }}
+                >
+                  {' '}
+                  &#10005;
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <div>
+        {showModal && (
+          <ConfirmationModal
+            setShow={setShow}
+            deleteName={deleteName}
+            handleDeleteFolder={handleDeleteFolder}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
