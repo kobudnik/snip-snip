@@ -26,7 +26,11 @@ const Actions = () => {
     async (folderName) => {
       try {
         const parsedName = folderName.replace(/[?]/g, '').trim();
-        if (parsedName in folders || parsedName === 'Home') {
+        if (
+          parsedName in folders ||
+          parsedName === 'Home' ||
+          parsedName === 'default'
+        ) {
           throw new Error('Folder already exists');
         }
         const requestOptions = {
