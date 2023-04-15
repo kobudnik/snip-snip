@@ -53,8 +53,7 @@ const Actions = () => {
   );
 
   const handleSelectedFolder = (event) => {
-    const selected =
-      event.target.value === 'Home' ? 'default' : event.target.value;
+    const selected = event.target.value;
     setSelectedFolder(selected);
   };
 
