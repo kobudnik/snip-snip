@@ -23,7 +23,8 @@ const Folders = ({ currentFolder }) => {
       const newFolderList = {};
       updatedList.forEach(
         ({ name: folderName, id: folderID }) =>
-          (newFolderList[folderName] = folderID),
+          (newFolderList[folderName === 'default' ? 'home' : folderName] =
+            folderID),
       );
 
       setFolders(newFolderList);

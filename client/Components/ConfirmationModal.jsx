@@ -18,7 +18,11 @@ const ConfirmationModal = ({ setShow, deleteName, handleDeleteFolder }) => {
       <div className='bg-white rounded-md shadow-md p-6 text-center flex flex-col items-center justify-center'>
         <p className='p-5'>
           <span className='text-red-500 text-2xl relative top-1'>&#x26A0;</span>{' '}
-          Deleting "{deleteName}" will remove all snips inside.
+          Deleting <strong className='text-blue-800'>"{deleteName}"</strong>{' '}
+          will remove{' '}
+          <strong>
+            <span className='underline'>all snips inside.</span>
+          </strong>
         </p>
 
         <div className='flex justify-end'>
