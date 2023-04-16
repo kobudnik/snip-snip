@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextEditor from './TextEditor.jsx';
 import SavedEditors from './SavedEditors.jsx';
 import { useParams } from 'react-router-dom';
@@ -7,11 +7,12 @@ import Folders from './Folders.jsx';
 
 const Home = () => {
   const { posts, setPosts, folders } = useData();
+  const [editStarted, setEditStarted] = useState(false);
 
   const { currentFolder } = useParams();
 
   useEffect(() => {
-    if (folders.default) {
+    if (folders.home) {
       const folderID = folders[currentFolder];
       fetch(`/api/snipped/${folderID}`)
         .then((res) => {
@@ -35,7 +36,12 @@ const Home = () => {
           {posts.length > 0
             ? posts.map((post, i) => (
                 <div key={post.id.toString()}>
-                  <SavedEditors val={post.snippet} id={post.id}></SavedEditors>
+                  <SavedEditors
+                    val={post.snippet}
+                    id={post.id}
+                    editStarted={editStarted}
+                    setEditStarted={setEditStarted}
+                  ></SavedEditors>
                 </div>
               ))
             : null}

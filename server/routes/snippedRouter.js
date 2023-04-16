@@ -1,20 +1,31 @@
 const express = require('express');
 const snippedRouter = express.Router();
-const snipController = require('../controllers/snipController');
+const {
+  addSnip,
+  getSnips,
+  deleteSnip,
+  moveSnip,
+  updateSnip,
+} = require('../controllers/snipController');
 
-snippedRouter.post('/', snipController.addSnip, (req, res) => {
+snippedRouter.post('/', addSnip, (req, res) => {
   return res.status(200).json(res.locals.snipSuccess);
 });
 
-snippedRouter.get('/:folderID', snipController.getSnips, (req, res) => {
+snippedRouter.get('/:folderID', getSnips, (req, res) => {
   return res.status(200).json(res.locals.allSnips);
 });
 
-snippedRouter.delete('/', snipController.deleteSnip, (req, res) => {
+snippedRouter.delete('/', deleteSnip, (req, res) => {
   return res.status(200).json(res.locals.remainingSnips);
 });
 
-snippedRouter.put('/', snipController.moveSnip, (req, res) => {
+snippedRouter.put('/', moveSnip, (req, res) => {
   return res.status(200).json(res.locals.remainingSnips);
 });
+
+snippedRouter.patch('/', updateSnip, (req, res) => {
+  return res.status(200).json(res.locals.remainingSnips);
+});
+
 module.exports = snippedRouter;

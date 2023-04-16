@@ -19,20 +19,26 @@ const Header = ({ children }) => {
     }
   };
   return (
-    <div className='flex flex-col min-h-screen'>
-      <div className='fixed top-0 w-full z-50 flex justify-between bg-yellow-600 h-20 items-center font-sans text-gray-700 text-2xl'>
+    <div className='flex flex-col min-h-screen relative'>
+      <div className='fixed top-0 w-full z-50 flex justify-between bg-yellow-600 h-20 items-center font-sans text-teal-950 text-2xl'>
         <span className='pl-10'>
-          Currently viewing:{' '}
+          <strong>Currently viewing: </strong>
           <i className='text-black'>
-            {currentFolder === 'default' ? 'Home' : currentFolder}
+            {currentFolder === 'home' ? 'Home' : currentFolder}
           </i>
         </span>{' '}
-        <div className='flex justify-around items-center'>
-          <img src={scissorsImage} alt='scissors-icon' className='h-16 w-16' />
-          <span className='username ml-7'>{username} </span>
+        <div className='absolute left-[50%]'>
+          <div className='flex justify-around items-center'>
+            <img
+              src={scissorsImage}
+              alt='scissors-icon'
+              className='h-16 w-16'
+            />
+            <strong className='username ml-7'>{username} </strong>
+          </div>
         </div>
         <button
-          className='inline-block pr-10 text-blue-950 hover:text-gray-700'
+          className='inline-block text-gray-800 pr-10 hover:underline hover:text-gray-900'
           onClick={logout}
         >
           Logout

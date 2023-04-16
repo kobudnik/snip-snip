@@ -28,6 +28,9 @@ const TextEditor = ({ currentFolder }) => {
 
   const resetEditor = () => {
     setEditorState('');
+    if (postStatus) {
+      setPostStatus('');
+    }
   };
 
   const { folders, setPosts, posts } = useData();
@@ -74,12 +77,10 @@ const TextEditor = ({ currentFolder }) => {
 
   useEffect(() => {
     let timeoutId;
-    console.log(postStatus);
     if (postStatus === statusOptions.success) {
       timeoutId = setTimeout(() => {
-        console.log(postStatus);
         resetEditor();
-      }, 2000);
+      }, 1000);
     }
     return () => {
       clearTimeout(timeoutId);

@@ -3,8 +3,16 @@ import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
 
 const Actions = () => {
-  const { useFiltered, selectedSnips, setPosts, setFolders, folders } =
-    useData();
+  const {
+    useFiltered,
+    selectedSnips,
+    setPosts,
+    setFolders,
+    folders,
+    updatedSnip,
+    setUpdatedSnip,
+  } = useData();
+
   const [action, setAction] = useState('');
   const [actionStatus, setActionStatus] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('');
@@ -18,7 +26,11 @@ const Actions = () => {
     async (folderName) => {
       try {
         const parsedName = folderName.replace(/[?]/g, '').trim();
-        if (parsedName in folders) {
+        if (
+          parsedName in folders ||
+          parsedName === 'Home' ||
+          parsedName === 'default'
+        ) {
           throw new Error('Folder already exists');
         }
         const requestOptions = {
@@ -41,8 +53,7 @@ const Actions = () => {
   );
 
   const handleSelectedFolder = (event) => {
-    const selected =
-      event.target.value === 'Home' ? 'default' : event.target.value;
+    const selected = event.target.value;
     setSelectedFolder(selected);
   };
 
@@ -90,6 +101,38 @@ const Actions = () => {
     [selectedSnips, folders, currentFolder],
   );
 
+  const handleUpdatedSnips = useCallback(
+    async (snip) => {
+      try {
+        if (!selectedSnips.length > 0)
+          throw new Error('Please select a snippet');
+
+        if (selectedSnips.length > 1)
+          throw new Error('Select only last modified');
+        if (updatedSnip.length < 4) throw new Error('Minimum 4 new chars');
+        const requestOptions = {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            snipID: snip,
+            folderID: folders[currentFolder],
+            newSnip: updatedSnip,
+          }),
+        };
+
+        const updateSnip = await fetch('/api/snipped', requestOptions);
+        if (!updateSnip.ok) throw new Error('An error occurred.');
+        const updatedList = await updateSnip.json();
+        setPosts(updatedList);
+        setActionStatus('Success!');
+        setUpdatedSnip('');
+      } catch (e) {
+        setActionStatus(e.message);
+      }
+    },
+    [updatedSnip, selectedSnips],
+  );
+
   const handleFocus = (e) => {
     e.target.placeholder = '';
   };
@@ -113,10 +156,14 @@ const Actions = () => {
       setAction('');
     },
 
-    MOVE: (e) => {
+    MOVE: () => {
       handleMoveSnips(selectedFolder);
       setAction('');
       setSelectedFolder('');
+    },
+    UPDATE: () => {
+      handleUpdatedSnips(selectedSnips[0]);
+      setAction('');
     },
   };
 
@@ -160,7 +207,7 @@ const Actions = () => {
               id={folders[folderName]}
               key={folders[folderName]}
             >
-              {folderName === 'default' ? 'Home' : folderName}
+              {folderName === 'home' ? 'Home' : folderName}
             </option>
           );
         })}
@@ -205,9 +252,10 @@ const Actions = () => {
           value={action}
         >
           <option value=''>Select an option</option>
-          <option value='ADD'>Create Folder</option>
+          <option value='ADD'>Create folder</option>
           <option value='MOVE'>Move snippet</option>
           <option value='DELETE'>Delete snippet</option>
+          <option value='UPDATE'>Update snippet</option>
         </select>
         <div>
           {action === 'ADD' && folderInput}
@@ -217,8 +265,10 @@ const Actions = () => {
         {action && submitButton}
         <i
           className={`${
-            actionStatus === 'Success!' ? 'text-green-800' : 'text-red-700'
-          } text-2xl font-extrabold `}
+            actionStatus === 'Success!'
+              ? 'text-green-800 text-2xl'
+              : 'text-red-700 text-xl'
+          }  text-center font-extrabold `}
         >
           {actionStatus}
         </i>

@@ -16,6 +16,7 @@ export function DataProvider({ children }) {
   const [posts, setPosts] = useState([]);
   const [folders, setFolders] = useState({});
   const [selectedSnips, setSelected] = useState([]);
+  const [updatedSnip, setUpdatedSnip] = useState('');
 
   const useFiltered = useCallback(
     (ignoredFolder) =>
@@ -32,8 +33,10 @@ export function DataProvider({ children }) {
       selectedSnips,
       setSelected,
       useFiltered,
+      updatedSnip,
+      setUpdatedSnip,
     }),
-    [posts, folders, selectedSnips],
+    [posts, folders, selectedSnips, updatedSnip],
   );
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;

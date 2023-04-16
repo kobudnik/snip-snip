@@ -55,7 +55,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated && username) {
-      navigate('/default');
+      navigate('/home');
     } else if (username) {
       fetch('/api/session/checkStatus', requestOptions)
         .then((session) => {
