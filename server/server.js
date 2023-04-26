@@ -10,7 +10,6 @@ const session = require('express-session');
 const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 const { v4: uuidV4 } = require('uuid');
-
 const PORT = 3000;
 
 // MIDDLEWARE

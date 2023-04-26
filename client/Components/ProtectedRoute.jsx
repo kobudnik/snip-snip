@@ -39,13 +39,13 @@ const ProtectedRoute = () => {
   return (
     <>
       {isAuthenticated && username ? (
-        <>
+        <div className='flex flex-col min-h-screen relative'>
           <DataProvider>
             <Header>
               <Outlet />
             </Header>
           </DataProvider>
-        </>
+        </div>
       ) : null}
     </>
   );

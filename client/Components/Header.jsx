@@ -19,7 +19,7 @@ const Header = ({ children }) => {
     }
   };
   return (
-    <div className='flex flex-col min-h-screen relative'>
+    <>
       <div className='fixed top-0 w-full z-50 flex justify-between bg-yellow-600 h-20 items-center font-sans text-teal-950 text-2xl'>
         <span className='pl-10'>
           <strong>Currently viewing: </strong>
@@ -45,7 +45,7 @@ const Header = ({ children }) => {
         </button>
       </div>
       {children}
-    </div>
+    </>
   );
 };
 
