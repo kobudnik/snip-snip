@@ -17,7 +17,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const redisClient = createClient();
+const redisClient = createClient({
+  url: 'redis://redis:6379',
+});
+
 redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
 });
