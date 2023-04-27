@@ -19,7 +19,7 @@ Currently, you may use Snip-Snip by copying the supplied docker-compose.yml file
 <br />By default, the app assumes your connection string to be: <br /> **postgres://postgres:postgres@snip_db:5432/snip_db**
 
 If you would like to use an alternative username, password, or container name with your PostgreSQL service, please pass an environment variable named **PG_URI** to the snip_app service providing a new connection string in the format:
-**postgres://<username>:<password>@<container_name>:5432/snip_db**
+**postgres://username:password@container_name:5432/snip_db**
 
 <br />Similarly, if you would like to use a different container name for your Redis service, pass in an environment variable to the snip_app service named: **REDIS_CLIENT** with the name of your Redis container.
 
