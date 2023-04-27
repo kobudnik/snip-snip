@@ -1,4 +1,4 @@
-FROM node
+FROM node:latest
 ARG PG_URI
 WORKDIR /app
 COPY package*.json ./
