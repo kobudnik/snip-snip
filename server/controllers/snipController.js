@@ -5,10 +5,9 @@ const snipController = {};
 snipController.addSnip = async (req, res, next) => {
   try {
     const { folderID, snippet } = req.body;
-    const { userID } = req.session;
-    const params = [folderID, userID, snippet];
+    const params = [folderID, snippet];
     const text =
-      'INSERT INTO snippets (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
+      'INSERT INTO snippets (folder_id, snippet) VALUES ($1, $2) RETURNING *';
     const inserted = await db.query(text, params);
     const [snipSuccess] = inserted.rows;
     res.locals.snipSuccess = snipSuccess;
