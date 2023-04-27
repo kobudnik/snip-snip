@@ -1,7 +1,7 @@
 version: '3'
 services:
   snip:
-    image: kbud93/snip_app
+    image: kbud93/snip_bundle
     container_name: snip_app
     ports:
       - '3000:3000'
