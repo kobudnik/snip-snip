@@ -6,17 +6,18 @@ CREATE TABLE users (
 );
 
 CREATE TABLE folders (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  user_id INTEGER NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    user_id INTEGER NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE snippets (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  content TEXT NOT NULL,
-  folder_id INTEGER NOT NULL,
-  CONSTRAINT fk_folder_id FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE CASCADE
+    id SERIAL PRIMARY KEY,
+    snippet VARCHAR(65535) NOT NULL,
+    folder_id INTEGER NOT NULL,
+    CONSTRAINT fk_folder_id FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE CASCADE
 );
 
 CREATE OR REPLACE FUNCTION create_default_folder()
@@ -32,4 +33,3 @@ CREATE TRIGGER create_default_folder_trigger
 AFTER INSERT ON users
 FOR EACH ROW
 EXECUTE FUNCTION create_default_folder();
-*/

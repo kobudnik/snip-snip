@@ -1,6 +1,6 @@
 version: '3'
 services:
-  snip:
+  snip_app:
     image: kbud93/snip_app
     container_name: snip_app
     ports:
@@ -14,6 +14,7 @@ services:
     container_name: redis
     depends_on:
       - snip_db
+
   snip_db:
     image: kbud93/snip_db
     container_name: snip_db
