@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: [
@@ -11,7 +12,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
-  devtool: 'inline-source-map',
+  devtool: mode === 'development' ? 'inline-source-map' : false,
   devServer: {
     host: 'localhost',
     port: 8080,

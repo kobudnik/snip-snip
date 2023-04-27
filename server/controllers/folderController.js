@@ -1,17 +1,18 @@
-const db = require('../models/snipDB.js');
+const db = require('../models/snipDB');
 
 const folderController = {};
 
 folderController.addFolder = async (req, res, next) => {
   try {
     // const params = [req.body.folderID, req.body.userID, req.body.snippet];
-    if (!req.body.folderName) throw { message: 'No folder name provided' };
+    if (!req.body.folderName) throw new Error('No folder name provided');
     const params = [req.session.userID, req.body.folderName];
     const text =
       'INSERT INTO folders (user_id, name) VALUES ($1, $2) RETURNING *';
 
     const insertQuery = await db.query(text, params);
-    res.locals.folders = insertQuery.rows[0];
+    const [folders] = insertQuery.rows;
+    res.locals.folders = folders;
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Folder Middleware', e });
@@ -34,7 +35,7 @@ folderController.deleteFolder = async (req, res, next) => {
   try {
     const { folderID } = req.body;
     if (!folderID || typeof folderID !== 'number') {
-      throw { message: 'Improper folder id provided' };
+      throw new Error('Improper folder id provided');
     }
 
     const params = [folderID, req.session.userID];

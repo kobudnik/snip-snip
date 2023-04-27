@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import TextEditor from './TextEditor.jsx';
-import SavedEditors from './SavedEditors.jsx';
 import { useParams } from 'react-router-dom';
-import { useData } from '../Providers/DataProvider.jsx';
-import Folders from './Folders.jsx';
+import TextEditor from './TextEditor';
+import Folders from './Folders';
+import SavedEditors from './SavedEditors';
+import { useData } from '../Providers/DataProvider';
 
-const Home = () => {
+function Home() {
   const { posts, setPosts, folders } = useData();
   const [editStarted, setEditStarted] = useState(false);
 
@@ -25,30 +25,28 @@ const Home = () => {
           console.log(e.message);
         });
     }
-  }, [folders, currentFolder]);
+  }, [folders, currentFolder, setPosts]);
 
   return (
-    <>
-      <div className='bg-gray-900 grow mt-20 flex flex-col '>
-        <Folders currentFolder={currentFolder} />
-        <TextEditor currentFolder={currentFolder} />
-        <div className='mt-10'>
-          {posts.length > 0
-            ? posts.map((post, i) => (
-                <div key={post.id.toString()}>
-                  <SavedEditors
-                    val={post.snippet}
-                    id={post.id}
-                    editStarted={editStarted}
-                    setEditStarted={setEditStarted}
-                  ></SavedEditors>
-                </div>
-              ))
-            : null}
-        </div>
+    <div className='bg-gray-900 grow mt-20 flex flex-col '>
+      <Folders currentFolder={currentFolder} />
+      <TextEditor currentFolder={currentFolder} />
+      <div className='mt-10'>
+        {posts.length > 0
+          ? posts.map((post) => (
+              <div key={post.id.toString()}>
+                <SavedEditors
+                  val={post.snippet}
+                  id={post.id}
+                  editStarted={editStarted}
+                  setEditStarted={setEditStarted}
+                />
+              </div>
+            ))
+          : null}
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default Home;
