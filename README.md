@@ -16,9 +16,10 @@ Snip-Snip is a code manager designed to allow users to create & organize code sn
 <br />
 Currently, you may use Snip-Snip by copying the supplied docker-compose.yml file in this repo. The app relies on Redis for sessions and a PostgreSQL database that has already been setup for you by extending the base Docker image.
 
-**By default, the app assumes your connection string to be: postgres://postgres:postgres@snip_db:5432/snip_db**
 
-If you would like to use an alternative username, password, or container name with your PostgreSQL service, please pass an environment variable named **PG_URI** to the snip_app service providing a new connection string in the format
+<br />By default, the app assumes your connection string to be: <br /> **postgres://postgres:postgres@snip_db:5432/snip_db**
+
+If you would like to use an alternative username, password, or container name with your PostgreSQL service, please pass an environment variable named **PG_URI** to the snip_app service providing a new connection string in the format:
 **postgres://<username>:<password>@<container_name>:5432/snip_db**
 
 <!-- CONTRIBUTING -->
