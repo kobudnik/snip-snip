@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 const redisClient = createClient({
-  url: 'redis://redis:6379',
+  url: `redis://${process.env.REDIS_CLIENT}:6379`,
 });
 
 redisClient.on('connect', function (err) {
