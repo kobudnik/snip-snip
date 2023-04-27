@@ -2,10 +2,13 @@ version: '3'
 services:
   snip:
     image: kbud93/snip_app
+    container_name: snip_app
     ports:
       - '3000:3000'
     depends_on:
       - redis
+      - snip_db
+
   redis:
     image: redis
     container_name: redis
@@ -15,8 +18,11 @@ services:
     image: kbud93/snip_db
     container_name: snip_db
     volumes:
-      - ./models/postgres/db_data:/var/lib/postgresql/data/
+      - snip_db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: 'snip_db'
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
+
+volumes:
+  snip_db_data:
