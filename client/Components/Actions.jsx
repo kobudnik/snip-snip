@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useData } from '../Providers/DataProvider';
 import { useParams } from 'react-router-dom';
+import { useData } from '../Providers/DataProvider';
 
-const Actions = () => {
+function Actions() {
   const {
     useFiltered,
     selectedSnips,
@@ -76,6 +76,8 @@ const Actions = () => {
     }
   };
 
+  const { currentFolder } = useParams();
+
   const handleMoveSnips = useCallback(
     async (selectedName) => {
       try {
@@ -130,7 +132,7 @@ const Actions = () => {
         setActionStatus(e.message);
       }
     },
-    [updatedSnip, selectedSnips],
+    [updatedSnip, selectedSnips, currentFolder, folders],
   );
 
   const handleFocus = (e) => {
@@ -167,8 +169,6 @@ const Actions = () => {
     },
   };
 
-  const { currentFolder } = useParams();
-
   const folderInput = (
     <input
       type='text'
@@ -186,13 +186,12 @@ const Actions = () => {
   const availableFolders = useFiltered(currentFolder);
 
   const folderSelect = (
-    <>
-      <label
-        htmlFor='folder-selector'
-        className='block font-medium text-yellow-500'
-      >
-        Select a folder:
-      </label>
+    <label
+      htmlFor='folder-selector'
+      className='block font-medium text-yellow-500'
+    >
+      Select a folder:
+      <div />
       <select
         id='folder-selector'
         className='focus:outline-none text-lg bg-gray-50 text-center border border-gray-300 text-gray-900 rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white '
@@ -200,7 +199,7 @@ const Actions = () => {
         value={selectedFolder}
       >
         <option value=''>Choose from below</option>
-        {availableFolders.map((folderName, i) => {
+        {availableFolders.map((folderName) => {
           return (
             <option
               value={folderName}
@@ -212,11 +211,12 @@ const Actions = () => {
           );
         })}
       </select>
-    </>
+    </label>
   );
 
   const submitButton = (
     <button
+      type='button'
       data-te-ripple-init
       data-te-ripple-color='light'
       className={`w-40 px-6 block py-4 text-sm font-medium text-center rounded text-white ${
@@ -275,6 +275,6 @@ const Actions = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Actions;

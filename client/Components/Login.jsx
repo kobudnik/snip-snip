@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useUsername } from '../Providers/UserProvider';
 import scissorsImage from '../Images/scissors.png';
 
-const Login = () => {
+function Login() {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const Login = () => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: username }),
+    body: JSON.stringify({ username }),
   };
 
   const sendLogin = async (e) => {
@@ -34,7 +34,7 @@ const Login = () => {
       });
 
       if (!post.ok) {
-        throw new Error('HTTP error, status = ' + post.status);
+        throw new Error(`HTTP error, status = ${post.status}`);
       }
       const { username } = await post.json();
       setUsername(username);
@@ -60,7 +60,7 @@ const Login = () => {
       fetch('/api/session/checkStatus', requestOptions)
         .then((session) => {
           if (!session.ok) {
-            throw { message: 'HTTP error, status = ' + session.status };
+            throw new Error(`HTTP error, status = ${session.status}`);
           } else {
             setAuthenticated(true);
           }
@@ -72,68 +72,62 @@ const Login = () => {
   }, [isAuthenticated, username]);
 
   return (
-    <>
-      <div className='bg-gray-900 flex flex-col align-center h-screen'>
-        <div className='flex justify-center'>
-          <h1 className='text-5xl font-bold m-0 mt-16'>
-            Welcome to Snip Snip!
-          </h1>
-        </div>
-        <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg '>
-          <img
-            className='inline-block mb-4'
-            src={scissorsImage}
-            alt='scissors-image'
-            height='200px'
-            width='250px'
-          />
-          <form
-            className='flex flex-col items-center justify-between h-60 rounded-3xl  w-96 m-0 mb-7'
-            onSubmit={sendLogin}
-          >
-            <input
-              type='text'
-              placeholder='username'
-              className='rounded-3xl py-3 my-4 w-80 text-center outline-none'
-              aria-label='login-username-input'
-              name='username'
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <input
-              type='password'
-              placeholder='password'
-              className=' rounded-3xl py-3 mb-4 w-80 text-center outline-none'
-              name='password'
-              aria-label='login-password-input'
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <button
-              className='bg-pink-600 text-white text-xl rounded-xl w-full h-14 hover:bg-pink-500'
-              aria-label='login-submit-button'
-            >
-              Sign in
-            </button>
-          </form>
-          <div className='text-white text-center'>
-            New here?{' '}
-            <Link
-              to='/signup'
-              className='underline hover:text-gray-300 text-lg'
-            >
-              Create an account
-            </Link>
-          </div>
-          {error && (
-            <div className='text-red-400 mt-3'>
-              Failed to login... Please check your credentials.
-            </div>
-          )}
-        </div>
+    <div className='bg-gray-900 flex flex-col align-center h-screen'>
+      <div className='flex justify-center'>
+        <h1 className='text-5xl font-bold m-0 mt-16'>Welcome to Snip Snip!</h1>
       </div>
-    </>
+      <div className='flex flex-col items-center justify-center flex-grow pb-48 font-poppins text-lg '>
+        <img
+          className='inline-block mb-4'
+          src={scissorsImage}
+          alt='scissors-logo'
+          height='200px'
+          width='250px'
+        />
+        <form
+          className='flex flex-col items-center justify-between h-60 rounded-3xl  w-96 m-0 mb-7'
+          onSubmit={sendLogin}
+        >
+          <input
+            type='text'
+            placeholder='username'
+            className='rounded-3xl py-3 my-4 w-80 text-center outline-none'
+            aria-label='login-username-input'
+            name='username'
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          <input
+            type='password'
+            placeholder='password'
+            className=' rounded-3xl py-3 mb-4 w-80 text-center outline-none'
+            name='password'
+            aria-label='login-password-input'
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          <button
+            className='bg-pink-600 text-white text-xl rounded-xl w-full h-14 hover:bg-pink-500'
+            aria-label='login-submit-button'
+            type='button'
+          >
+            Sign in
+          </button>
+        </form>
+        <div className='text-white text-center'>
+          New here?{' '}
+          <Link to='/signup' className='underline hover:text-gray-300 text-lg'>
+            Create an account
+          </Link>
+        </div>
+        {error && (
+          <div className='text-red-400 mt-3'>
+            Failed to login... Please check your credentials.
+          </div>
+        )}
+      </div>
+    </div>
   );
-};
+}
 
 export default Login;

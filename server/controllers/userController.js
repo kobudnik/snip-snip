@@ -1,21 +1,19 @@
-const db = require('../models/snipDB.js');
+const db = require('../models/snipDB');
 
 const userController = {};
 
 userController.checkExists = async (req, res, next) => {
   try {
     const { username, password, email } = req.body;
-    //check for invalid credentials here so we don't make unnecessary calls to the db, even though we don't use these vars til next middleware
+    // check for invalid credentials here so we don't make unnecessary calls to the db, even though we don't use these vars til next middleware
     if (!(username && password && email)) {
-      throw { message: 'Missing credentials' };
+      throw new Error('Missing credentials');
     }
     const params = [username];
     const text = 'SELECT * FROM users WHERE username = ($1)';
     const { rows } = await db.query(text, params);
     if (rows.length > 0) {
-      throw {
-        message: 'Username already exists;',
-      };
+      throw new Error('Username already exists');
     } else {
       return next();
     }
@@ -49,7 +47,7 @@ userController.logoutUser = async (req, res, next) => {
   try {
     req.session.destroy((err) => {
       if (err) {
-        throw { message: err.message };
+        throw new Error(err.message);
       }
       return next();
     });

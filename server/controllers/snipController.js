@@ -1,14 +1,17 @@
-const db = require('../models/snipDB.js');
+const db = require('../models/snipDB');
+
 const snipController = {};
 
 snipController.addSnip = async (req, res, next) => {
   try {
     const { folderID, snippet } = req.body;
-    const params = [folderID, snippet];
+    const { userID } = req.session;
+    const params = [folderID, userID, snippet];
     const text =
-      'INSERT INTO snippets (folder_id, snippet) VALUES ($1, $2) RETURNING *';
+      'INSERT INTO snippets (folder_id, user_id, snippet) VALUES ($1, $2, $3) RETURNING *';
     const inserted = await db.query(text, params);
-    res.locals.snipSuccess = inserted.rows[0];
+    const [snipSuccess] = inserted.rows;
+    res.locals.snipSuccess = snipSuccess;
     return next();
   } catch (e) {
     return next({ message: 'Error in Add Snip Middleware', e });
@@ -20,7 +23,7 @@ snipController.getSnips = async (req, res, next) => {
     const { folderID } = req.params;
     const text = 'SELECT * FROM snippets WHERE folder_id = ($1)';
     const retrievedSnips = await db.query(text, [folderID]);
-    res.locals.allSnips = retrievedSnips['rows'];
+    res.locals.allSnips = retrievedSnips.rows;
     return next();
   } catch (e) {
     return next({ message: 'Error in GET Snip Middleware ', e });
@@ -30,8 +33,7 @@ snipController.getSnips = async (req, res, next) => {
 snipController.deleteSnip = async (req, res, next) => {
   try {
     const { snipIDs } = req.body;
-    if (!snipIDs || snipIDs.length === 0)
-      throw { message: 'No snips provided' };
+    if (!snipIDs || snipIDs.length === 0) throw new Error('No snips provided');
     const params = [snipIDs];
 
     const text = `
@@ -56,7 +58,7 @@ snipController.moveSnip = async (req, res, next) => {
   try {
     const { snipIDs, newFolderID, folderID } = req.body;
     if (!snipIDs || snipIDs.length === 0 || !newFolderID)
-      throw { message: 'Invalid data provided to relocate the snippet' };
+      throw new Error('Invalid data provided to relocate the snippet');
 
     const text = `
       WITH moved_snips AS (
@@ -82,7 +84,7 @@ snipController.updateSnip = async (req, res, next) => {
   try {
     const { newSnip, snipID, folderID } = req.body;
     if (!snipID)
-      throw { message: 'Invalid data provided to relocate the snippet' };
+      throw new Error('Invalid data provided to relocate the snippet');
 
     const text = `
     WITH updated_snippet AS (

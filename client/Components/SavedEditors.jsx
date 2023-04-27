@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
-const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
+function SavedEditors({ val, id, editStarted, setEditStarted }) {
   const [readOnly, setReadOnly] = useState(true);
 
   const { selectedSnips, setSelected, setUpdatedSnip } = useData();
@@ -13,15 +13,14 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
     setUpdatedSnip(value);
   };
 
-  const handleEdit = (e) => {
-    if (editStarted && readOnly === true) return;
-    else if (editStarted) {
+  const handleEdit = () => {
+    if (!(editStarted && readOnly)) {
+      setReadOnly(false);
+      setEditStarted(true);
+    } else if (!readOnly) {
       setReadOnly(true);
       setEditStarted(false);
       setUpdatedSnip('');
-    } else {
-      setReadOnly(false);
-      setEditStarted(true);
     }
   };
 
@@ -69,16 +68,17 @@ const SavedEditors = ({ val, id, editStarted, setEditStarted }) => {
           className='checkbox self-center bg-gray-300 ml-2 '
           id={id}
           onChange={handleCheckboxChange}
-        ></input>
+        />
         <button
           className='rounded-md p-2 ml-3 mt-4 h-10  text-xl hover:text-blue-300 '
           onClick={handleEdit}
+          type='button'
         >
           <span>&#9998;</span>
         </button>
       </div>
     </div>
   );
-};
+}
 
 export default SavedEditors;

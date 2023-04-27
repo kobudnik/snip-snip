@@ -36,7 +36,7 @@ export function DataProvider({ children }) {
       updatedSnip,
       setUpdatedSnip,
     }),
-    [posts, folders, selectedSnips, updatedSnip],
+    [posts, folders, selectedSnips, updatedSnip, useFiltered],
   );
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;

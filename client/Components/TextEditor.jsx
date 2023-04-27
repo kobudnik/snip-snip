@@ -4,10 +4,10 @@ import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { java } from '@codemirror/lang-java';
 import { dracula } from '@uiw/codemirror-theme-dracula';
-import { useData } from '../Providers/DataProvider.jsx';
-import Actions from './Actions.jsx';
+import { useData } from '../Providers/DataProvider';
+import Actions from './Actions';
 
-const TextEditor = ({ currentFolder }) => {
+function TextEditor({ currentFolder }) {
   const [editorState, setEditorState] = useState('');
 
   const [postStatus, setPostStatus] = useState('');
@@ -100,6 +100,7 @@ const TextEditor = ({ currentFolder }) => {
           className='inline-block w-60 px-6 py-2 mr-2
      text-md font-medium text-center rounded  text-rose-100 bg-rose-500 hover:bg-rose-400'
           onClick={resetEditor}
+          type='button'
         >
           Reset
         </button>
@@ -109,6 +110,7 @@ const TextEditor = ({ currentFolder }) => {
           className='w-60 px-6 py-2 inline-block text-md font-medium text-center rounded  text-white bg-green-700
           hover:bg-green-600'
           onClick={postSnippet}
+          type='button'
         >
           Submit
         </button>
@@ -125,5 +127,5 @@ const TextEditor = ({ currentFolder }) => {
       <Actions />
     </div>
   );
-};
+}
 export default TextEditor;

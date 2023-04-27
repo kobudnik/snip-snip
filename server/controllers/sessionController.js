@@ -1,12 +1,13 @@
-const db = require('../models/snipDB.js');
-const sessionController = {};
 const bcrypt = require('bcrypt');
+const db = require('../models/snipDB');
+
+const sessionController = {};
 
 sessionController.veryifyUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     if (!(username && password)) {
-      throw { message: 'Missing credentials' };
+      throw new Error('Missing credentials');
     }
 
     const text = `SELECT * FROM users WHERE username = ($1)`;
@@ -21,9 +22,8 @@ sessionController.veryifyUser = async (req, res, next) => {
       req.session.username = user.username;
       res.locals.username = username;
       return next();
-    } else {
-      throw { message: 'Passwords do not match' };
     }
+    throw new Error('Passwords do not match');
   } catch (e) {
     return next({
       log: 'Error in veryifyUser Middleware',
@@ -36,7 +36,7 @@ sessionController.veryifyUser = async (req, res, next) => {
 sessionController.checkSessionStatus = (req, res, next) => {
   try {
     if (!req.body.username || req.body.username !== req.session.username) {
-      throw { message: 'No valid session' };
+      throw new Error('No valid session');
     } else {
       return next();
     }

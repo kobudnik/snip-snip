@@ -1,15 +1,17 @@
-//IMPORTS
+/* eslint-disable no-unused-vars */
+// IMPORTS
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const userRouter = require('./routes/userRouter');
-const snippedRouter = require('./routes/snippedRouter');
-const sessionRouter = require('./routes/sessionRouter');
-const folderRouter = require('./routes/folderRouter');
 const session = require('express-session');
 const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 const { v4: uuidV4 } = require('uuid');
+const userRouter = require('./routes/userRouter');
+const snippedRouter = require('./routes/snippedRouter');
+const sessionRouter = require('./routes/sessionRouter');
+const folderRouter = require('./routes/folderRouter');
+
 const PORT = 3000;
 
 // MIDDLEWARE
@@ -26,12 +28,12 @@ redisClient.on('connect', function (err) {
 });
 redisClient.connect().catch(console.error);
 redisClient.on('error', function (err) {
-  console.log('Could not establish a connection with redis. ' + err);
+  console.log(`Could not establish a connection with redis. ${err} `);
 });
 
 const redisStore = new RedisStore({ client: redisClient });
 
-//Initialize sesssion storage.
+// Initialize sesssion storage.
 app.use(
   session({
     genid: () => uuidV4(),
@@ -40,26 +42,25 @@ app.use(
     saveUninitialized: false,
     name: '_redisDemo',
     secret: 'whatagatabetoosberry',
-    resave: false,
     cookie: { secure: false, maxAge: 60000 * 60 * 24 },
-    saveUninitialized: false,
   }),
 );
-//Routes
+
+// Routes
 app.use('/api/snipped', snippedRouter);
 app.use('/api/user', userRouter);
 app.use('/api/session', sessionRouter);
 app.use('/api/folders', folderRouter);
 
-//Serve all static files
+// Serve all static files
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
-//catch all to ensure refresh works
+// catch all to ensure refresh works
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
-//Global Error Handler
+// Global Error Handler
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
