@@ -25,7 +25,7 @@ function Home() {
           console.log(e.message);
         });
     }
-  }, [folders, currentFolder, setPosts]);
+  }, [folders, currentFolder]);
 
   return (
     <div className='bg-gray-900 grow mt-20 flex flex-col '>

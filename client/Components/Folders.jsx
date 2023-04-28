@@ -46,7 +46,7 @@ function Folders({ currentFolder }) {
           setFolders(folderObj);
         }
       });
-  }, [setFolders]);
+  }, []);
 
   return (
     <>
