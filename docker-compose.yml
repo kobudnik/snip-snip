@@ -1,29 +1,15 @@
 version: '3'
 services:
   snip_app:
-    image: kbud93/snip_app
-    container_name: snip_app
+    image: kbud93/snip_elephant
+    container_name: snip_elephant
+    environment:
+      PG_URI: postgres://fqslfsxx:0zJzt8o_bIJGff2Rk-wj9ud7syByD1-a@ruby.db.elephantsql.com/fqslfsxx
     ports:
       - '3000:3000'
     depends_on:
       - redis
-      - snip_db
 
   redis:
     image: redis
     container_name: redis
-    depends_on:
-      - snip_db
-
-  snip_db:
-    image: kbud93/snip_db
-    container_name: snip_db
-    volumes:
-      - snip_db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: 'snip_db'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-
-volumes:
-  snip_db_data:

@@ -20,7 +20,7 @@ sessionController.veryifyUser = async (req, res, next) => {
     if (decrypt) {
       req.session.userID = user.id;
       req.session.username = user.username;
-      res.locals.username = username;
+      res.locals.verifiedUser = username;
       return next();
     }
     throw new Error('Passwords do not match');
