@@ -5,6 +5,8 @@ import scissorsImage from '../Images/scissors.png';
 
 function Login() {
   const [error, setError] = useState(false);
+  const [usernameInput, setUsernameInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const navigate = useNavigate();
 
   const { username, setUsername, isAuthenticated, setAuthenticated } =
@@ -14,43 +16,6 @@ function Login() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username }),
-  };
-
-  const sendLogin = async (e) => {
-    e.preventDefault();
-    setError(false);
-    const data = new FormData(e.target);
-    const username = data.get('username');
-    const password = data.get('password');
-    const loginBody = JSON.stringify({ username, password });
-    try {
-      const post = await fetch('/api/session', {
-        method: 'POST',
-        body: loginBody,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-
-      if (!post.ok) {
-        throw new Error(`HTTP error, status = ${post.status}`);
-      }
-      const { username } = await post.json();
-      setUsername(username);
-      localStorage.setItem('username', username);
-      setAuthenticated(true);
-    } catch (e) {
-      setError(true);
-    }
-  };
-  const handleFocus = (e) => {
-    e.target.placeholder = '';
-    setError(false);
-  };
-
-  const handleBlur = (e) => {
-    e.target.placeholder = e.target.name;
   };
 
   useEffect(() => {
@@ -70,6 +35,50 @@ function Login() {
         });
     }
   }, [isAuthenticated, username]);
+
+  const handleUsernameChange = (e) => {
+    setUsernameInput(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPasswordInput(e.target.value);
+  };
+  const sendLogin = async (e) => {
+    e.preventDefault();
+    setError(false);
+    const loginBody = JSON.stringify({
+      username: usernameInput,
+      password: passwordInput,
+    });
+    try {
+      const post = await fetch('/api/session', {
+        method: 'POST',
+        body: loginBody,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!post.ok) {
+        throw new Error(`HTTP error, status = ${post.status}`);
+      }
+      const { verifiedUser } = await post.json();
+      setUsername(verifiedUser);
+      localStorage.setItem('username', verifiedUser);
+      setAuthenticated(true);
+    } catch (e) {
+      setError(true);
+    }
+  };
+  const handleFocus = (e) => {
+    e.target.placeholder = '';
+    setError(false);
+  };
+
+  const handleBlur = (e) => {
+    e.target.placeholder = e.target.name;
+  };
 
   return (
     <div className='bg-gray-900 flex flex-col align-center h-screen'>
@@ -96,6 +105,7 @@ function Login() {
             name='username'
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onChange={handleUsernameChange}
           />
           <input
             type='password'
@@ -105,11 +115,12 @@ function Login() {
             aria-label='login-password-input'
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onChange={handlePasswordChange}
           />
           <button
             className='bg-pink-600 text-white text-xl rounded-xl w-full h-14 hover:bg-pink-500'
             aria-label='login-submit-button'
-            type='button'
+            type='submit'
           >
             Sign in
           </button>

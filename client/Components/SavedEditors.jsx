@@ -72,7 +72,7 @@ function SavedEditors({ val, id, editStarted, setEditStarted }) {
         <button
           className='rounded-md p-2 ml-3 mt-4 h-10  text-xl hover:text-blue-300 '
           onClick={handleEdit}
-          type='button'
+          type='submit'
         >
           <span>&#9998;</span>
         </button>

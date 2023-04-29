@@ -4,34 +4,47 @@ import { Link, useNavigate } from 'react-router-dom';
 function Signup() {
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
+  const [newUsername, setNewUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+
   const navigate = useNavigate();
   const createUser = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const data = new FormData(e.target);
-      const username = data.get('username');
-      const password = data.get('password');
-      const email = data.get('email');
-      const userBody = JSON.stringify({ username, password, email });
-      const postNewUser = await fetch('/api/user', {
-        method: 'POST',
-        body: userBody,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      setLoading(false);
-      if (!postNewUser.ok) {
-        throw new Error('Username not available');
+    const hasNumber = /\d+/;
+    const hasSpecialChar = /[^A-Za-z0-9]+/;
+    if (!hasNumber.test(newPassword)) {
+      setStatus('Password must include a number');
+    } else if (!hasSpecialChar.test(newPassword)) {
+      setStatus('Password must contain a special character.');
+    } else {
+      try {
+        setLoading(true);
+
+        const userBody = JSON.stringify({
+          username: newUsername,
+          password: newPassword,
+          email: newEmail,
+        });
+        const postNewUser = await fetch('/api/user', {
+          method: 'POST',
+          body: userBody,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        setLoading(false);
+        if (!postNewUser.ok) {
+          throw new Error('Username not available');
+        }
+        setStatus('Success!');
+        setTimeout(() => {
+          navigate(-1);
+        }, 500);
+      } catch (e) {
+        setStatus(e.message);
       }
-      setStatus('Success!');
-      setTimeout(() => {
-        navigate(-1);
-      }, 500);
-    } catch (e) {
-      setStatus(e.message);
     }
   };
 
@@ -43,6 +56,17 @@ function Signup() {
   const handleBlur = (e) => {
     e.target.placeholder = e.target.name;
   };
+  const handleNewUsername = (e) => {
+    setNewUsername(e.target.value);
+  };
+  const handleNewPassword = (e) => {
+    setNewPassword(e.target.value);
+  };
+
+  const handleNewEmail = (e) => {
+    setNewEmail(e.target.value);
+  };
+
   return (
     <div className='flex flex-col bg-gray-800 align-center h-screen'>
       <div className='flex justify-center'>
@@ -63,6 +87,7 @@ function Signup() {
             name='username'
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onChange={handleNewUsername}
           />
           <input
             type='password'
@@ -72,6 +97,7 @@ function Signup() {
             aria-label='signup-password-input'
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onChange={handleNewPassword}
           />
 
           <input
@@ -82,6 +108,7 @@ function Signup() {
             aria-label='signup-email-input'
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onChange={handleNewEmail}
           />
           <button
             className='bg-orange-900 text-white text-xl rounded-2xl w-[90%] h-1/6 hover:bg-orange-800'

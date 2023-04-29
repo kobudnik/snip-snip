@@ -15,7 +15,7 @@ sessionRouter.post('/checkStatus', checkSessionStatus, (req, res) => {
 });
 
 sessionRouter.post('/', veryifyUser, (req, res) => {
-  return res.status(200).json({ username: res.locals.username });
+  return res.status(200).json({ verifiedUser: res.locals.verifiedUser });
 });
 
 module.exports = sessionRouter;
