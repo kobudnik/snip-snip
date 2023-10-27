@@ -54,7 +54,7 @@ function Folders({ currentFolder }) {
         <div className='flex flex-col items-center h-80  overflow-y-scroll'>
           <span className='text-xl font-bold pb-2'>Your folders:</span>
 
-          {useFiltered(currentFolder).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()).map((name) => (
+          {useFiltered(currentFolder).map((name) => (
             <div className='relative' key={uuidV4()}>
               <Link
                 to={`../${name}`}
