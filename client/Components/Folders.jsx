@@ -10,6 +10,7 @@ function Folders({ currentFolder }) {
 
   const [showModal, setShow] = useState(false);
   const [deleteName, setDelete] = useState(0);
+  const [reverseAlphabetical, setReverseAlphabetical] = useState(false);
 
   const handleDeleteFolder = async (folderID) => {
     try {
@@ -48,13 +49,16 @@ function Folders({ currentFolder }) {
       });
   }, []);
 
+  const filtered = useFiltered(currentFolder);
+  if (reverseAlphabetical) filtered.reverse();
+
   return (
     <>
       <div id='folder-container' className='w-1/5 pt-60 fixed font-poppins'>
         <div className='flex flex-col items-center h-80  overflow-y-scroll'>
           <span className='text-xl font-bold pb-2'>Your folders:</span>
 
-          {useFiltered(currentFolder).map((name) => (
+          {filtered.map((name) => (
             <div className='relative group' key={uuidV4()}>
               <Link
                 to={`../${name}`}
