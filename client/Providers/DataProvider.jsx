@@ -20,7 +20,16 @@ export function DataProvider({ children }) {
 
   const useFiltered = useCallback(
     (ignoredFolder) =>
-      Object.keys(folders).filter((name) => name !== ignoredFolder),
+      Object.keys(folders)
+        .filter((name) => name !== ignoredFolder)
+        .sort((a, b) => {
+          const keyA = a.toLowerCase();
+          const keyB = b.toLowerCase();
+          if (keyA === 'home') return -5;
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        }),
     [folders],
   );
 

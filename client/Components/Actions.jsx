@@ -253,9 +253,15 @@ function Actions() {
         >
           <option value=''>Select an option</option>
           <option value='ADD'>Create folder</option>
-          <option value='MOVE'>Move snippet</option>
-          <option value='DELETE'>Delete snippet</option>
-          <option value='UPDATE'>Update snippet</option>
+          {selectedSnips.length > 0 && (
+            <>
+              {Object.keys(folders).length > 1 && (
+                <option value='MOVE'>Move snippet</option>
+              )}
+              <option value='DELETE'>Delete snippet</option>
+              <option value='UPDATE'>Update snippet</option>
+            </>
+          )}
         </select>
         <div>
           {action === 'ADD' && folderInput}
