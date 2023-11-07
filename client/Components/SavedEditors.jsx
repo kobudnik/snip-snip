@@ -4,7 +4,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import { useData } from '../Providers/DataProvider';
 
-function SavedEditors({ val, id, editStarted, setEditStarted }) {
+function SavedEditors({ val, id, editStarted, setEditStarted, height, width }) {
   const [readOnly, setReadOnly] = useState(true);
 
   const { selectedSnips, setSelected, setUpdatedSnip } = useData();
@@ -27,8 +27,8 @@ function SavedEditors({ val, id, editStarted, setEditStarted }) {
   const editor = (
     <CodeMirror
       value={val}
-      height='35vh'
-      width='50vw'
+      height={height}
+      width={width}
       extensions={[javascript({ jsx: true })]}
       theme={dracula}
       placeholder='Give me your code.'
@@ -54,10 +54,10 @@ function SavedEditors({ val, id, editStarted, setEditStarted }) {
   }, []);
 
   return (
-    <div id='editor-container' className='flex justify-center ml-8 mb-5 '>
+    <div id='editor-container' className='flex justify-center ml-8 mb-5'>
       <div
         className={` ${
-          readOnly ? 'border-none' : 'border-solid border-2 border-sky-500 '
+          readOnly ? 'border-none' : 'border-solid border-2 border-sky-500'
         } ml-4`}
       >
         {editor}
