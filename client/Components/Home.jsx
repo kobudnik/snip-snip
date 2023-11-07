@@ -9,19 +9,22 @@ function Home() {
   const { posts, setPosts, folders } = useData();
   const [editStarted, setEditStarted] = useState(false);
   const { currentFolder } = useParams();
+  const [size, setSize] = useState('medium');
   const [width, setWidth] = useState('50vw');
   const [height, setHeight] = useState('35vh');
 
-  const handleResize = (event) => {
-    const selectedDimension = event.target.value;
-    if (selectedDimension === 'medium') {
+  useEffect(() => {
+    if (size === 'small') {
+      setWidth('45vw');
+      setHeight('25vh');
+    } else if (size === 'medium') {
       setWidth('50vw');
       setHeight('35vh');
-    } else if (selectedDimension === 'large') {
-      setWidth('60vw');
+    } else if (size === 'large') {
+      setWidth('55vw');
       setHeight('40vh');
     }
-  };
+  }, [size]);
 
   useEffect(() => {
     if (folders.home) {
@@ -42,11 +45,17 @@ function Home() {
   return (
     <div className='bg-gray-900 grow mt-20 flex flex-col '>
       <Folders currentFolder={currentFolder} />
-      <select onChange={handleResize}>
-        <option value='medium'>Medium</option>
-        <option value='large'>Large</option>
-      </select>
       <TextEditor currentFolder={currentFolder} height={height} width={width} />
+      {posts.length > 0 && (
+        <div className='w-40 fixed bottom-0'>
+          <span className='block'>View:</span>
+          <select onChange={(e) => setSize(e.target.value)} value={size}>
+            <option value='small'>Small</option>
+            <option value='medium'>Medium</option>
+            <option value='large'>Large</option>
+          </select>
+        </div>
+      )}
       <div className='mt-10'>
         {posts.length > 0
           ? posts.map((post) => (

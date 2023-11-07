@@ -55,7 +55,7 @@ function Folders({ currentFolder }) {
           <span className='text-xl font-bold pb-2'>Your folders:</span>
 
           {useFiltered(currentFolder).map((name) => (
-            <div className='relative' key={uuidV4()}>
+            <div className='relative group' key={uuidV4()}>
               <Link
                 to={`../${name}`}
                 className='text-yellow-500 hover:text-gray-500 text-lg no-underline hover:underline inline-block pb-3 pt-1'
@@ -67,7 +67,7 @@ function Folders({ currentFolder }) {
                 <button
                   id={folders[name]}
                   type='button'
-                  className='text-sm hover:underline'
+                  className='text-sm opacity-0 group-hover:opacity-100 hover:underline'
                   onClick={() => {
                     setDelete(name);
                     setShow(true);
