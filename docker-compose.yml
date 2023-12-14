@@ -4,9 +4,9 @@ services:
     image: kbud93/snip_elephant
     container_name: snip_elephant
     environment:
-      PG_URI: postgres://fqslfsxx:0zJzt8o_bIJGff2Rk-wj9ud7syByD1-a@ruby.db.elephantsql.com/fqslfsxx
+      PG_URI: ${PG_URI}
     ports:
-      - '3000:3000'
+      - '3010:3000'
     depends_on:
       - redis
 

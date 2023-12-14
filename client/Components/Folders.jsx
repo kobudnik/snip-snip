@@ -10,7 +10,7 @@ function Folders({ currentFolder }) {
 
   const [showModal, setShow] = useState(false);
   const [deleteName, setDelete] = useState(0);
-  const [reverseAlphabetical, setReverseAlphabetical] = useState(false);
+  const [reverseAlphabetical, setReverseAlphabetical] = useState(true);
 
   const handleDeleteFolder = async (folderID) => {
     try {
@@ -49,8 +49,18 @@ function Folders({ currentFolder }) {
       });
   }, []);
 
-  const filtered = useFiltered(currentFolder);
-  if (reverseAlphabetical) filtered.reverse();
+  let filtered = useFiltered(currentFolder);
+
+  if (reverseAlphabetical) {
+    if (currentFolder === 'home') filtered.reverse();
+    else {
+      const staticHome = filtered.slice(0, 1);
+      const rest = filtered.slice(1).reverse();
+      console.log(staticHome, 'sHome');
+      console.log([...staticHome, ...rest]);
+      filtered = [...staticHome, ...rest];
+    }
+  }
 
   return (
     <>

@@ -25,10 +25,9 @@ export function DataProvider({ children }) {
         .sort((a, b) => {
           const keyA = a.toLowerCase();
           const keyB = b.toLowerCase();
-          if (keyA === 'home') return -5;
-          if (keyA < keyB) return -1;
-          if (keyA > keyB) return 1;
-          return 0;
+          if (keyA === 'home') return -1;
+          if (keyB === 'home') return 1;
+          return keyA < keyB ? -1 : 1;
         }),
     [folders],
   );
