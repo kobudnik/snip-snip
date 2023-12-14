@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 // IMPORTS
 const express = require('express');
+require('dotenv').config();
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
@@ -20,9 +21,9 @@ app.use(express.json());
 app.use(cors());
 
 const redisClient = createClient({
-  url: `redis://${process.env.REDIS_CLIENT}:6379`,
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379,
 });
-
 redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
 });

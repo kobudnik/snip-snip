@@ -3,7 +3,8 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development webpack serve --open",
+    "client": "NODE_ENV=development webpack serve --open",
+    "dev": "npm run client & npm run server",
     "server": "nodemon server/server.js",
     "format": "prettier --write ."
   },

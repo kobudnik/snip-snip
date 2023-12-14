@@ -40,7 +40,7 @@ function Header({ children }) {
           </div>
         </div>
         <button
-          className='inline-block text-gray-800 pr-10 hover:underline hover:text-gray-900'
+          className='inline-block text-gray-800 hover:bg-yellow-100 mr-6 px-4 py-2 hover:underline hover:text-gray-900 rounded-xl'
           onClick={logout}
           type='button'
         >

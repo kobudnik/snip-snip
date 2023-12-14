@@ -243,7 +243,7 @@ function Actions() {
   }, [actionStatus]);
 
   return (
-    <div className='right-24 fixed top-1/4'>
+    <div className='right-16 fixed top-1/4'>
       <div className='flex flex-col items-center'>
         <select
           id='action-selector'
