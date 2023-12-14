@@ -10,7 +10,7 @@ function Folders({ currentFolder }) {
 
   const [showModal, setShow] = useState(false);
   const [deleteName, setDelete] = useState(0);
-  const [reverseAlphabetical, setReverseAlphabetical] = useState(true);
+  const [reverseAlphabetical, setReverseAlphabetical] = useState(false);
 
   const handleDeleteFolder = async (folderID) => {
     try {
@@ -62,11 +62,23 @@ function Folders({ currentFolder }) {
     }
   }
 
+  const toggleSort = () => {
+    setReverseAlphabetical((prev) => !prev);
+  };
+
   return (
     <>
       <div id='folder-container' className='w-1/5 pt-60 fixed font-poppins'>
         <div className='flex flex-col items-center h-80  overflow-y-scroll'>
           <span className='text-xl font-bold pb-2'>Your folders:</span>
+          <button
+            type='button'
+            className='hover:underline text-amber-200'
+            onClick={toggleSort}
+          >
+            {' '}
+            Sort
+          </button>
 
           {filtered.map((name) => (
             <div className='relative group' key={uuidV4()}>
