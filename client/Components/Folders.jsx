@@ -47,7 +47,7 @@ function Folders({ currentFolder }) {
           setFolders(folderObj);
         }
       });
-  }, []);
+  }, [setFolders]);
 
   let filtered = useFiltered(currentFolder);
 
@@ -71,15 +71,6 @@ function Folders({ currentFolder }) {
       <div id='folder-container' className='w-1/5 pt-60 fixed font-poppins'>
         <div className='flex flex-col items-center h-80  overflow-y-scroll'>
           <span className='text-xl font-bold pb-2'>Your folders:</span>
-          <button
-            type='button'
-            className='hover:underline text-amber-200'
-            onClick={toggleSort}
-          >
-            {' '}
-            Sort
-          </button>
-
           {filtered.map((name) => (
             <div className='relative group' key={uuidV4()}>
               <Link
@@ -105,6 +96,17 @@ function Folders({ currentFolder }) {
               )}
             </div>
           ))}
+        </div>
+        <div className='flex justify-center'>
+          <div>
+            <button
+              type='button'
+              className='hover:underline text-amber-200 p-6'
+              onClick={toggleSort}
+            >
+              {reverseAlphabetical ? 'A-Z' : 'Z-A'}
+            </button>
+          </div>
         </div>
       </div>
       <div>

@@ -49,7 +49,7 @@ function Actions() {
         setActionStatus(e.message);
       }
     },
-    [folders],
+    [folders, setFolders],
   );
 
   const handleSelectedFolder = (event) => {
@@ -100,7 +100,7 @@ function Actions() {
         setActionStatus(e.message);
       }
     },
-    [selectedSnips, folders, currentFolder],
+    [selectedSnips, folders, currentFolder, setPosts],
   );
 
   const handleUpdatedSnips = useCallback(
@@ -132,7 +132,14 @@ function Actions() {
         setActionStatus(e.message);
       }
     },
-    [updatedSnip, selectedSnips, currentFolder, folders],
+    [
+      selectedSnips.length,
+      updatedSnip,
+      folders,
+      currentFolder,
+      setPosts,
+      setUpdatedSnip,
+    ],
   );
 
   const handleFocus = (e) => {
