@@ -1,10 +1,11 @@
 version: '3'
 services:
   snip_app:
-    image: kbud93/snip_elephant
+    image: kbud93/snip_elephant:v3
     container_name: snip_elephant
     environment:
       PG_URI: ${PG_URI}
+      REDIS_CLIENT: ${REDIS_CLIENT}
     ports:
       - '3010:3000'
     depends_on:

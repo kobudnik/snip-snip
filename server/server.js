@@ -20,9 +20,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// const redisClient = createClient({
+//   host: process.env.REDIS_HOST || 'localhost',
+//   port: process.env.REDIS_PORT || 6379,
+// });
+
 const redisClient = createClient({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6379,
+  url: `redis://${process.env.REDIS_CLIENT || 'localhost'}:6379`,
 });
 redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
