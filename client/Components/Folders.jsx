@@ -101,10 +101,10 @@ function Folders({ currentFolder }) {
           <div>
             <button
               type='button'
-              className='hover:underline text-amber-200 p-6'
+              className='hover:underline gray font-bold text-xl p-6 relative right-2'
               onClick={toggleSort}
             >
-              {reverseAlphabetical ? 'A-Z' : 'Z-A'}
+              {reverseAlphabetical ? 'Z-A' : 'A-Z'}
             </button>
           </div>
         </div>

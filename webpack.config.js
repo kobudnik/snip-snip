@@ -1,3 +1,6 @@
+/* eslint-disable import/newline-after-import */
+/* eslint-disable global-require */
+/* eslint-disable no-var */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var mode = process.env.NODE_ENV || 'development';
@@ -15,7 +18,7 @@ module.exports = {
   devtool: mode === 'development' ? 'inline-source-map' : false,
   devServer: {
     host: 'localhost',
-    port: 8080,
+    port: 9090,
     liveReload: true,
     // enable HMR on the devServer
     // fallback to root for other urls

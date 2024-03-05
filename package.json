@@ -4,7 +4,7 @@
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
     "client": "NODE_ENV=development webpack serve --open",
-    "compose:dev": "docker-compose -f docker-compose.dev.yml up",
+    "compose:dev": "docker-compose -f docker-compose.dev.yml up -d",
     "dev": "npm run compose:dev & npm run client & npm run server",
     "server": "nodemon server/server.js",
     "format": "prettier --write ."
