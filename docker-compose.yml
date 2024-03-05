@@ -7,7 +7,7 @@ services:
       PG_URI: ${PG_URI}
       REDIS_CLIENT: ${REDIS_CLIENT}
     ports:
-      - '3010:3000'
+      - '9090:3000'
     depends_on:
       - redis
 
